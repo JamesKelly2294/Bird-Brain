@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour
 
 		UpdateFixedAIBehavior ();
 
-		transform.position = new Vector3 (transform.position.x, transform.position.y, 0.0f);
+		transform.position = new Vector3 (transform.position.x, 0.0f, transform.position.z);
 	}
 
 	void Update ()
@@ -85,8 +85,8 @@ public class EnemyController : MonoBehaviour
 			break;
 		case AIState.IDLE:
 			if (Vector2.Distance (
-				    	new Vector2 (transform.position.x, transform.position.y), 
-				    	new Vector2 (target.position.x, target.position.y)
+				    	new Vector2 (transform.position.x, transform.position.z), 
+				    	new Vector2 (target.position.x, target.position.z)
 			    	) <= targetAquisitionThreshold) {
 				m_AIState = AIState.AGGROVATED;
 			}
