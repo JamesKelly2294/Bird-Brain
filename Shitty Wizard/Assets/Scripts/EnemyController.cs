@@ -26,8 +26,6 @@ public class EnemyController : MonoBehaviour
 	void Start ()
 	{
 		m_Rigidbody = GetComponent<Rigidbody> ();
-
-		transform.eulerAngles = Camera.main.transform.eulerAngles;
 	}
 
 	// Update is called once per frame

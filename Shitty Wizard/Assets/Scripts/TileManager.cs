@@ -11,15 +11,12 @@ public class TileManager : MonoBehaviour {
 	public int width = 10;
 	public int height = 10;
 
-	const float sideScale = 1.0f / 0.70710666564f; //1.0f / Mathf.Sin (45.0f * Mathf.Deg2Rad);
-	const float sideOffset = sideScale / 2.0f;
-
 	// Use this for initialization
 	void Start () {
 		int layer = LayerMask.NameToLayer ("Background");
 
-		floorTile.transform.localScale = new Vector3 (1.0f / 10.0f, 1.0f, sideScale / 10.0f);
-		wallTile.transform.localScale = new Vector3 (1.0f, sideScale * 2.0f, sideScale);
+		floorTile.transform.localScale = new Vector3 (1.0f / 10.0f, 1.0f, 1.0f / 10.0f);
+		wallTile.transform.localScale = new Vector3 (1.0f, 2.0f, 1.0f);
 
 		// this is all temporary!
 		for (int row = 0; row < height; row++) {
@@ -29,7 +26,7 @@ public class TileManager : MonoBehaviour {
 				}
 				GameObject tile = Instantiate<GameObject> (floorTile);
 				tile.transform.parent = transform;
-				tile.transform.position = new Vector3 (col + 0.5f, 0.0f, row * sideScale + sideOffset);
+				tile.transform.position = new Vector3 (col + 0.5f, 0.0f, row + 0.5f);
 				tile.layer = layer;
 			}
 		}
@@ -86,8 +83,8 @@ public class TileManager : MonoBehaviour {
 		mr.material.mainTexture = textureMap;
 		mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
 
-		walls.transform.position = new Vector3 (12.0f, 0.0f, 7.0f * sideScale);
-		walls.transform.localScale = new Vector3 (1.0f, sideScale * 2.0f, sideScale);
+		walls.transform.position = new Vector3 (12.0f, 0.0f, 7.0f);
+		walls.transform.localScale = new Vector3 (1.0f, 2.0f, 1.0f);
 		walls.transform.SetParent (transform);
 
 		////
@@ -124,8 +121,8 @@ public class TileManager : MonoBehaviour {
 		ceiling_mr.material = new Material (Shader.Find ("Standard"));
 		ceiling_mr.material.mainTexture = TEST_CEILING_TILE;
 
-		ceilings.transform.position = new Vector3 (12.0f, 2.0f * sideScale, 7.0f * sideScale);
-		ceilings.transform.localScale = new Vector3 (1.0f, 1.0f, sideScale);
+		ceilings.transform.position = new Vector3 (12.0f, 2.0f, 7.0f);
+		ceilings.transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
 		ceilings.transform.SetParent (transform);
 
 		walls.AddComponent<BoxCollider> ();
