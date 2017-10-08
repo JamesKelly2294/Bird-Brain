@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	public float speed = 3.0f;
+	public float speed = 0.4f;
 	float verticalSpeed;
 
 
@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour {
 		m_Rigidbody = GetComponent<Rigidbody> ();
 		transform.eulerAngles = Camera.main.transform.eulerAngles;
 
-		verticalSpeed = speed * ( 1.0f / Mathf.Sin (Mathf.Deg2Rad * 45.0f));
 	}
 	
 	// Update is called once per frame
@@ -26,17 +25,33 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		float verticalInput = Input.GetAxis ("Vertical");
-		float horizontalInput = Input.GetAxis ("Horizontal");
+		float verticalInput = 0.0f; // = Input.GetAxis ("Vertical");
+		float horizontalInput = 0.0f; // = Input.GetAxis ("Horizontal");
 
-		m_Rigidbody.AddForce (Vector2.up * verticalInput * verticalSpeed );
-		m_Rigidbody.AddForce (Vector2.right * horizontalInput * speed);
+		// this let to some floating controls
+//		m_Rigidbody.AddForce (Vector2.up * verticalInput * verticalSpeed );
+//		m_Rigidbody.AddForce (Vector2.right * horizontalInput * speed);
+		//		m_Rigidbody.velocity = new Vector3 (horizontalInput * speed, verticalInput * verticalSpeed, 0.0f);
 
-//		Vector3 direction = Camera.main.WorldToScreenPoint(transform.position) - 
-//			Input.mousePosition;
-//		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-//		m_SpriteTransform.rotation = Quaternion.AngleAxis(angle + 90f, Vector3.forward);
+		if (Input.GetKey (KeyCode.W)) {
+			verticalInput = 1.0f;
+		}
+		if (Input.GetKey (KeyCode.S)) {
+			verticalInput = -1.0f;
+		}
+		if (Input.GetKey (KeyCode.A)) {
+			horizontalInput = -1.0f;
+		}
+		if (Input.GetKey (KeyCode.D)) {
+			horizontalInput = 1.0f;
+		}
 
-		transform.position = new Vector3 (transform.position.x, transform.position.y, 0.0f);
+		m_Rigidbody.velocity = new Vector3 (horizontalInput * speed, 0.0f, verticalInput * verticalSpeed);
+
+		transform.position = new Vector3 (transform.position.x, 0.0f, transform.position.z);
+	}
+
+	void OnValidate() {
+		verticalSpeed = speed * ( 1.0f / Mathf.Sin (Mathf.Deg2Rad * 45.0f));
 	}
 }

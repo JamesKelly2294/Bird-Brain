@@ -19,8 +19,9 @@ public class TileManager : MonoBehaviour {
 		int layer = LayerMask.NameToLayer ("Background");
 
 		floorTile.transform.localScale = new Vector3 (1.0f / 10.0f, 1.0f, sideScale / 10.0f);
-		wallTile.transform.localScale = new Vector3 (1.0f, sideScale, sideScale * 2.0f);
+		wallTile.transform.localScale = new Vector3 (1.0f, sideScale * 2.0f, sideScale);
 
+		// this is all temporary!
 		for (int row = 0; row < height; row++) {
 			for (int col = 0; col < width; col++) {
 				if (col == 12 && (row == 7 || row == 8)) {
@@ -28,18 +29,10 @@ public class TileManager : MonoBehaviour {
 				}
 				GameObject tile = Instantiate<GameObject> (floorTile);
 				tile.transform.parent = transform;
-				tile.transform.position = new Vector3 (col + 0.5f, row * sideScale + sideOffset, 0.0f);
+				tile.transform.position = new Vector3 (col + 0.5f, 0.0f, row * sideScale + sideOffset);
 				tile.layer = layer;
 			}
 		}
-
-//		for (int row = 12; row < 14; row++) {
-//			for (int col = 4; col < 14; col++) {
-//				GameObject tile = Instantiate<GameObject> (wallTile);
-//				tile.transform.parent = transform;
-//				tile.transform.position = new Vector3 (col + 0.5f, row * sideScale + sideOffset, -sideScale);
-//			}
-//		}
 
 		GenerateWalls ();
 
@@ -62,8 +55,8 @@ public class TileManager : MonoBehaviour {
 
 		Vector3[] verts =  {
 			new Vector3(0.0f, 0.0f, 0.0f),
-			new Vector3(0.0f, 0.0f, -1.0f),
-			new Vector3(1.0f, 0.0f, -1.0f),
+			new Vector3(0.0f, 1.0f, 0.0f),
+			new Vector3(1.0f, 1.0f, 0.0f),
 			new Vector3(1.0f, 0.0f, 0.0f)
 		};
 
@@ -93,8 +86,8 @@ public class TileManager : MonoBehaviour {
 		mr.material.mainTexture = textureMap;
 		mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
 
-		walls.transform.position = new Vector3 (12.0f, 7.0f * sideScale, 0.0f);
-		walls.transform.localScale = new Vector3 (1.0f, sideScale, sideScale * 2.0f);
+		walls.transform.position = new Vector3 (12.0f, 0.0f, 7.0f * sideScale);
+		walls.transform.localScale = new Vector3 (1.0f, sideScale * 2.0f, sideScale);
 		walls.transform.SetParent (transform);
 
 		////
@@ -107,8 +100,8 @@ public class TileManager : MonoBehaviour {
 
 		Vector3[] ceilingVerts =  {
 			new Vector3(0.0f, 0.0f, 0.0f),
-			new Vector3(0.0f, 1.0f, 0.0f),
-			new Vector3(1.0f, 1.0f, 0.0f),
+			new Vector3(0.0f, 0.0f, 1.0f),
+			new Vector3(1.0f, 0.0f, 1.0f),
 			new Vector3(1.0f, 0.0f, 0.0f)
 		};
 
@@ -131,12 +124,12 @@ public class TileManager : MonoBehaviour {
 		ceiling_mr.material = new Material (Shader.Find ("Standard"));
 		ceiling_mr.material.mainTexture = TEST_CEILING_TILE;
 
-		ceilings.transform.position = new Vector3 (12.0f, 7.0f * sideScale, -2.0f * sideScale);
+		ceilings.transform.position = new Vector3 (12.0f, 2.0f * sideScale, 7.0f * sideScale);
 		ceilings.transform.localScale = new Vector3 (1.0f, sideScale, 1.0f);
 		ceilings.transform.SetParent (transform);
 
 		walls.AddComponent<BoxCollider> ();
-		walls.GetComponent<BoxCollider> ().size = new Vector3 (1.0f, 2.0f, 1.0f);
-		walls.GetComponent<BoxCollider> ().center = new Vector3 (0.5f, 1.0f, -0.5f);
+		walls.GetComponent<BoxCollider> ().size = new Vector3 (1.0f, 1.0f, 2.0f);
+		walls.GetComponent<BoxCollider> ().center = new Vector3 (0.5f, 0.5f, 1.0f);
 	}
 }
