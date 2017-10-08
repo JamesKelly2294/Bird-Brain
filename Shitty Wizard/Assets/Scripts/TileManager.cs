@@ -125,7 +125,7 @@ public class TileManager : MonoBehaviour {
 		ceiling_mr.material.mainTexture = TEST_CEILING_TILE;
 
 		ceilings.transform.position = new Vector3 (12.0f, 2.0f * sideScale, 7.0f * sideScale);
-		ceilings.transform.localScale = new Vector3 (1.0f, sideScale, 1.0f);
+		ceilings.transform.localScale = new Vector3 (1.0f, 1.0f, sideScale);
 		ceilings.transform.SetParent (transform);
 
 		walls.AddComponent<BoxCollider> ();
