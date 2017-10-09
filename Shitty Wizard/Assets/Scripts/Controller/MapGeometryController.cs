@@ -5,9 +5,19 @@ using ShittyWizard.Controller.Game;
 using ShittyWizard.Model.World;
 using ShittyWizzard.Utilities;
 
+// Responsible for generating the map geometry from a given tile map
+// w.r.t colliders:
+// 	there are many methods of optimizing how we decide to create our box colliders
+// 	the following link: https://love2d.org/wiki/TileMerging suggests a method of
+//	merging our wall tiles together to come up with a minimal set of colliders
+//
+//	for simplicity's sake, I have decided to simply create 1 box collider per wall
+//	that sits on a border
 public class MapGeometryController : MonoBehaviour {
 	[SerializeField]
 	private Texture2D tileMap = null;
+	[SerializeField]
+	private Texture2D tileMapNormals = null;
 
 	private List<GameObject> m_geometry;
 
@@ -66,6 +76,31 @@ public class MapGeometryController : MonoBehaviour {
 				switch (t.Type) {
 				case TileType.Wall:
 					if (tm.GetTileAt (x, y - 1).Type == TileType.Wall) {
+
+						if (tm.GetTileAt (x, y + 1).Type == TileType.Wall) {
+							tileLoc = ceilingLoc;
+							tileOffset = Vector2.Scale (ceilingLoc, offset);
+
+							vertices.Add (new Vector3 (x, 2.0f, y));
+							vertices.Add (new Vector3 (x + 1.0f, 2.0f, y));
+							vertices.Add (new Vector3 (x + 1.0f, 2.0f, y + 1.0f));
+							vertices.Add (new Vector3 (x, 2.0f, y + 1.0f));
+
+							uvs.Add (new Vector2 ((tileLoc.x + 0) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
+							uvs.Add (new Vector2 ((tileLoc.x + 1) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
+							uvs.Add (new Vector2 ((tileLoc.x + 1) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 0) * tileTexHeight + tileOffset.y));
+							uvs.Add (new Vector2 ((tileLoc.x + 0) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 0) * tileTexHeight + tileOffset.y));
+
+							indices.Add (currentIndex);
+							indices.Add (currentIndex + 3);
+							indices.Add (currentIndex + 2);
+							indices.Add (currentIndex);
+							indices.Add (currentIndex + 2);
+							indices.Add (currentIndex + 1);
+
+							currentIndex += 4;
+						}
+
 						continue;
 					}
 					tileLoc = wallLoc;
@@ -95,6 +130,28 @@ public class MapGeometryController : MonoBehaviour {
 					vertices.Add (new Vector3 (x + 1.0f, 1.0f, y));
 					vertices.Add (new Vector3 (x + 1.0f, 2.0f, y));
 					vertices.Add (new Vector3 (x, 2.0f, y));
+
+					uvs.Add (new Vector2 ((tileLoc.x + 0) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
+					uvs.Add (new Vector2 ((tileLoc.x + 1) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
+					uvs.Add (new Vector2 ((tileLoc.x + 1) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 0) * tileTexHeight + tileOffset.y));
+					uvs.Add (new Vector2 ((tileLoc.x + 0) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 0) * tileTexHeight + tileOffset.y));
+
+					indices.Add (currentIndex);
+					indices.Add (currentIndex + 3);
+					indices.Add (currentIndex + 2);
+					indices.Add (currentIndex);
+					indices.Add (currentIndex + 2);
+					indices.Add (currentIndex + 1);
+
+					currentIndex += 4;
+
+					tileLoc = ceilingLoc;
+					tileOffset = Vector2.Scale (ceilingLoc, offset);
+
+					vertices.Add (new Vector3 (x, 2.0f, y));
+					vertices.Add (new Vector3 (x + 1.0f, 2.0f, y));
+					vertices.Add (new Vector3 (x + 1.0f, 2.0f, y + 1.0f));
+					vertices.Add (new Vector3 (x, 2.0f, y + 1.0f));
 
 					uvs.Add (new Vector2 ((tileLoc.x + 0) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
 					uvs.Add (new Vector2 ((tileLoc.x + 1) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
@@ -149,5 +206,9 @@ public class MapGeometryController : MonoBehaviour {
 
 		mr.material = new Material (Shader.Find ("Standard"));
 		mr.material.mainTexture = tileMap;
+		mr.material.EnableKeyword ("_NORMALMAP");
+		mr.material.SetFloat("_Glossiness", 0.0f);
+		mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
+		mr.material.SetTexture ("_BumpMap", tileMapNormals);
 	}
 }

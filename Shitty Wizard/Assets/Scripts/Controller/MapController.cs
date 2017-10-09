@@ -18,7 +18,7 @@ namespace ShittyWizard.Controller.Game
 		{
 			if (Instance != null) {
 				UnityEngine.Debug.LogError ("Trying to instantiate already existing singleton:" +
-					" WorldController!");
+					" MapController!");
 			}        
 			Instance = this;
 
