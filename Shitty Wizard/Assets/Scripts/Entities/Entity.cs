@@ -91,7 +91,6 @@ public class Entity : MonoBehaviour {
         flashing = true;
 
         Renderer r = GetComponentInChildren<Renderer>();
-        Texture tex = r.material.GetTexture("_MainTex");
         r.material.color = Color.black;
 
         while (_length > 0) {
