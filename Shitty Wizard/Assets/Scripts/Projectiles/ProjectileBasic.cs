@@ -15,6 +15,7 @@ public class ProjectileBasic : Projectile {
     public void Init(Vector3 direction, float speed) {
         this.direction = direction;
         this.speed = speed;
+        this.lifetime = 10.0f;
     }
 
 }

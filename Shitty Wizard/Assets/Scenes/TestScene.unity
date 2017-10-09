@@ -1518,7 +1518,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1770184241}
-  - component: {fileID: 1770184240}
   m_Layer: 0
   m_Name: TileManager
   m_TagString: Untagged
@@ -1526,23 +1525,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1770184240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1770184239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9a491a54c0704bedbd67d0265f06711, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textureMap: {fileID: 2800000, guid: 3fd8929fca9494db6856405102e6da31, type: 3}
-  TEST_CEILING_TILE: {fileID: 2800000, guid: e0f63d491f4dc4ecca3917fac04b33b4, type: 3}
-  floorTile: {fileID: 1407793695397800, guid: e0c6026553ae9471fa48b442ef107c16, type: 2}
-  wallTile: {fileID: 1337881964242198, guid: adbdb9f02a25145738ebf248725ec524, type: 2}
-  width: 25
-  height: 25
 --- !u!4 &1770184241
 Transform:
   m_ObjectHideFlags: 0

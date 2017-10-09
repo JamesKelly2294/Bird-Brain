@@ -8,6 +8,7 @@ public abstract class Projectile : MonoBehaviour {
 
     public GameObject owner;
     public float damage;
+    public float lifetime = 1000;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,11 @@ public abstract class Projectile : MonoBehaviour {
 	void Update () {
 
         Move();
+
+        lifetime -= Time.deltaTime;
+        if (lifetime <= 0) {
+            Destroy(this.gameObject);
+        }
 
 	}
 
