@@ -39,7 +39,7 @@ public abstract class Projectile : MonoBehaviour {
             Entity entity = oGo.GetComponent<Entity>();
             if (entity != null) {
 
-                if (entity.type != this.type) {
+                if (entity.type != this.type && !entity.invulnerable) {
 
                     entity.Damage(damage);
                     Destroy(this.gameObject);
