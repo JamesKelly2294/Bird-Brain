@@ -1316,7 +1316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useJoystick: 0
-  moveSpeed: 1
+  moveSpeed: 3
   sprite: {fileID: 1815862134}
 --- !u!143 &1155145753
 CharacterController:
