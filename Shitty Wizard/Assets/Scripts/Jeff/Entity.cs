@@ -18,11 +18,24 @@ public class Entity : MonoBehaviour {
     private bool visible = true;
     public bool invulnerable = false;
 
+    private bool flashing = false;
+
 	public void Damage(float _amount) {
+
         health -= _amount;
+
+        if (health <= 0) {
+            if (type == EntityType.Enemy) {
+                Destroy(this.gameObject);
+            }
+        }
+
         if (type == EntityType.Player) {
             MakeInvulnerable(2);
+        } else if (type == EntityType.Enemy) {
+            Flash(0.05f);
         }
+
     }
 
     private void MakeInvulnerable(float _length) {
@@ -65,6 +78,31 @@ public class Entity : MonoBehaviour {
         visible = _visible;
         MeshRenderer meshRenderer = sprite.GetComponent<MeshRenderer>();
         meshRenderer.enabled = _visible;
+    }
+
+    public void Flash(float _length) {
+        if (!flashing) {
+            StartCoroutine(FlashCR(_length));
+        }
+    }
+
+    private IEnumerator FlashCR(float _length) {
+
+        flashing = true;
+
+        Renderer r = GetComponentInChildren<Renderer>();
+        Texture tex = r.material.GetTexture("_MainTex");
+        r.material.color = Color.black;
+
+        while (_length > 0) {
+            _length -= Time.deltaTime;
+            yield return null;
+        }
+
+        r.material.color = Color.white;
+
+        flashing = false;
+
     }
 
 }
