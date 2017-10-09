@@ -33,7 +33,7 @@ namespace ShittyWizard.Model.World
 		private void InitializeTestTiles(int width, int height) {
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
-					if (y == height / 3 || y == height / 3 + 1) {
+					if (y <= height / 3 + 2 && y >= height / 3 - 2) {
 						if (x < width / 2 - width / 5 || x > width / 2 + width / 5) {
 							m_tiles [x, y].Type = TileType.Wall;
 						}
