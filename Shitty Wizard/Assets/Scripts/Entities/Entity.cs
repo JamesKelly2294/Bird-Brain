@@ -91,14 +91,14 @@ public class Entity : MonoBehaviour {
         flashing = true;
 
         Renderer r = GetComponentInChildren<Renderer>();
-        r.material.color = Color.black;
+        r.material.SetColor("_EmissionColor", Color.white);
 
         while (_length > 0) {
             _length -= Time.deltaTime;
             yield return null;
         }
 
-        r.material.color = Color.white;
+        r.material.SetColor("_EmissionColor", Color.black);
 
         flashing = false;
 
