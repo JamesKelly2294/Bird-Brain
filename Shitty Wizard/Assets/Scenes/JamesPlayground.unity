@@ -1643,8 +1643,6 @@ MonoBehaviour:
   speed: 4.55
   projectilePrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec,
     type: 2}
-<<<<<<< HEAD
-=======
 --- !u!65 &1702277348
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1657,7 +1655,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.85, y: 1, z: 0.15}
   m_Center: {x: 0, y: 0.5, z: 0}
->>>>>>> 1e5408e0574737b10f7ec561d38ad174789bdc4f
 --- !u!1 &1733067093
 GameObject:
   m_ObjectHideFlags: 0
