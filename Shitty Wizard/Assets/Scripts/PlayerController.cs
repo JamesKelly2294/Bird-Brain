@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
             if (groundPlane.Raycast(ray, out rayDistance)) {
                 Vector3 projectileDirection = ray.origin + ray.direction * rayDistance - this.transform.position;
                 projectileDirection.y = 0;
+                projectileDirection = projectileDirection.normalized;
                 ProjectileBasic pBasic = ProjectileManager.CreateProjectile(projectilePrefab, EntityType.Player, this.gameObject, this.transform.position + Vector3.up * 0.5f) as ProjectileBasic;
                 pBasic.Init(projectileDirection, 3.0f);
             }

@@ -13,6 +13,7 @@ namespace ShittyWizard.Controller.Game
 
 		// World and tile data
 		public Map ActiveMap { get; protected set; }
+		public TextAsset mapData;
 
 		void Awake ()
 		{
@@ -22,7 +23,11 @@ namespace ShittyWizard.Controller.Game
 			}        
 			Instance = this;
 
-			CreateEmptyWorld ();
+			if (mapData == null) {
+				CreateEmptyWorld ();
+			} else {
+				CreateWorldFromTextAsset (mapData);
+			}
 		}
 
 		void Update ()
@@ -34,6 +39,13 @@ namespace ShittyWizard.Controller.Game
 		{
 			// Create a world with Empty tiles
 			ActiveMap = new Map ();
+		}
+
+		void CreateWorldFromTextAsset (TextAsset asset)
+		{
+			// Create a world with Empty tiles
+			ActiveMap = new Map ();
+			ActiveMap.ResetWithTextAsset (asset);
 		}
 
 		public Tile GetTileAtWorldCoord (Vector3 coord)

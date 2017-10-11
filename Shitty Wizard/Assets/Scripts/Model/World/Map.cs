@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ShittyWizard.Model.World;
 using ShittyWizzard.Utilities;
+using System.Text.RegularExpressions;
 
 public class Map {
 
@@ -20,6 +21,21 @@ public class Map {
 		SetupManagers ();
 
 		//Debug.Log ("World created with " + (width * height) + " tiles.");
+	}
+
+	public void ResetWithTextAsset(TextAsset asset) {
+		Regex regex = new Regex("\n");
+		string[] lines = regex.Split(asset.text);
+		Height = lines.Length-1;
+
+		Width = 0;
+		foreach (string line in lines) {
+			if (line.Length > Width) {
+				Width = line.Length;
+			}
+		}
+
+		TileManager.ReinitializeFromAsset (asset);
 	}
 
 	public void Update(float delta) {
