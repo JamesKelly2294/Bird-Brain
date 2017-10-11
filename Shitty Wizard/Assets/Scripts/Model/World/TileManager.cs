@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using ShittyWizzard.Model;
 using ShittyWizzard.Utilities;
+using System.Text.RegularExpressions;
 
 namespace ShittyWizard.Model.World
 {
@@ -20,6 +21,17 @@ namespace ShittyWizard.Model.World
 			InitializeTestTiles (map.Width, map.Height);
 		}
 
+		public TileManager(Map map, TextAsset asset) {
+			this.Map = map;
+
+			SetupTiles (map.Width, map.Height);
+			InitializeFromAsset (map.Width, map.Height, asset);
+		}
+
+		public void ReinitializeFromAsset(TextAsset asset) {
+			InitializeFromAsset (Map.Width, Map.Height, asset);
+		}
+
 		private void SetupTiles(int width, int height) {
 			m_tiles = new TileData[width, height];
 
@@ -27,6 +39,35 @@ namespace ShittyWizard.Model.World
 				for (int y = 0; y < height; y++) {
 					m_tiles [x, y] = (TileData)CreateTile(x, y);
 				}
+			}
+		}
+
+		private void InitializeFromAsset(int width, int height, TextAsset asset) {
+			SetupTiles (width, height);
+			Debug.Log (height);
+
+			Regex regex = new Regex("\n");
+			string[] lines = regex.Split(asset.text);
+
+			int x = 0;
+			int y = height - 1;
+			foreach (string line in lines) {
+				x = 0;
+				foreach (char c in line) {
+					switch (c) {
+					case '#':
+						m_tiles [x, y].Type = TileType.Wall;
+						break;
+					case '.':
+						m_tiles [x, y].Type = TileType.Floor;
+						break;
+					default:
+						m_tiles [x, y].Type = TileType.Empty;
+						break;
+					}
+					x++;
+				}
+				y--;
 			}
 		}
 
@@ -124,93 +165,6 @@ namespace ShittyWizard.Model.World
 				}
 				this.Id = ( (uint)x | ( (uint)y << 16 ) );
 			}
-		}
-
-		void GenerateWalls() {
-	//		GameObject walls = new GameObject ("walls");
-	//		walls.AddComponent<MeshRenderer> ();
-	//		walls.AddComponent<MeshFilter> ();
-	//
-	//		Mesh m = new Mesh ();
-	//
-	//		Vector3[] verts =  {
-	//			new Vector3(0.0f, 0.0f, 0.0f),
-	//			new Vector3(0.0f, 1.0f, 0.0f),
-	//			new Vector3(1.0f, 1.0f, 0.0f),
-	//			new Vector3(1.0f, 0.0f, 0.0f)
-	//		};
-	//
-	//		Vector2[] uvs =  {
-	//			new Vector2(0.0f, 0.0f),
-	//			new Vector2(0.0f, 2.0f),
-	//			new Vector2(1.0f, 2.0f),
-	//			new Vector2(1.0f, 0.0f)
-	//		};
-	//
-	//		int[] indices = {
-	//			0, 1, 2,
-	//			2, 3, 0
-	//		};
-	//
-	//		m.vertices = verts;
-	//		m.uv = uvs;
-	//		m.SetIndices (indices, MeshTopology.Triangles, 0);
-	//
-	//		m.RecalculateNormals();
-	//
-	//		MeshFilter mf = walls.GetComponent<MeshFilter> ();
-	//		mf.mesh = m;
-	//
-	//		MeshRenderer mr = walls.GetComponent<MeshRenderer> ();
-	//		mr.material = new Material (Shader.Find ("Standard"));
-	//		mr.material.mainTexture = textureMap;
-	//		mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
-	//
-	//		walls.transform.position = new Vector3 (12.0f, 0.0f, 7.0f);
-	//		walls.transform.localScale = new Vector3 (1.0f, 2.0f, 1.0f);
-	//		walls.transform.SetParent (transform);
-	//
-	//		////
-	//
-	//		GameObject ceilings = new GameObject ("ceilings");
-	//		ceilings.AddComponent<MeshRenderer> ();
-	//		ceilings.AddComponent<MeshFilter> ();
-	//
-	//		Mesh ceiling_m = new Mesh ();
-	//
-	//		Vector3[] ceilingVerts =  {
-	//			new Vector3(0.0f, 0.0f, 0.0f),
-	//			new Vector3(0.0f, 0.0f, 1.0f),
-	//			new Vector3(1.0f, 0.0f, 1.0f),
-	//			new Vector3(1.0f, 0.0f, 0.0f)
-	//		};
-	//
-	//		Vector2[] ceilingUVs =  {
-	//			new Vector2(0.0f, 0.0f),
-	//			new Vector2(0.0f, 1.0f),
-	//			new Vector2(1.0f, 1.0f),
-	//			new Vector2(1.0f, 0.0f)
-	//		};
-	//
-	//		ceiling_m.vertices = ceilingVerts;
-	//		ceiling_m.SetIndices (m.GetIndices (0), MeshTopology.Triangles, 0);
-	//		ceiling_m.RecalculateNormals ();
-	//		ceiling_m.uv = ceilingUVs;
-	//
-	//		MeshFilter ceiling_mf = ceilings.GetComponent<MeshFilter> ();
-	//		ceiling_mf.mesh = ceiling_m;
-	//
-	//		MeshRenderer ceiling_mr = ceilings.GetComponent<MeshRenderer> ();
-	//		ceiling_mr.material = new Material (Shader.Find ("Standard"));
-	//		ceiling_mr.material.mainTexture = TEST_CEILING_TILE;
-	//
-	//		ceilings.transform.position = new Vector3 (12.0f, 2.0f, 7.0f);
-	//		ceilings.transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
-	//		ceilings.transform.SetParent (transform);
-	//
-	//		walls.AddComponent<BoxCollider> ();
-	//		walls.GetComponent<BoxCollider> ().size = new Vector3 (1.0f, 1.0f, 2.0f);
-	//		walls.GetComponent<BoxCollider> ().center = new Vector3 (0.5f, 0.5f, 1.0f);
 		}
 	}
 }

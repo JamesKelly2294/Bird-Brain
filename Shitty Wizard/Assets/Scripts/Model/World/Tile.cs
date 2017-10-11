@@ -6,6 +6,7 @@ namespace ShittyWizard.Model.World
 {
 	public enum TileType
 	{
+		Empty,
 		Floor,
 		Wall
 	};
