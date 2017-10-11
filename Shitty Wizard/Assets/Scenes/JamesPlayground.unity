@@ -464,8 +464,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1702277342}
   - component: {fileID: 1702277345}
-  - component: {fileID: 1702277344}
   - component: {fileID: 1702277343}
+  - component: {fileID: 1702277348}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -503,18 +503,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!65 &1702277344
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1702277341}
-  m_Material: {fileID: 13400000, guid: 74c5980728eaf45dd9d5d212e6e2d9f6, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.25}
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &1702277345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,6 +515,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4.55
+  projectilePrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec,
+    type: 2}
+--- !u!65 &1702277348
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1702277341}
+  m_Material: {fileID: 13400000, guid: 74c5980728eaf45dd9d5d212e6e2d9f6, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.85, y: 1, z: 0.15}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1733067093
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,7 +591,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.5
+  orthographic size: 6
   m_Depth: 2
   m_CullingMask:
     serializedVersion: 2

@@ -38,6 +38,10 @@ namespace ShittyWizard.Model.World
 							m_tiles [x, y].Type = TileType.Wall;
 						}
 					}
+
+					if (y == 0 || y == 1 || y == height - 1 || y == height - 2 || x == 0 || x == width - 1) {
+						m_tiles [x, y].Type = TileType.Wall;
+					}
 				}
 			}
 		}
@@ -48,8 +52,17 @@ namespace ShittyWizard.Model.World
 
 		public Tile GetTileAt (int x, int y)
 		{
-			if (x >= m_tiles.GetLength (0) || x < 0 || y >= m_tiles.GetLength (1) || y < 0) {
-				return null;
+			if (x >= m_tiles.GetLength (0)) {
+				x = m_tiles.GetLength (0) - 1;
+			}
+			if (y >= m_tiles.GetLength (1)) {
+				y = m_tiles.GetLength (1) - 1;
+			}
+			if (x < 0) {
+				x = 0;
+			}
+			if (y < 0) {
+				y = 0;
 			}
 
 			return m_tiles [x, y];

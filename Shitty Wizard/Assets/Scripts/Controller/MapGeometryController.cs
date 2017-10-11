@@ -33,6 +33,14 @@ public class MapGeometryController : MonoBehaviour {
 		BuildInitialGeometry ();
 	}
 
+	bool NeighborsAreOfType(int x, int y, TileType type) {
+		TileManager tm = ActiveMap.TileManager;
+		return tm.GetTileAt(x, y + 1).Type == type &&
+			tm.GetTileAt(x, y - 1).Type == type &&
+			tm.GetTileAt(x + 1, y).Type == type &&
+			tm.GetTileAt(x - 1, y).Type == type;
+	}
+
 	void BuildInitialGeometry ()
 	{
 		m_geometry = new List<GameObject> ();
@@ -65,16 +73,33 @@ public class MapGeometryController : MonoBehaviour {
 
 		Vector2 offset = new Vector2 (1.0f / tileMap.width, 1.0f / tileMap.height);
 
+		m_geometry = new List<GameObject> ();
+		GameObject colliderParent = new GameObject ();
+		m_geometry.Add (colliderParent);
+		colliderParent.name = "Colliders";
+		colliderParent.transform.parent = transform;
+
 
 		Vector2 tileLoc;
 		Vector2 tileOffset;
-		for (int x = 1; x < ActiveMap.Width - 1; x++) {
-			for (int y = 1; y < ActiveMap.Height - 1; y++) {
+		for (int x = 0; x < ActiveMap.Width; x++) {
+			for (int y = 0; y < ActiveMap.Height; y++) {
 
 				Tile t = tm.GetTileAt (x, y);
 
 				switch (t.Type) {
 				case TileType.Wall:
+					if (!NeighborsAreOfType(x, y, TileType.Wall)) {
+						GameObject collider = new GameObject ();
+						collider.AddComponent<BoxCollider> ();
+						BoxCollider bc = collider.GetComponent<BoxCollider> ();
+						collider.transform.position = new Vector3 (x, 0.0f, y);
+						collider.transform.parent = colliderParent.transform;
+						collider.transform.name = string.Format ("Collider ({0}, {1})", x, y);
+						bc.center = new Vector3 (0.5f, 1.0f, 0.5f);
+						bc.size = new Vector3 (1.0f, 2.0f, 1.0f);
+					}
+
 					if (tm.GetTileAt (x, y - 1).Type == TileType.Wall) {
 
 						if (tm.GetTileAt (x, y + 1).Type == TileType.Wall) {
