@@ -13,12 +13,24 @@ public class Entity : MonoBehaviour {
     public EntityType type;
     public float health;
     public GameObject sprite;
+	public int expValue = 100;
 
     private float blinkRate = 0.2f;
     private bool visible = true;
     public bool invulnerable = false;
+	public int expTotal = 0;
+	public int levelUpAt = 1000;
+	public int level = 1;
+
+	public GameObject guiManager;
+	GUIText GUITextEXP;
 
     private bool flashing = false;
+
+	public void Start(){
+		guiManager = GameObject.Find("GUI_EXP");
+		GUITextEXP = guiManager.GetComponent<GUIText>();
+	}
 
 	public void Damage(float _amount) {
 
@@ -26,6 +38,7 @@ public class Entity : MonoBehaviour {
 
         if (health <= 0) {
             if (type == EntityType.Enemy) {
+				giveExp (expValue);
                 Destroy(this.gameObject);
             }
         }
@@ -103,5 +116,20 @@ public class Entity : MonoBehaviour {
         flashing = false;
 
     }
+
+	private void giveExp(int _added) {
+		if (_added < 0) {
+			Debug.Log ("Can't remove exp!");
+			return;
+		}
+
+		expTotal += _added;
+		if (expTotal >= levelUpAt) {
+			levelUpAt += 1000;
+			level += 1;
+			Debug.Log (expTotal + "/" + levelUpAt + " | " + level);
+			GUITextEXP.text = expTotal + "/" + levelUpAt + " | " + level;
+		}
+	}
 
 }
