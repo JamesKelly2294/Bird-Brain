@@ -33,6 +33,10 @@ public abstract class Projectile : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
 
+        if (other.gameObject.tag == "Projectile") {
+            return;
+        }
+
         GameObject oGo = other.gameObject;
 
         if (oGo != owner) {

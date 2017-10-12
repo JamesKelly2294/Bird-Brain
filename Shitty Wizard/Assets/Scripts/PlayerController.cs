@@ -12,25 +12,29 @@ public class PlayerController : MonoBehaviour {
 
     private Plane groundPlane;
 
+    private Spell spell;
+
 	// Use this for initialization
 	void Start () {
 		m_Rigidbody = GetComponent<Rigidbody> ();
         groundPlane = new Plane(new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(1, 0, 0));
+        spell = new Fireball(this.gameObject, projectilePrefab);
 	}
 	
 	// Update is called once per frame
 	void Update () {
         
         // Shooting
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButton(0)) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             float rayDistance;
             if (groundPlane.Raycast(ray, out rayDistance)) {
                 Vector3 projectileDirection = ray.origin + ray.direction * rayDistance - this.transform.position;
                 projectileDirection.y = 0;
                 projectileDirection = projectileDirection.normalized;
-                ProjectileBasic pBasic = ProjectileManager.CreateProjectile(projectilePrefab, EntityType.Player, this.gameObject, this.transform.position + Vector3.up * 0.5f) as ProjectileBasic;
-                pBasic.Init(projectileDirection, 10.0f);
+                spell.RequestCast(projectileDirection);
+                //ProjectileBasic pBasic = ProjectileManager.CreateProjectile(projectilePrefab, EntityType.Player, this.gameObject, this.transform.position + Vector3.up * 0.5f) as ProjectileBasic;
+                //pBasic.Init(projectileDirection, 10.0f);
             }
 
         }

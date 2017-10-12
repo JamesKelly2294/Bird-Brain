@@ -7,13 +7,11 @@ using UnityEngine;
 public class Explosion : MonoBehaviour {
 
     private Animator anim;
-    private Collider col;
 
     private List<GameObject> objs;
 
 	void Start () {
         anim = GetComponent<Animator>();
-        col = GetComponent<Collider>();
         objs = new List<GameObject>();
 	}
 
