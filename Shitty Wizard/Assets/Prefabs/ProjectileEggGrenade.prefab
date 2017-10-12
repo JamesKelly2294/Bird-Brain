@@ -102,6 +102,8 @@ MonoBehaviour:
   owner: {fileID: 0}
   damage: 5
   lifetime: 1000
+  explosionPrefab: {fileID: 1882585628455446, guid: 5dfce5c17db3af44ca1cea38beba9674,
+    type: 2}
 --- !u!135 &135234990001356184
 SphereCollider:
   m_ObjectHideFlags: 1
