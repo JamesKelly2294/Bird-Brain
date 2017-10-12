@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour {
                 projectileDirection.y = 0;
                 projectileDirection = projectileDirection.normalized;
                 ProjectileBasic pBasic = ProjectileManager.CreateProjectile(projectilePrefab, EntityType.Player, this.gameObject, this.transform.position + Vector3.up * 0.5f) as ProjectileBasic;
-                pBasic.Init(projectileDirection, 3.0f);
+                pBasic.Init(projectileDirection, 10.0f);
             }
 
         }

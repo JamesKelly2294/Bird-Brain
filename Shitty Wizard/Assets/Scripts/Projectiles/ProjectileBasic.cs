@@ -8,7 +8,7 @@ public class ProjectileBasic : Projectile {
     private Vector3 direction;
     private float speed;
 
-    protected override void Move() {
+    protected override void OnMove() {
         this.transform.position = this.transform.position + direction * speed * Time.deltaTime;
     }
 

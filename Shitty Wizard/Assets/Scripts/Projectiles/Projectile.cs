@@ -18,16 +18,18 @@ public abstract class Projectile : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        Move();
+        OnMove();
 
         lifetime -= Time.deltaTime;
         if (lifetime <= 0) {
+            OnEndOfLife();
             Destroy(this.gameObject);
         }
 
 	}
 
-    protected abstract void Move();
+    protected virtual void OnMove() { }
+    protected virtual void OnEndOfLife() { }
 
     private void OnTriggerEnter(Collider other) {
 
@@ -51,8 +53,6 @@ public abstract class Projectile : MonoBehaviour {
                 Destroy(this.gameObject);
 
             }
-
-            
 
         }
 
