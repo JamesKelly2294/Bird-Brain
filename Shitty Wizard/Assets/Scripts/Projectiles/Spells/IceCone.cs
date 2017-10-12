@@ -10,7 +10,7 @@ public class IceCone : Spell {
     public int numStreams;
 
 	public IceCone(GameObject _owner, GameObject _projectilePrefab) : base(_owner) {
-        reloadTime = 0.1f;
+        reloadTime = 0.02f;
         projectilePrefab = _projectilePrefab;
         coneWidth = 45f;
         numStreams = 5;
