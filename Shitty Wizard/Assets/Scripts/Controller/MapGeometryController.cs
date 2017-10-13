@@ -41,6 +41,14 @@ public class MapGeometryController : MonoBehaviour {
 			tm.GetTileAt(x - 1, y).Type == type;
 	}
 
+	bool NeighborIsOfType(int x, int y, TileType type) {
+		TileManager tm = ActiveMap.TileManager;
+		return tm.GetTileAt(x, y + 1).Type == type ||
+			tm.GetTileAt(x, y - 1).Type == type ||
+			tm.GetTileAt(x + 1, y).Type == type ||
+			tm.GetTileAt(x - 1, y).Type == type;
+	}
+
 	void BuildInitialGeometry ()
 	{
 		m_geometry = new List<GameObject> ();
@@ -89,7 +97,7 @@ public class MapGeometryController : MonoBehaviour {
 
 				switch (t.Type) {
 				case TileType.Wall:
-					if (!NeighborsAreOfType(x, y, TileType.Wall)) {
+					if (!NeighborsAreOfType (x, y, TileType.Wall)) {
 						GameObject collider = new GameObject ();
 						collider.AddComponent<BoxCollider> ();
 						BoxCollider bc = collider.GetComponent<BoxCollider> ();
@@ -100,7 +108,7 @@ public class MapGeometryController : MonoBehaviour {
 						bc.size = new Vector3 (1.0f, 2.0f, 1.0f);
 					}
 
-					if (tm.GetTileAt (x, y - 1).Type == TileType.Wall) {
+					if (tm.GetTileAt (x, y - 1).Type == TileType.Wall || tm.GetTileAt (x, y - 1).Type == TileType.Empty) {
 
 						if (tm.GetTileAt (x, y + 1).Type == TileType.Wall) {
 							tileLoc = ceilingLoc;
