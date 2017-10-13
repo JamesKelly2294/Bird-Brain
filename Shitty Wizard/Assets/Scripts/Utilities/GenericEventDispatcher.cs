@@ -9,9 +9,17 @@ namespace ShittyWizzard.Utilities
 		CHANGED,
 		COMPLETED,
 		FINALIZED,
-		CANCELED}
+		CANCELED,
+		INITIALIZED
+	};
 
-	;
+	public class Event {
+		public Dictionary<string, object> payload;
+
+		public Event(Dictionary<string, object> payload) {
+			this.payload = payload;
+		}
+	}
 
 	public delegate void GenericEventHandler<T> (T sender);
 

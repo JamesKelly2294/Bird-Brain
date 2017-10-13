@@ -15,65 +15,37 @@ namespace ShittyWizard.Model.World
 
 		private TileData[,] m_tiles;
 
+		private int _width = -1;
+		public int Width { get { return _width; } }
+
+		private int _height = -1;
+		public int Height { get { return _height; } }
+
 		public TileManager (Map map)
 		{
 			this.Map = map;
+			_width = Map.RoomManager.Width;
+			_height = Map.RoomManager.Height;
 
-			SetupTiles (map.Width, map.Height);
-			InitializeTestTiles (map.Width, map.Height);
+			SetupTiles ();
 		}
 
-		public TileManager (Map map, TextAsset asset)
+		private void SetupTiles ()
 		{
-			this.Map = map;
+			m_tiles = new TileData[_width, _height];
 
-			SetupTiles (map.Width, map.Height);
-			InitializeFromAsset (map.Width, map.Height, asset);
-		}
-
-		public void ReinitializeFromAsset (TextAsset asset)
-		{
-			InitializeFromAsset (Map.Width, Map.Height, asset);
-		}
-
-		private void SetupTiles (int width, int height)
-		{
-			m_tiles = new TileData[width, height];
-
-			for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
+			for (int x = 0; x < _width; x++) {
+				for (int y = 0; y < _height; y++) {
 					m_tiles [x, y] = (TileData)CreateTile (x, y);
 				}
 			}
-		}
 
-		private void InitializeFromAsset (int width, int height, TextAsset asset)
-		{
-			SetupTiles (width, height);
-			Debug.Log (height);
-
-			Regex regex = new Regex ("\n");
-			string[] lines = regex.Split (asset.text);
-
-			int x = 0;
-			int y = height - 1;
-			foreach (string line in lines) {
-				x = 0;
-				foreach (char c in line) {
-					switch (c) {
-					case '#':
-						m_tiles [x, y].Type = TileType.Wall;
-						break;
-					case '.':
-						m_tiles [x, y].Type = TileType.Floor;
-						break;
-					default:
-						m_tiles [x, y].Type = TileType.Empty;
-						break;
+			foreach (Room r in Map.RoomManager.Rooms) {
+				for (int x = r.MinX; x < r.MaxX; x++) {
+					for (int y = r.MinY; y < r.MaxY; y++) {
+						m_tiles [x, y].Type = r.Tiles[x - r.MinX, y - r.MinY];
 					}
-					x++;
 				}
-				y--;
 			}
 		}
 
@@ -81,15 +53,7 @@ namespace ShittyWizard.Model.World
 		{
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
-					if (y <= height / 3 + 2 && y >= height / 3 - 2) {
-						if (x < width / 2 - width / 5 || x > width / 2 + width / 5) {
-							m_tiles [x, y].Type = TileType.Wall;
-						}
-					}
-
-					if (y == 0 || y == 1 || y == height - 1 || y == height - 2 || x == 0 || x == width - 1) {
-						m_tiles [x, y].Type = TileType.Wall;
-					}
+					m_tiles [x, y].Type = TileType.Floor;
 				}
 			}
 		}

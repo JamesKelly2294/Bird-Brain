@@ -10,36 +10,16 @@ namespace ShittyWizard.Model.World
 	public class Map
 	{
 
+		public RoomManager RoomManager { get; protected set; }
 		public TileManager TileManager { get; protected set; }
 
-		public int Width { get; protected set; }
+		public int Width { get { return TileManager.Width; } }
 
-		public int Height { get; protected set; }
+		public int Height { get { return TileManager.Height; } }
 
-		public Map (int width = 20, int height = 20)
+		public Map (int numberOfRooms=20)
 		{
-			this.Width = width;
-			this.Height = height;
-
-			SetupManagers ();
-
-			//Debug.Log ("World created with " + (width * height) + " tiles.");
-		}
-
-		public void ResetWithTextAsset (TextAsset asset)
-		{
-			Regex regex = new Regex ("\n");
-			string[] lines = regex.Split (asset.text);
-			Height = lines.Length - 1;
-
-			Width = 0;
-			foreach (string line in lines) {
-				if (line.Length > Width) {
-					Width = line.Length;
-				}
-			}
-
-			TileManager.ReinitializeFromAsset (asset);
+			SetupManagers (numberOfRooms);
 		}
 
 		public void Update (float delta)
@@ -47,8 +27,9 @@ namespace ShittyWizard.Model.World
 
 		}
 
-		private void SetupManagers ()
+		private void SetupManagers (int numberOfRooms=20)
 		{
+			RoomManager = new RoomManager (this, numberOfRooms, 15, 15);
 			TileManager = new TileManager (this);
 		}
 	}

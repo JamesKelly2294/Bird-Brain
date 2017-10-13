@@ -2,105 +2,133 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ShittyWizzard.Utilities;
+using ShittyWizzard.Model;
+using System.Text.RegularExpressions;
 
 namespace ShittyWizard.Model.World
 {
-	public class Room
+	public class RoomManager: Manager<ShittyWizzard.Utilities.Event>
 	{
+		public Map Map;
 
-		int _minX;
-		int _minY;
+		public Dictionary<int, string> test;
 
-		int _width;
-		int _height;
-
-		public int MinX {
-			get {
-				return _minX;
-			}
-		}
-
-		public int MaxX {
-			get {
-				return _minX + _width;
-			}
-		}
-
-		public int MinY {
-			get {
-				return _minY;
-			}
-		}
-
-		public int MaxY {
-			get {
-				return _minY + _height;
-			}
-		}
-
+		int _width = -1;
 		public int Width {
 			get {
+				if (_width == -1) {
+					int minX = Rooms [0].MinX;
+					int maxX = Rooms [0].MaxX;
+					foreach (Room r in Rooms) {
+						if (r.MinX < minX)
+							minX = r.MinX;
+						if (r.MaxX > maxX)
+							maxX = r.MaxX;
+					}
+					_width = maxX - minX;
+				}
 				return _width;
 			}
 		}
 
+		int _height = -1;
 		public int Height {
 			get {
+				if (_height == -1) {
+					int minY = Rooms [0].MinY;
+					int maxY = Rooms [0].MaxY;
+					foreach (Room r in Rooms) {
+						if (r.MinY < minY)
+							minY = r.MinY;
+						if (r.MaxY > maxY)
+							maxY= r.MaxY;
+					}
+					_height = maxY - minY;
+				}
 				return _height;
 			}
 		}
 
-		public Vector2 Center {
-			get {
-				return new Vector2 (MinX + _width / 2.0f, MinY + _height / 2.0f);
-			}
-		}
-
-		public Vector2 Position {
-			get {
-				return new Vector2 (MinX, MinY);
-			}
-			set {
-				_minX = Mathf.RoundToInt (value.x);
-				_minY = Mathf.RoundToInt (value.y);
-			}
-		}
-
-		public override string ToString ()
-		{
-			return string.Format ("{0}", Center);
-		}
-
-		public Room (int minX, int minY, int width, int height)
-		{
-			this._minX = minX;
-			this._minY = minY;
-
-			this._width = width;
-			this._height = height;
-		}
-	}
-
-	public class RoomManager : MonoBehaviour
-	{
-
-		List<Room> rooms;
-		List<GameObject> visualizedRooms;
+		public List<RoomData> Rooms;
+		public Dictionary<Tuple<int, int>, List<Room>> RoomPrototypes;
 
 		int numberOfRooms = 20;
 		int max_iterations = 200;
 		int iterations = 0;
 
-		// Use this for initialization
-		void Start ()
-		{
-			Random.InitState (0);
-			rooms = new List<Room> ();
+		public RoomManager(Map map, int numberOfRooms, int minDim, int maxDim) {
+			this.Map = map;
+			this.numberOfRooms = numberOfRooms;
+
+			RoomPrototypes = new Dictionary<Tuple<int, int>, List<Room>> ();
+
+			var roomAssets = Resources.LoadAll("Rooms", typeof(TextAsset));
+			Regex regex = new Regex ("\n");
+			for (int i = 0; i < roomAssets.Length; i++) {
+				TextAsset roomAsset = (TextAsset)roomAssets [i];
+				string[] lines = regex.Split (roomAsset.text);
+				int h = lines.Length - 1;
+				int w = 0;
+				foreach (string line in lines) {
+					if (line.Length > w) {
+						w = line.Length;
+					}
+				}
+
+				int x = 0;
+				int y = h - 1;
+				RoomData r = new RoomData (0, 0, w, h);
+				foreach (string line in lines) {
+					x = 0;
+					foreach (char c in line) {
+						switch (c) {
+						case '#':
+							r._tiles [x, y] = TileType.Wall;
+							break;
+						case '.':
+							r._tiles [x, y] = TileType.Floor;
+							break;
+						default:
+							r._tiles [x, y] = TileType.Empty;
+							break;
+						}
+						x++;
+					}
+					y--;
+				}
+
+				Tuple<int, int> key = new Tuple<int, int>(w, h);
+				Debug.Log (key.Item1);
+				Debug.Log (key.Item2);
+				if (!RoomPrototypes.ContainsKey (key)) {
+					RoomPrototypes [key] = new List<Room> ();
+				}
+				RoomPrototypes [key].Add(r);
+			}
+
+			GenerateRooms (minDim, maxDim);
+
+		}
+
+		void GenerateRooms(int minDim, int maxDim) {
+			_width = -1;
+			_height = -1;
+			Rooms = new List<RoomData> ();
+			iterations = 0;
+
 			for (int i = 0; i < numberOfRooms; i++) {
-				rooms.Add (new Room (
-					(int)Random.Range (-10, 10), (int)Random.Range (-10, 10),
-					(int)Random.Range (7, 9), (int)Random.Range (7, 9)
-				));
+				RoomData tempRoom = new RoomData (
+					                (int)Random.Range (-10, 10), (int)Random.Range (-10, 10),
+					                (int)Random.Range (minDim, maxDim), (int)Random.Range (minDim, maxDim)
+				                );
+				Tuple<int, int> key = new Tuple<int, int> ((int)tempRoom.Width,
+					                      (int)tempRoom.Height);
+				Debug.Log (key.Item1);
+				Debug.Log (key.Item2);
+				List<Room> lst = RoomPrototypes [key];
+				int random = Random.Range (0, (int)lst.Count);
+				tempRoom._tiles = lst [random].Tiles;
+				Rooms.Add (tempRoom);
 			}
 
 			while (iterations < max_iterations) {
@@ -111,109 +139,51 @@ namespace ShittyWizard.Model.World
 			}
 
 			RemoveOverlappingRooms ();
-			BuildEdgeMap ();
-			VisualizeRooms ();
-		}
 
-		List<Edge<Vertex<Room>>> edgemap;
-		List<Vertex<Room>> vertexmap;
-
-		public void BuildEdgeMap ()
-		{
-			edgemap = new List<Edge<Vertex<Room>>> ();
-			vertexmap = new List<Vertex<Room>> ();
-
-			for (int i = 0; i < rooms.Count; i++) {
-				vertexmap.Add (new Vertex<Room> (rooms [i]));
-			}
-
-			for (int i = 0; i < rooms.Count; i++) {
-				Room first = rooms [i];
-				Vertex<Room> firstV = vertexmap.Find (x => x.data.Equals (first));
-				for (int j = i + 1; j < rooms.Count; j++) {
-					Room second = rooms [j];
-					Vertex<Room> secondV = vertexmap.Find (x => x.data.Equals (second));
-
-					float distance = Vector2.Distance (first.Center, second.Center);
-					Edge<Vertex<Room>> e = new Edge<Vertex<Room>> (
-						                                              firstV, secondV, distance
-					                                              );
-					edgemap.Add (e);
-				}
-			}
-
-			// sort edges in ascending order
-			edgemap.Sort ((first, second) => {
-				float res = first.weight - second.weight;
-				if (res > 0) {
-					return 1;
-				} else if (res < 0) {
-					return -1;
-				} else {
-					return 0;
-				}
+			Graph<RoomData> g = new Graph<RoomData>(Rooms, (x,y) => {
+				return Vector2.Distance(x.data.Center, y.data.Center);
 			});
 
-			Dictionary<int, int> parents = new Dictionary<int, int> ();
-			foreach (Vertex<Room> v in vertexmap) {
-				parents [v.ID] = -1;
+			var mst = g.MinimumSpanningTree;
+
+			// I don't like doing this, because we are wasting a lot of
+			// memory on empty tiles. In the future, it would be a good idea
+			// to have localized tilemaps on a per room/per hallway basis
+
+			int minY = Rooms [0].MinY;
+			int minX = Rooms [0].MinX;
+			foreach (Room r in Rooms) {
+				if (r.MinY < minY)
+					minY = r.MinY;
+				if (r.MinX < minX)
+					minX = r.MinX;
 			}
 
-			List<Edge<Vertex<Room>>> MST = new List<Edge<Vertex<Room>>> ();
-			foreach (Edge<Vertex<Room>> e in edgemap) {
-				int x = Find (parents, e.first.ID);
-				int y = Find (parents, e.second.ID);
-
-				if (x == y) {
-					// cycle detected, don't add edge
-					continue;
-				}
-
-				Union (parents, e.first, e.second);
-				MST.Add (e);
-
-				if (MST.Count >= vertexmap.Count - 1) {
-					break;
-				}
+			Dictionary<string, object> payload = new Dictionary<string, object> ();
+			payload["width"] = Width;
+			payload["height"] = Height;
+			EmitEvent (GenericEventType.INITIALIZED, new ShittyWizzard.Utilities.Event(payload));
+			foreach (RoomData r in Rooms) {
+				r.Position = new Vector2(r.MinX - minX, r.MinY - minY);
+				payload = new Dictionary<string, object> ();
+				payload ["room"] = r;
+				EmitEvent (GenericEventType.CREATED, new ShittyWizzard.Utilities.Event(payload));
 			}
-
-			edgemap = MST;
-		}
-
-		int Find (Dictionary<int, int> parents, int v)
-		{
-			if (parents [v] == -1) {
-				return v;
-			}
-			return Find (parents, parents [v]);
-		}
-
-		void Union (Dictionary<int, int> parents, Vertex<Room> first, Vertex<Room> second)
-		{
-			int firstParent = Find (parents, first.ID);
-			int secondParent = Find (parents, second.ID);
-
-			parents [firstParent] = secondParent;
-		}
-
-		void Update ()
-		{
-
 		}
 
 		void RemoveOverlappingRooms ()
 		{
-			List<Room> temp = new List<Room> ();
-			for (int i = 0; i < rooms.Count; i++) {
-				Room first = rooms [i];
+			List<RoomData> temp = new List<RoomData> ();
+			for (int i = 0; i < Rooms.Count; i++) {
+				RoomData first = Rooms [i];
 
 				// this is inefficient.
 				// papa james doesn't care.
 				bool doesNotOverlap = true;
-				for (int j = 0; j < rooms.Count; j++) {
+				for (int j = 0; j < Rooms.Count; j++) {
 					if (i == j)
 						continue;
-					Room second = rooms [j];
+					RoomData second = Rooms [j];
 
 					if (second.MaxX - first.MinX <= 0.0f
 					               || first.MaxX - second.MinX <= 0.0f
@@ -229,18 +199,18 @@ namespace ShittyWizard.Model.World
 					temp.Add (first);
 				}
 			}
-			rooms = temp;
+			Rooms = temp;
 		}
 
 		bool SeparateRooms ()
 		{
-			Dictionary<Room, Vector2> dict = new Dictionary<Room, Vector2> ();
+			Dictionary<RoomData, Vector2> dict = new Dictionary<RoomData, Vector2> ();
 			bool mustSeparate = false;
 
-			for (int i = 0; i < rooms.Count; i++) {
-				Room first = rooms [i];
-				for (int j = i + 1; j < rooms.Count; j++) {
-					Room second = rooms [j];
+			for (int i = 0; i < Rooms.Count; i++) {
+				RoomData first = Rooms [i];
+				for (int j = i + 1; j < Rooms.Count; j++) {
+					RoomData second = Rooms [j];
 					Vector2 axis = Vector2.zero;
 
 					Vector2 penetrationVector = Vector2.zero;
@@ -283,61 +253,101 @@ namespace ShittyWizard.Model.World
 				}
 			}
 
-			for (int i = 0; i < rooms.Count; i++) {
-				if (!dict.ContainsKey (rooms [i])) {
+			for (int i = 0; i < Rooms.Count; i++) {
+				if (!dict.ContainsKey (Rooms [i])) {
 					continue;
 				}
 
-				rooms [i].Position = rooms [i].Position - dict [rooms [i]].normalized;
+				Rooms [i].Position = Rooms [i].Position - dict [Rooms [i]].normalized;
 			}
 
 			return mustSeparate;
 		}
+	}
 
-		void VisualizeRooms ()
+	public class RoomData : Room
+	{
+
+		protected int _minX;
+		protected int _minY;
+
+		protected int _width;
+		protected int _height;
+
+		public TileType[,] _tiles;
+
+		public int MinX {
+			get {
+				return _minX;
+			}
+		}
+
+		public int MaxX {
+			get {
+				return _minX + _width;
+			}
+		}
+
+		public int MinY {
+			get {
+				return _minY;
+			}
+		}
+
+		public int MaxY {
+			get {
+				return _minY + _height;
+			}
+		}
+
+		public int Width {
+			get {
+				return _width;
+			}
+		}
+
+		public int Height {
+			get {
+				return _height;
+			}
+		}
+
+		public TileType[,] Tiles { 
+			get {
+				return _tiles;
+			}
+		}
+
+		public Vector2 Center {
+			get {
+				return new Vector2 (MinX + _width / 2.0f, MinY + _height / 2.0f);
+			}
+		}
+
+		public Vector2 Position {
+			get {
+				return new Vector2 (MinX, MinY);
+			}
+			set {
+				_minX = Mathf.RoundToInt (value.x);
+				_minY = Mathf.RoundToInt (value.y);
+			}
+		}
+
+		public override string ToString ()
 		{
-			if (visualizedRooms != null) {
-				foreach (GameObject o in visualizedRooms) {
-					Destroy (o);
-				}
-				visualizedRooms = null;
-			}
-			Random.InitState (0);
+			return string.Format ("{0}", Center);
+		}
 
-			visualizedRooms = new List<GameObject> ();
-			int count = 0;
-			foreach (Room r in rooms) {
-				GameObject go = GameObject.CreatePrimitive (PrimitiveType.Quad);
-				go.transform.parent = transform.parent;
-				go.transform.position = r.Center;
-				go.transform.name = "Room " + count;
-				go.GetComponent<MeshRenderer> ().material.color = new Color (
-					Random.Range (0, 1.0f), Random.Range (0, 1.0f), Random.Range (0, 1.0f));
-				go.transform.localScale = new Vector3 (r.Width, r.Height, 1.0f);
-				visualizedRooms.Add (go);
-				count++;
-			}
+		public RoomData (int minX, int minY, int width, int height)
+		{
+			this._minX = minX;
+			this._minY = minY;
 
-			count = 0;
+			this._width = width;
+			this._height = height;
 
-			foreach (Edge<Vertex<Room>> e in edgemap) {
-				int positionCount = 3;
-				Vector3[] positions = new Vector3[positionCount];
-				GameObject edgemapGO = new GameObject ();
-				edgemapGO.transform.parent = transform.parent;
-				edgemapGO.transform.name = "Edge";
-				edgemapGO.AddComponent<LineRenderer> ();
-				edgemapGO.GetComponent<LineRenderer> ().positionCount = positionCount;
-				positions [0] = new Vector3 (Mathf.Round (e.first.data.Center.x), Mathf.Round (e.first.data.Center.y), -1.0f);
-				positions [1] = new Vector3 (Mathf.Round (e.first.data.Center.x), Mathf.Round (e.second.data.Center.y), -1.0f);
-				positions [2] = new Vector3 (Mathf.Round (e.second.data.Center.x), Mathf.Round (e.second.data.Center.y), -1.0f);
-				edgemapGO.GetComponent<LineRenderer> ().SetPositions (positions);
-				edgemapGO.GetComponent<LineRenderer> ().startWidth = 0.2f;
-				edgemapGO.GetComponent<LineRenderer> ().endWidth = 0.2f;
-				visualizedRooms.Add (edgemapGO);
-				count++;
-			}
-
+			this._tiles = new TileType[width, height];
 		}
 	}
 }
