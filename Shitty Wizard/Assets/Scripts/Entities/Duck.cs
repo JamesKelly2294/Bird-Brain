@@ -25,10 +25,9 @@ public class Duck : Entity {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) return;
 
-        ProjectileGrenade grenade = ProjectileManager.CreateProjectile(grenadePrefab, EntityType.Enemy, this.gameObject, this.transform.position + new Vector3(0, 1f, 0)) as ProjectileGrenade;
+        ProjectileGrenade grenade = Projectile.Create(grenadePrefab, EntityType.Enemy, this.gameObject, this.transform.position + new Vector3(0, 1f, 0)) as ProjectileGrenade;
         grenade.lifetime = 4.0f;
         grenade.Init(Vector2.zero, 0);
-
 
     }
 

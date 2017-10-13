@@ -19,7 +19,7 @@ public class ProjectileShooter : MonoBehaviour {
         timer += Time.deltaTime;
         if (timer >= 1) {
             timer -= 1;
-            ProjectileBasic pBasic = ProjectileManager.CreateProjectile(projectilePrefab, EntityType.Enemy, this.gameObject, this.transform.position) as ProjectileBasic;
+            ProjectileBasic pBasic = Projectile.Create(projectilePrefab, EntityType.Enemy, this.gameObject, this.transform.position) as ProjectileBasic;
             pBasic.Init(new Vector3(1, 0, 0), 3);
         }
 

@@ -10,6 +10,17 @@ public abstract class Projectile : MonoBehaviour {
     public float damage;
     public float lifetime = 1000;
 
+    public static Projectile Create(GameObject _projectilePrefab, EntityType _type, GameObject _owner, Vector3 _initialPosition) {
+
+        GameObject pObj = Instantiate(_projectilePrefab, _initialPosition, Quaternion.identity);
+        Projectile proj = pObj.GetComponent<Projectile>();
+        proj.owner = _owner;
+        proj.type = _type;
+
+        return proj;
+
+    }
+
 	// Use this for initialization
 	void Start () {
 		
