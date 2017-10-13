@@ -8,46 +8,52 @@ using System.Text.RegularExpressions;
 
 namespace ShittyWizard.Model.World
 {
-	public class TileManager : Manager<Tile> {
+	public class TileManager : Manager<Tile>
+	{
 
 		public Map Map { get; protected set; }
 
 		private TileData[,] m_tiles;
 
-		public TileManager(Map map) {
+		public TileManager (Map map)
+		{
 			this.Map = map;
 
 			SetupTiles (map.Width, map.Height);
 			InitializeTestTiles (map.Width, map.Height);
 		}
 
-		public TileManager(Map map, TextAsset asset) {
+		public TileManager (Map map, TextAsset asset)
+		{
 			this.Map = map;
 
 			SetupTiles (map.Width, map.Height);
 			InitializeFromAsset (map.Width, map.Height, asset);
 		}
 
-		public void ReinitializeFromAsset(TextAsset asset) {
+		public void ReinitializeFromAsset (TextAsset asset)
+		{
 			InitializeFromAsset (Map.Width, Map.Height, asset);
 		}
 
-		private void SetupTiles(int width, int height) {
+		private void SetupTiles (int width, int height)
+		{
 			m_tiles = new TileData[width, height];
 
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
-					m_tiles [x, y] = (TileData)CreateTile(x, y);
+					m_tiles [x, y] = (TileData)CreateTile (x, y);
 				}
 			}
 		}
 
-		private void InitializeFromAsset(int width, int height, TextAsset asset) {
+		private void InitializeFromAsset (int width, int height, TextAsset asset)
+		{
 			SetupTiles (width, height);
 			Debug.Log (height);
 
-			Regex regex = new Regex("\n");
-			string[] lines = regex.Split(asset.text);
+			Regex regex = new Regex ("\n");
+			string[] lines = regex.Split (asset.text);
 
 			int x = 0;
 			int y = height - 1;
@@ -71,7 +77,8 @@ namespace ShittyWizard.Model.World
 			}
 		}
 
-		private void InitializeTestTiles(int width, int height) {
+		private void InitializeTestTiles (int width, int height)
+		{
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
 					if (y <= height / 3 + 2 && y >= height / 3 - 2) {
@@ -87,7 +94,8 @@ namespace ShittyWizard.Model.World
 			}
 		}
 
-		public Tile GetTileById( uint id ) {
+		public Tile GetTileById (uint id)
+		{
 			return m_tiles [id & 0xFFFF, (id >> 16) & 0xFFFF];
 		}
 
@@ -132,9 +140,9 @@ namespace ShittyWizard.Model.World
 
 			public TileType Type { get; set; }
 
-			public int X { get { return (int)(Id & 0xFFFF);   } }
+			public int X { get { return (int)(Id & 0xFFFF); } }
 
-			public int Y { get { return (int)((Id >> 16) & 0xFFFF);   } }
+			public int Y { get { return (int)((Id >> 16) & 0xFFFF); } }
 
 			public bool IsWalkable { get { return MovementCost > 0; } }
 
@@ -142,7 +150,7 @@ namespace ShittyWizard.Model.World
 				get {
 					float tileCost = 0;
 					switch (Type) {
-						case TileType.Wall:
+					case TileType.Wall:
 						tileCost += 0;
 						break;
 					default:
@@ -160,10 +168,10 @@ namespace ShittyWizard.Model.World
 
 			public TileData (int x, int y)
 			{
-				if ( x < 0 || x >= 65535 || y < 0 || y >= 65535 ) {
-					throw new ArgumentOutOfRangeException();
+				if (x < 0 || x >= 65535 || y < 0 || y >= 65535) {
+					throw new ArgumentOutOfRangeException ();
 				}
-				this.Id = ( (uint)x | ( (uint)y << 16 ) );
+				this.Id = ((uint)x | ((uint)y << 16));
 			}
 		}
 	}
