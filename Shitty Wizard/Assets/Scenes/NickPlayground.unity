@@ -3762,11 +3762,15 @@ MonoBehaviour:
   weapon3: 0
   weapon4: 0
   speed: 4.55
+  projectileDirection: {x: 0, y: 0, z: 0}
   projectilePrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec,
     type: 2}
-  projectile2Prefab: {fileID: 0}
-  projectile3Prefab: {fileID: 0}
-  projectile4Prefab: {fileID: 0}
+  projectile2Prefab: {fileID: 1045179873313082, guid: 185dccb8e804045458f2ab2429c3f1be,
+    type: 2}
+  projectile3Prefab: {fileID: 1882585628455446, guid: 5dfce5c17db3af44ca1cea38beba9674,
+    type: 2}
+  projectile4Prefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec,
+    type: 2}
 --- !u!4 &1489313460
 Transform:
   m_ObjectHideFlags: 0

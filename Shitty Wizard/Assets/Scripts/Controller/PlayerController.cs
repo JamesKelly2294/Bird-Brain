@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
 	public bool weapon3 = false;
 	public bool weapon4 = false;
 	public float speed = 0.4f;
-	Vector3 projectileDirection;
+	public Vector3 projectileDirection;
     public GameObject projectilePrefab;
 	public GameObject projectile2Prefab;
 	public GameObject projectile3Prefab;
@@ -21,12 +21,19 @@ public class PlayerController : MonoBehaviour {
     private Plane groundPlane;
 
     private Spell spell;
+	private Spell spell2;
+	private Spell spell3;
+	private Spell spell4;
 
 	// Use this for initialization
 	void Start () {
 		m_Rigidbody = GetComponent<Rigidbody> ();
         groundPlane = new Plane(new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(1, 0, 0));
+
         spell = new Fireball(this.gameObject, projectilePrefab);
+		spell2 = new Fireball(this.gameObject, projectile2Prefab);
+		spell3 = new Fireball(this.gameObject, projectile3Prefab);
+		spell4 = new Fireball(this.gameObject, projectile4Prefab);
 	}
 	
 	// Update is called once per frame
@@ -73,13 +80,13 @@ public class PlayerController : MonoBehaviour {
 				//pBasic.Init(projectileDirection, 10.0f);
 			} 
 			else if (weapon2 == true) {
-				
+				spell2.RequestCast (projectileDirection);
 			}
 			else if (weapon3 == true) {
-
+				spell3.RequestCast (projectileDirection);
 			}
 			else if (weapon4 == true) {
-
+				spell4.RequestCast (projectileDirection);
 			}
         }
     }
