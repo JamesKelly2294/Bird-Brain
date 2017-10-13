@@ -142,18 +142,16 @@ public class RoomManager : MonoBehaviour {
     List<GameObject> visualizedRooms;
 
     int numberOfRooms = 20;
-    int max_iterations = 50;
+    int max_iterations = 200;
     int iterations = 0;
 
     // Use this for initialization
     void Start () {
-        Random.InitState (0);
-
         rooms = new List<Room> ();
         for (int i = 0; i < numberOfRooms; i++) {
             rooms.Add( new Room (
-                (int)Random.Range(-5, 5), (int)Random.Range(-5, 5),
-                (int)Random.Range(5, 10), (int)Random.Range(5, 10)
+                (int)Random.Range(-10, 10), (int)Random.Range(-10, 10),
+                (int)Random.Range(7, 9), (int)Random.Range(7, 9)
             ));
         }
 
@@ -367,19 +365,21 @@ public class RoomManager : MonoBehaviour {
 				count = 0;
 
 				foreach (Edge<Vertex<Room>> e in edgemap) {
-						Vector3[] positions = new Vector3[2];
-						GameObject edgemapGO = new GameObject();
-						edgemapGO.transform.parent = transform.parent;
-						edgemapGO.transform.name = "Edgemap";
-						edgemapGO.AddComponent<LineRenderer> ();
-						positions[0] = new Vector3(e.first.data.Center.x, e.first.data.Center.y, -1.0f);;
-						positions[1] = new Vector3(e.second.data.Center.x, e.second.data.Center.y, -1.0f);
-						edgemapGO.GetComponent<LineRenderer> ().positionCount = 2;
-						edgemapGO.GetComponent<LineRenderer> ().SetPositions(positions);
-						edgemapGO.GetComponent<LineRenderer> ().startWidth = 0.2f;
-						edgemapGO.GetComponent<LineRenderer> ().endWidth = 0.2f;
-						visualizedRooms.Add (edgemapGO);
-            count++;
+					int positionCount = 3;
+					Vector3[] positions = new Vector3[positionCount];
+					GameObject edgemapGO = new GameObject();
+					edgemapGO.transform.parent = transform.parent;
+					edgemapGO.transform.name = "Edge";
+					edgemapGO.AddComponent<LineRenderer> ();
+					edgemapGO.GetComponent<LineRenderer> ().positionCount = positionCount;
+					positions[0] = new Vector3(Mathf.Round(e.first.data.Center.x), Mathf.Round(e.first.data.Center.y), -1.0f);
+					positions[1] = new Vector3(Mathf.Round(e.first.data.Center.x), Mathf.Round(e.second.data.Center.y), -1.0f);
+					positions[2] = new Vector3(Mathf.Round(e.second.data.Center.x), Mathf.Round(e.second.data.Center.y), -1.0f);
+					edgemapGO.GetComponent<LineRenderer> ().SetPositions(positions);
+					edgemapGO.GetComponent<LineRenderer> ().startWidth = 0.2f;
+					edgemapGO.GetComponent<LineRenderer> ().endWidth = 0.2f;
+					visualizedRooms.Add (edgemapGO);
+          count++;
         }
 
     }
