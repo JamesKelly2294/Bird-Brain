@@ -8,8 +8,9 @@ namespace ShittyWizard.Model.World
 	{
 		Empty,
 		Floor,
-		Wall
-	};
+		Wall}
+
+	;
 
 	public interface Tile
 	{

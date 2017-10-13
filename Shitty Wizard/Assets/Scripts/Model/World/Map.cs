@@ -5,44 +5,51 @@ using ShittyWizard.Model.World;
 using ShittyWizzard.Utilities;
 using System.Text.RegularExpressions;
 
-public class Map {
-
-	public TileManager TileManager { get; protected set; }
-
-	public int Width { get; protected set; }
-
-	public int Height { get; protected set; }
-
-	public Map (int width = 20, int height = 20)
+namespace ShittyWizard.Model.World
+{
+	public class Map
 	{
-		this.Width = width;
-		this.Height = height;
 
-		SetupManagers ();
+		public TileManager TileManager { get; protected set; }
 
-		//Debug.Log ("World created with " + (width * height) + " tiles.");
-	}
+		public int Width { get; protected set; }
 
-	public void ResetWithTextAsset(TextAsset asset) {
-		Regex regex = new Regex("\n");
-		string[] lines = regex.Split(asset.text);
-		Height = lines.Length-1;
+		public int Height { get; protected set; }
 
-		Width = 0;
-		foreach (string line in lines) {
-			if (line.Length > Width) {
-				Width = line.Length;
-			}
+		public Map (int width = 20, int height = 20)
+		{
+			this.Width = width;
+			this.Height = height;
+
+			SetupManagers ();
+
+			//Debug.Log ("World created with " + (width * height) + " tiles.");
 		}
 
-		TileManager.ReinitializeFromAsset (asset);
-	}
+		public void ResetWithTextAsset (TextAsset asset)
+		{
+			Regex regex = new Regex ("\n");
+			string[] lines = regex.Split (asset.text);
+			Height = lines.Length - 1;
 
-	public void Update(float delta) {
+			Width = 0;
+			foreach (string line in lines) {
+				if (line.Length > Width) {
+					Width = line.Length;
+				}
+			}
 
-	}
+			TileManager.ReinitializeFromAsset (asset);
+		}
 
-	private void SetupManagers() {
-		TileManager = new TileManager (this);
+		public void Update (float delta)
+		{
+
+		}
+
+		private void SetupManagers ()
+		{
+			TileManager = new TileManager (this);
+		}
 	}
 }
