@@ -38,7 +38,7 @@ public abstract class Projectile : MonoBehaviour {
         }
 
 	}
-
+    
     protected virtual void OnMove() { }
     protected virtual void OnEndOfLife() { }
 

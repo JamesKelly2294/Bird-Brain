@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class IceCone : Spell {
 
-    GameObject projectilePrefab;
+    public GameObject projectilePrefab;
 
     public float coneWidth;
     public int numStreams;
-
-	public IceCone(GameObject _owner, GameObject _projectilePrefab) : base(_owner) {
-        reloadTime = 0.02f;
-        projectilePrefab = _projectilePrefab;
-        coneWidth = 45f;
-        numStreams = 5;
-    }
 
     public override void Cast(Vector3 _dir) {
 

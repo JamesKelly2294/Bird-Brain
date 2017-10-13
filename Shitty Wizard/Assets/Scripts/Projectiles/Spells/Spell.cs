@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Spell {
+public abstract class Spell : MonoBehaviour {
 
     protected GameObject owner;
 
+    [SerializeField]
     protected float reloadTime;
-    protected float lastCastTime;
+    protected float lastCastTime = -100000;
 
-    public Spell(GameObject _owner) {
-        owner = _owner;
-        lastCastTime = -100000;
+    private void Start() {
+        this.owner = this.transform.parent.gameObject;
     }
 
     public void RequestCast(Vector3 _dir) {

@@ -5,11 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 0.4f;
-	public Vector3 projectileDirection;
-    public GameObject projectilePrefab;
-	public GameObject projectile2Prefab;
-	public GameObject projectile3Prefab;
-	public GameObject projectile4Prefab;
 
 	Rigidbody m_Rigidbody;
 	Transform m_SpriteTransform;
@@ -17,20 +12,20 @@ public class PlayerController : MonoBehaviour {
     private Plane groundPlane;
 
     private int currentSpell;
-    private Spell[] spells = new Spell[] { null };
+    private List<Spell> spells;
 
 	// Use this for initialization
 	void Start () {
+
 		m_Rigidbody = GetComponent<Rigidbody> ();
         groundPlane = new Plane(new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(1, 0, 0));
 
-        spells = new Spell[]
-        {
-            new Fireball(this.gameObject, projectilePrefab),
-            new Fireball(this.gameObject, projectile2Prefab),
-            new Fireball(this.gameObject, projectile3Prefab),
-            new IceCone(this.gameObject, projectile4Prefab)
-        };
+        // Gather spells
+        spells = new List<Spell>();
+        Transform spellsTransform = this.transform.Find("Spells");
+        foreach (Spell s in spellsTransform.GetComponentsInChildren<Spell>()) {
+            spells.Add(s);
+        }
 
 	}
 	
@@ -39,13 +34,13 @@ public class PlayerController : MonoBehaviour {
 		// switching weapons
         if (Input.GetKey(KeyCode.E)) {
             currentSpell++;
-            if (currentSpell >= spells.Length) {
-                currentSpell -= spells.Length;
+            if (currentSpell >= spells.Count) {
+                currentSpell -= spells.Count;
             }
         } else if (Input.GetKey(KeyCode.Q)) {
             currentSpell--;
             if (currentSpell < 0) {
-                currentSpell += spells.Length;
+                currentSpell += spells.Count;
             }
         }
 		if(Input.GetKey(KeyCode.Alpha1)){
@@ -67,7 +62,7 @@ public class PlayerController : MonoBehaviour {
 			float rayDistance;
 			if (groundPlane.Raycast (ray, out rayDistance)) {
 
-				projectileDirection = ray.origin + ray.direction * rayDistance - this.transform.position;
+				Vector3 projectileDirection = ray.origin + ray.direction * rayDistance - this.transform.position;
 				projectileDirection.y = 0;
 				projectileDirection = projectileDirection.normalized;
 
