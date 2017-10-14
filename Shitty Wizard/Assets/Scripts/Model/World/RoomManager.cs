@@ -98,8 +98,6 @@ namespace ShittyWizard.Model.World
 				}
 
 				Tuple<int, int> key = new Tuple<int, int>(w, h);
-				Debug.Log (key.Item1);
-				Debug.Log (key.Item2);
 				if (!RoomPrototypes.ContainsKey (key)) {
 					RoomPrototypes [key] = new List<Room> ();
 				}
@@ -123,8 +121,6 @@ namespace ShittyWizard.Model.World
 				                );
 				Tuple<int, int> key = new Tuple<int, int> ((int)tempRoom.Width,
 					                      (int)tempRoom.Height);
-				Debug.Log (key.Item1);
-				Debug.Log (key.Item2);
 				List<Room> lst = RoomPrototypes [key];
 				int random = Random.Range (0, (int)lst.Count);
 				tempRoom._tiles = lst [random].Tiles;
