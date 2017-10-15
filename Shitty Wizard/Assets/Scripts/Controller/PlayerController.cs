@@ -32,17 +32,18 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// switching weapons
-        if (Input.GetKey(KeyCode.E)) {
+        if (Input.GetKeyDown(KeyCode.E)) {
             currentSpell++;
             if (currentSpell >= spells.Count) {
                 currentSpell -= spells.Count;
             }
-        } else if (Input.GetKey(KeyCode.Q)) {
+        } else if (Input.GetKeyDown(KeyCode.Q)) {
             currentSpell--;
             if (currentSpell < 0) {
                 currentSpell += spells.Count;
             }
         }
+
 		if(Input.GetKey(KeyCode.Alpha1)){
             currentSpell = 0;
 		}
