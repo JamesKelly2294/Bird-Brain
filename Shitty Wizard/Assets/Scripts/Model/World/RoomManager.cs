@@ -4,6 +4,7 @@ using UnityEngine;
 using ShittyWizzard.Utilities;
 using ShittyWizzard.Model;
 using System.Text.RegularExpressions;
+using System;
 
 namespace ShittyWizard.Model.World
 {
@@ -63,7 +64,7 @@ namespace ShittyWizard.Model.World
 			RoomPrototypes = new Dictionary<Tuple<int, int>, List<Room>> ();
 
 			var roomAssets = Resources.LoadAll("Rooms", typeof(TextAsset));
-			Regex regex = new Regex ("\n");
+			Regex regex = new Regex (Environment.NewLine);
 			for (int i = 0; i < roomAssets.Length; i++) {
 				TextAsset roomAsset = (TextAsset)roomAssets [i];
 				string[] lines = regex.Split (roomAsset.text);
