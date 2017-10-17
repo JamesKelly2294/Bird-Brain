@@ -34,14 +34,8 @@ public class PlayerController : MonoBehaviour {
 		// switching weapons
         if (Input.GetKeyDown(KeyCode.E)) {
             currentSpell++;
-            if (currentSpell >= spells.Count) {
-                currentSpell -= spells.Count;
-            }
         } else if (Input.GetKeyDown(KeyCode.Q)) {
             currentSpell--;
-            if (currentSpell < 0) {
-                currentSpell += spells.Count;
-            }
         }
 
 		if(Input.GetKey(KeyCode.Alpha1)){
@@ -56,6 +50,8 @@ public class PlayerController : MonoBehaviour {
 		else if(Input.GetKey(KeyCode.Alpha4)){
             currentSpell = 3;
         }
+
+		currentSpell = Mathf.Abs(currentSpell) % spells.Count;
 
         // Shooting
         if (Input.GetMouseButton(0)) {
