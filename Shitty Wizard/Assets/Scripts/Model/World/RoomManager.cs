@@ -11,7 +11,6 @@ namespace ShittyWizard.Model.World
 	{
 		public Map Map;
 
-		public Dictionary<int, string> test;
 
 		int _width = -1;
 		public int Width {
@@ -51,6 +50,7 @@ namespace ShittyWizard.Model.World
 
 		public List<RoomData> Rooms;
 		public Dictionary<Tuple<int, int>, List<Room>> RoomPrototypes;
+		public List<Edge<Vertex<Room>>> RoomGraph;
 
 		int numberOfRooms = 20;
 		int max_iterations = 200;
@@ -140,7 +140,14 @@ namespace ShittyWizard.Model.World
 				return Vector2.Distance(x.data.Center, y.data.Center);
 			});
 
-			var mst = g.MinimumSpanningTree;
+
+			RoomGraph = new List<Edge<Vertex<Room>>> ();
+			foreach(var e in g.MinimumSpanningTree) {
+				Vertex<Room> first = new Vertex<Room> ((Room)e.first.data);
+				Vertex<Room> second = new Vertex<Room> ((Room)e.second.data);
+				Edge<Vertex<Room>> edge = new Edge<Vertex<Room>> (first, second, e.weight);
+				RoomGraph.Add (edge);
+			}
 
 			// I don't like doing this, because we are wasting a lot of
 			// memory on empty tiles. In the future, it would be a good idea

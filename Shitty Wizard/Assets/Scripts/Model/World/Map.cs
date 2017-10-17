@@ -29,7 +29,7 @@ namespace ShittyWizard.Model.World
 
 		private void SetupManagers (int numberOfRooms=20)
 		{
-			RoomManager = new RoomManager (this, numberOfRooms, 15, 15);
+			RoomManager = new RoomManager (this, numberOfRooms, 13, 15 + 1);
 			TileManager = new TileManager (this);
 		}
 	}

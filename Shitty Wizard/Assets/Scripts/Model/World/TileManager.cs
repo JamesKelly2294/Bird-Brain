@@ -21,6 +21,13 @@ namespace ShittyWizard.Model.World
 		private int _height = -1;
 		public int Height { get { return _height; } }
 
+		private Dictionary<TileType, List<Tile>> _typeToTileDict;
+
+		public Tile GetRandomTileOfType(TileType t) {
+			List<Tile> tiles = _typeToTileDict [t];
+			return tiles [UnityEngine.Random.Range (0, tiles.Count)];
+		}
+
 		public TileManager (Map map)
 		{
 			this.Map = map;
@@ -28,6 +35,24 @@ namespace ShittyWizard.Model.World
 			_height = Map.RoomManager.Height;
 
 			SetupTiles ();
+			SetupTypeToTileDict ();
+		}
+
+		private void SetupTypeToTileDict() {
+			_typeToTileDict = new Dictionary<TileType, List<Tile>> ();
+
+			Array values = Enum.GetValues(typeof(TileType));
+			foreach (TileType tt in values) {
+				_typeToTileDict [tt] = new List<Tile> ();
+			}
+
+
+			for (int x = 0; x < _width; x++) {
+				for (int y = 0; y < _height; y++) {
+					Tile t = GetTileAt (x, y);
+					_typeToTileDict [t.Type].Add(t);
+				}
+			}
 		}
 
 		private void SetupTiles ()
@@ -44,6 +69,84 @@ namespace ShittyWizard.Model.World
 				for (int x = r.MinX; x < r.MaxX; x++) {
 					for (int y = r.MinY; y < r.MaxY; y++) {
 						m_tiles [x, y].Type = r.Tiles[x - r.MinX, y - r.MinY];
+					}
+				}
+			}
+
+			// this is really poorly designed, but it works
+			// it's an unfortunate necessity due to the fact that walls
+			// must be 2 tiles thick in the y direction
+			foreach (Edge<Vertex<Room>> e in Map.RoomManager.RoomGraph) {
+				// vertical hallways
+				int x = Mathf.RoundToInt(e.first.data.Center.x);
+				int yStart = Mathf.RoundToInt(e.first.data.Center.y);
+				int yEnd = Mathf.RoundToInt(e.second.data.Center.y);
+
+				if (yStart > yEnd) {
+					int temp = yStart;
+					yStart = yEnd;
+					yEnd = temp;
+				}
+
+				for (int i = yStart; i <= yEnd; i++) {
+					if (GetTileAt (x - 2, i).Type == TileType.Empty) {
+						m_tiles [x - 2, i].Type = TileType.Wall;
+					}
+					if (GetTileAt (x + 2, i).Type == TileType.Empty) {
+						m_tiles [x + 2, i].Type = TileType.Wall;
+					}
+					m_tiles [x - 1, i].Type = TileType.Floor;
+					m_tiles [x + 1, i].Type = TileType.Floor;
+					m_tiles [x, i].Type = TileType.Floor;
+				}
+
+				// horizontal hallways
+				int y = Mathf.RoundToInt(e.second.data.Center.y);
+				int xStart = Mathf.RoundToInt(e.first.data.Center.x);
+				int xEnd = Mathf.RoundToInt(e.second.data.Center.x);
+
+				if (xStart > xEnd) {
+					int temp = xStart;
+					xStart = xEnd;
+					xEnd = temp;
+				}
+
+				for (int i = xStart - 1; i <= xEnd + 1; i++) {
+					if (GetTileAt (i, y + 2).Type == TileType.Empty) {
+						m_tiles [i, y + 2].Type = TileType.Wall;
+					}
+					if (GetTileAt (i, y + 3).Type == TileType.Empty) {
+						m_tiles [i, y + 3].Type = TileType.Wall;
+					}
+					if (GetTileAt (i, y - 2).Type == TileType.Empty) {
+						m_tiles [i, y - 2].Type = TileType.Wall;
+					}
+					if (GetTileAt (i, y - 3).Type == TileType.Empty) {
+						m_tiles [i, y - 3].Type = TileType.Wall;
+					}
+					m_tiles [i, y].Type = TileType.Floor;
+					m_tiles [i, y - 1].Type = TileType.Floor;
+					m_tiles [i, y + 1].Type = TileType.Floor;
+				}
+
+				// corners of hallways
+				for (int row = y - 2; row <= y + 2; row++) {
+					for (int col = x - 1; col <= x + 1; col++) {
+						SetEmptyNeighborsToType (col, row, TileType.Wall);
+					}
+				}
+			}
+		}
+
+		private void SetEmptyNeighborsToType(int x, int y, TileType type) {
+			for (int row = y - 2; row <= y + 2; row++) {
+				for (int col = x - 1; col <= x + 1; col++) {
+					if (row == y && col == x) {
+						continue;
+					}
+					Tile t = GetTileAt (col, row);
+					if (GetTileAt (col, row).Type == TileType.Empty) {
+						SetTileType (t, type);
 					}
 				}
 			}

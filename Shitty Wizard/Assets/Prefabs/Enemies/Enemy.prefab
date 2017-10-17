@@ -9,37 +9,18 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1481803918940612}
+  m_RootGameObject: {fileID: 1669478416709228}
   m_IsPrefabParent: 1
---- !u!1 &1481803918940612
+--- !u!1 &1060416529823498
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4072296900483770}
-  - component: {fileID: 114340758884715732}
-  - component: {fileID: 54943991006037350}
-  - component: {fileID: 65205488132102490}
-  - component: {fileID: 114954259825102580}
-  m_Layer: 0
-  m_Name: Duck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1742132697836976
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4611054775408450}
-  - component: {fileID: 33942003280015786}
-  - component: {fileID: 23799658372400696}
+  - component: {fileID: 4602953019719684}
+  - component: {fileID: 33588156879686300}
+  - component: {fileID: 23797564929496612}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -47,39 +28,58 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4072296900483770
+--- !u!1 &1669478416709228
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4134606108415536}
+  - component: {fileID: 114924570550920934}
+  - component: {fileID: 54253037191182760}
+  - component: {fileID: 65008986112501968}
+  - component: {fileID: 114617323054639300}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4134606108415536
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1481803918940612}
+  m_GameObject: {fileID: 1669478416709228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4611054775408450}
+  - {fileID: 4602953019719684}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4611054775408450
+--- !u!4 &4602953019719684
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1742132697836976}
+  m_GameObject: {fileID: 1060416529823498}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 0.10000008, y: 1, z: 0.10000005}
   m_Children: []
-  m_Father: {fileID: 4072296900483770}
+  m_Father: {fileID: 4134606108415536}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: -90}
---- !u!23 &23799658372400696
+--- !u!23 &23797564929496612
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1742132697836976}
+  m_GameObject: {fileID: 1060416529823498}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -87,7 +87,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 5a330abdf849c6545b24eaeeef776cc5, type: 2}
+  - {fileID: 2100000, guid: 8c9c97ba263a34f3395083068529af43, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,19 +106,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33942003280015786
+--- !u!33 &33588156879686300
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1742132697836976}
+  m_GameObject: {fileID: 1060416529823498}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54943991006037350
+--- !u!54 &54253037191182760
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1481803918940612}
+  m_GameObject: {fileID: 1669478416709228}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 16
@@ -128,25 +128,45 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!65 &65205488132102490
+--- !u!65 &65008986112501968
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1481803918940612}
+  m_GameObject: {fileID: 1669478416709228}
   m_Material: {fileID: 13400000, guid: 74c5980728eaf45dd9d5d212e6e2d9f6, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.25}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &114340758884715732
+--- !u!114 &114617323054639300
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1481803918940612}
-  m_Enabled: 0
+  m_GameObject: {fileID: 1669478416709228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18be0fac44398a43b65bf4b46826bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  health: 3
+  sprite: {fileID: 1060416529823498}
+  expValue: 100
+  invulnerable: 0
+  expTotal: 0
+  levelUpAt: 1000
+  level: 1
+  guiManager: {fileID: 0}
+--- !u!114 &114924570550920934
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1669478416709228}
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec2cd31bbfb174400ab112efe954e021, type: 3}
   m_Name: 
@@ -155,25 +175,3 @@ MonoBehaviour:
   target: {fileID: 0}
   targetAquisitionThreshold: 10
   targetAbandonmentThreshold: 20
---- !u!114 &114954259825102580
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1481803918940612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ea304e98e2b7a949a1db06e3fed36dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 1
-  health: 50
-  sprite: {fileID: 1742132697836976}
-  expValue: 100
-  invulnerable: 0
-  expTotal: 0
-  levelUpAt: 1000
-  level: 1
-  guiManager: {fileID: 0}
-  grenadePrefab: {fileID: 1045179873313082, guid: 185dccb8e804045458f2ab2429c3f1be,
-    type: 2}

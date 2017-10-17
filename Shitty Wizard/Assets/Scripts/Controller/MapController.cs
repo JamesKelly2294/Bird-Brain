@@ -11,6 +11,9 @@ namespace ShittyWizard.Controller.Game
 	{
 		public static MapController Instance { get; protected set; }
 
+		public List<GameObject> enemies;
+		public GameObject player;
+
 		// World and tile data
 		public Map ActiveMap { get; protected set; }
 
@@ -23,6 +26,27 @@ namespace ShittyWizard.Controller.Game
 			Instance = this;
 
 			CreateEmptyWorld ();
+
+			GameObject entities = new GameObject ();
+			entities.transform.parent = transform;
+			entities.transform.name = "Entities";
+
+			Tile t = ActiveMap.TileManager.GetRandomTileOfType (TileType.Floor);
+			GameObject ply = Instantiate (player);
+			ply.transform.position = new Vector3 (t.X, 0.0f, t.Y);
+			Camera.main.GetComponent<CameraController> ().target = ply.transform;
+			ply.transform.parent = entities.transform;
+			ply.transform.name = "Player";
+
+			int numberOfEnemies = 45;
+			for (int i = 0; i < numberOfEnemies; i++) {
+				t = ActiveMap.TileManager.GetRandomTileOfType (TileType.Floor);
+				GameObject enemyType = enemies [UnityEngine.Random.Range (0, enemies.Count)];
+				GameObject enemy = Instantiate (enemyType);
+				enemy.transform.position = new Vector3 (t.X + 0.5f, 0.0f, t.Y + 0.5f);
+				enemy.GetComponent<EnemyController> ().target = ply.transform;
+				enemy.transform.parent = entities.transform;
+			}
 		}
 
 		void Update ()
