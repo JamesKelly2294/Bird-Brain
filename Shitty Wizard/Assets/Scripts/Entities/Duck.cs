@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Duck : Entity {
+public class Duck : EntityEnemy {
 
     public GameObject grenadePrefab;
 
     private float shootRate = 5.0f;
     private float shootTimer = 0;
-	
-	// Update is called once per frame
-	void Update () {
+
+    protected override void OnUpdate() {
+
+        base.OnUpdate();
 
         shootTimer += Time.deltaTime;
         if (shootTimer > shootRate) {
@@ -18,7 +19,7 @@ public class Duck : Entity {
             LaunchGrenade();
         }
 
-	}
+    }
 
     private void LaunchGrenade() {
 

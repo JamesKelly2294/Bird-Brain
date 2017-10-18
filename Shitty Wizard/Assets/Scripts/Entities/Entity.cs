@@ -10,48 +10,52 @@ public enum EntityType {
 
 public class Entity : MonoBehaviour {
 
+    public bool inControl;
+
     public EntityType type;
     public float health;
     public GameObject sprite;
-	public int expValue = 100;
 
     private float blinkRate = 0.2f;
     private bool visible = true;
     public bool invulnerable = false;
-	public int expTotal = 0;
-	public int levelUpAt = 1000;
-	public int level = 1;
-
-	public GameObject guiManager;
-	GUIText GUITextEXP;
-
     private bool flashing = false;
 
-	public void Start(){
-		guiManager = GameObject.Find("GUI_EXP");
-		GUITextEXP = guiManager.GetComponent<GUIText>();
-	}
+    public void Start() {
+        OnStart();
+    }
+    protected virtual void OnStart() { }
+
+    public void Update() {
+        OnUpdate();
+    }
+    protected virtual void OnUpdate() { }
+
+    public void Move(Vector3 speed) {
+        if (!inControl) return;
+        MoveOverride(speed);
+    }
+
+    private void MoveOverride(Vector3 speed) {
+        GetComponent<Rigidbody>().velocity = speed;
+    }
 
 	public void Damage(float _amount) {
 
         health -= _amount;
 
         if (health <= 0) {
-            if (type == EntityType.Enemy) {
-				giveExp (expValue);
-                Destroy(this.gameObject);
-            }
+            OnDeath();
         }
 
-        if (type == EntityType.Player) {
-            MakeInvulnerable(2);
-        } else if (type == EntityType.Enemy) {
-            Flash(0.05f);
-        }
+        OnDamage();
 
     }
 
-    private void MakeInvulnerable(float _length) {
+    protected virtual void OnDeath() { }
+    protected virtual void OnDamage() { }
+
+    protected void MakeInvulnerable(float _length) {
         StartCoroutine(InvulnerableCR(_length));
     }
 
@@ -93,7 +97,7 @@ public class Entity : MonoBehaviour {
         meshRenderer.enabled = _visible;
     }
 
-    public void Flash(float _length) {
+    protected void Flash(float _length) {
         if (!flashing) {
             StartCoroutine(FlashCR(_length));
         }
@@ -117,19 +121,25 @@ public class Entity : MonoBehaviour {
 
     }
 
-	private void giveExp(int _added) {
-		if (_added < 0) {
-			Debug.Log ("Can't remove exp!");
-			return;
-		}
+    public void Knockback(Vector3 force) {
+        StartCoroutine(KnockbackCR(force));
+    }
 
-		expTotal += _added;
-		if (expTotal >= levelUpAt) {
-			levelUpAt += 1000;
-			level += 1;
-			Debug.Log (expTotal + "/" + levelUpAt + " | " + level);
-			GUITextEXP.text = expTotal + "/" + levelUpAt + " | " + level;
-		}
-	}
+    private IEnumerator KnockbackCR(Vector3 force) {
+
+        inControl = false;
+
+        while (force.magnitude > 0.1f) {
+
+            this.MoveOverride(force);
+            force *= 0.9f;
+
+            yield return null;
+
+        }
+
+        inControl = true;
+
+    }
 
 }

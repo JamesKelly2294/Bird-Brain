@@ -11,7 +11,7 @@ public abstract class Spell : MonoBehaviour {
     protected float lastCastTime = -100000;
 
     private void Start() {
-        this.owner = this.transform.parent.gameObject;
+        this.owner = this.transform.parent.parent.gameObject;
     }
 
     public void RequestCast(Vector3 _dir) {

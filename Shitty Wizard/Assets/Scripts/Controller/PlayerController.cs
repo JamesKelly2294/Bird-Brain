@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Entity))]
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 0.4f;
 
-	Rigidbody m_Rigidbody;
+	Rigidbody rbody;
 	Transform m_SpriteTransform;
+    Entity entity;
 
     private Plane groundPlane;
 
@@ -17,7 +19,8 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		m_Rigidbody = GetComponent<Rigidbody> ();
+		rbody = GetComponent<Rigidbody> ();
+        entity = GetComponent<Entity>();
         groundPlane = new Plane(new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(1, 0, 0));
 
         // Gather spells
@@ -88,7 +91,12 @@ public class PlayerController : MonoBehaviour {
 			horizontalInput = 1.0f;
 		}
 
-		m_Rigidbody.velocity = new Vector3 (horizontalInput * speed, 0.0f, verticalInput * speed);
+        if (Input.GetKey(KeyCode.J)) {
+            entity.Knockback(new Vector3(1, 0, 0));
+        }
+
+        //rbody.velocity = new Vector3 (horizontalInput * speed, 0.0f, verticalInput * speed);
+        entity.Move(new Vector3(horizontalInput * speed, 0.0f, verticalInput * speed));
 		transform.position = new Vector3 (transform.position.x, 0.0f, transform.position.z);
 
     }

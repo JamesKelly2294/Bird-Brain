@@ -10,6 +10,8 @@ public class Fireball : Spell {
 
         ProjectileBasic pBasic = Projectile.Create(fireballPrefab, EntityType.Player, owner, owner.transform.position + Vector3.up * 0.5f) as ProjectileBasic;
         pBasic.Init(_dir, 14);
+        
+        owner.GetComponent<Entity>().Knockback(-_dir * 20);
 
     }
 

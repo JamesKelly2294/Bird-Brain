@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 114520246995852836}
   - component: {fileID: 65623025654393604}
   - component: {fileID: 54956440335879700}
-  - component: {fileID: 114787068899536270}
+  - component: {fileID: 114165732462735692}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -229,6 +229,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.25}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &114165732462735692
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1698488722728406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a8a38796523a324080863b4603cf279, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inControl: 0
+  type: 0
+  health: 100
+  sprite: {fileID: 1076760772435678}
+  invulnerable: 0
+  exp: 0
+  expToNextLevel: 20
 --- !u!114 &114520246995852836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -256,26 +274,6 @@ MonoBehaviour:
   icePrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec, type: 2}
   coneWidth: 45
   numStreams: 5
---- !u!114 &114787068899536270
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1698488722728406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d18be0fac44398a43b65bf4b46826bbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  health: 100
-  sprite: {fileID: 1076760772435678}
-  expValue: 100
-  invulnerable: 0
-  expTotal: 0
-  levelUpAt: 1000
-  level: 1
-  guiManager: {fileID: 0}
 --- !u!114 &114960957799547854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -288,5 +286,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reloadTime: 1
-  fireballPrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec,
+  fireballPrefab: {fileID: 1287503641074422, guid: a96ed27a53a81954c81defeab7c0d2bb,
     type: 2}
