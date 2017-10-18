@@ -21,9 +21,11 @@ public class ProjectileGrenade : Projectile {
     }
 
     public void Init(Vector2 _dir, float _height) {
+        
+        _dir = _dir.normalized * 5;
 
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.velocity = new Vector3(5, 6, 0);
+        rb.velocity = new Vector3(_dir.x, 6, _dir.y);
 
     }
 

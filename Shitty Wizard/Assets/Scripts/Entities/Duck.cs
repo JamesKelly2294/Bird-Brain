@@ -9,6 +9,11 @@ public class Duck : EntityEnemy {
     private float shootRate = 5.0f;
     private float shootTimer = 0;
 
+    protected override void OnStart() {
+        base.OnStart();
+        shootTimer = Random.Range(0.0f, shootRate);
+    }
+
     protected override void OnUpdate() {
 
         base.OnUpdate();
@@ -26,9 +31,13 @@ public class Duck : EntityEnemy {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) return;
 
+        Vector3 dir3 = player.transform.position - this.transform.position;
+        Vector2 dir = new Vector2(dir3.x, dir3.z);
+        dir = dir.normalized;
+
         ProjectileGrenade grenade = Projectile.Create(grenadePrefab, EntityType.Enemy, this.gameObject, this.transform.position + new Vector3(0, 1f, 0)) as ProjectileGrenade;
         grenade.lifetime = 4.0f;
-        grenade.Init(Vector2.zero, 0);
+        grenade.Init(dir, 0);
 
     }
 
