@@ -29,4 +29,13 @@ public class ProjectileGrenade : Projectile {
 
     }
 
+    private void OnCollisionEnter(Collision collision) {
+
+        GameObject go = collision.gameObject;
+        if (go.tag == "Player") {
+            OnEndOfLife();
+        }
+
+    }
+
 }
