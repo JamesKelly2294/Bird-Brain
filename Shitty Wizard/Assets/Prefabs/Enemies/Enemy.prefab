@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114924570550920934}
   - component: {fileID: 54253037191182760}
   - component: {fileID: 65008986112501968}
-  - component: {fileID: 114617323054639300}
+  - component: {fileID: 114756968634829744}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -140,7 +140,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.25}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &114617323054639300
+--- !u!114 &114756968634829744
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -148,18 +148,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1669478416709228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d18be0fac44398a43b65bf4b46826bbf, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b0e960949163f44b957568e12855130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inControl: 0
   type: 1
-  health: 3
+  health: 200
   sprite: {fileID: 1060416529823498}
-  expValue: 100
   invulnerable: 0
-  expTotal: 0
-  levelUpAt: 1000
-  level: 1
-  guiManager: {fileID: 0}
+  expToGive: 2
 --- !u!114 &114924570550920934
 MonoBehaviour:
   m_ObjectHideFlags: 1
