@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 135234990001356184}
   - component: {fileID: 54475260791499586}
   - component: {fileID: 114874255805194090}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ProjectileEggGrenade
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4838273004638196}
   - component: {fileID: 212637417484971420}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

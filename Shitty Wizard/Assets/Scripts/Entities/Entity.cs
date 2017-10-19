@@ -64,6 +64,8 @@ public class Entity : MonoBehaviour {
 
 	public void Damage(float _amount) {
 
+        if (invulnerable) return;
+
         health -= _amount;
 
         if (health <= 0) {
