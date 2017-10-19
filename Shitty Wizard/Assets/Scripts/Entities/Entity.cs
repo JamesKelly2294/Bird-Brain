@@ -44,6 +44,9 @@ public class Entity : MonoBehaviour {
         OnUpdate();
 
         float bounceSpeed = rb.velocity.magnitude * bounceSpeedMultiplier;
+        if (bounceSpeed == 0) {
+            bounceCycle = 0;
+        }
         bounceCycle += bounceSpeed * Time.deltaTime;
         sprite.transform.localPosition = spriteStartPos + Vector3.up * bounceHeight * Mathf.Abs(Mathf.Sin(bounceCycle));
 
