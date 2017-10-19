@@ -248,6 +248,7 @@ MonoBehaviour:
   invulnerable: 0
   exp: 0
   expToNextLevel: 20
+  currentHealth: 0
 --- !u!114 &114520246995852836
 MonoBehaviour:
   m_ObjectHideFlags: 1
