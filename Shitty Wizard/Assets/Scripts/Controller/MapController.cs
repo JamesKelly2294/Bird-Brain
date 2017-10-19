@@ -17,6 +17,12 @@ namespace ShittyWizard.Controller.Game
 		// World and tile data
 		public Map ActiveMap { get; protected set; }
 
+		[Range(1, 20)]
+		public int numberOfRooms;
+
+		[Range(0, 20)]
+		public int numberOfEnemies;
+
 		void Awake ()
 		{
 			if (Instance != null) {
@@ -38,7 +44,6 @@ namespace ShittyWizard.Controller.Game
 			ply.transform.parent = entities.transform;
 			ply.transform.name = "Player";
 
-			int numberOfEnemies = 45;
 			for (int i = 0; i < numberOfEnemies; i++) {
 				t = ActiveMap.TileManager.GetRandomTileOfType (TileType.Floor);
 				GameObject enemyType = enemies [UnityEngine.Random.Range (0, enemies.Count)];
@@ -57,7 +62,7 @@ namespace ShittyWizard.Controller.Game
 		void CreateEmptyWorld ()
 		{
 			// Create a world with Empty tiles
-			ActiveMap = new Map ();
+			ActiveMap = new Map (numberOfRooms);
 		}
 
 		public Tile GetTileAtWorldCoord (Vector3 coord)

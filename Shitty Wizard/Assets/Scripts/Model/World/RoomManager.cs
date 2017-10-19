@@ -52,14 +52,19 @@ namespace ShittyWizard.Model.World
 		public Dictionary<Tuple<int, int>, List<Room>> RoomPrototypes;
 		public List<Edge<Vertex<Room>>> RoomGraph;
 
-		int numberOfRooms = 20;
+		int numberOfRooms;
 		int max_iterations = 200;
 		int iterations = 0;
 
-		public RoomManager(Map map, int numberOfRooms, int minDim, int maxDim) {
+		public RoomManager(Map map, int numberOfRooms) {
 			this.Map = map;
 			this.numberOfRooms = numberOfRooms;
 
+			LoadRooms ();
+			GenerateRooms ();
+		}
+
+		void LoadRooms() {
 			RoomPrototypes = new Dictionary<Tuple<int, int>, List<Room>> ();
 
 			var roomAssets = Resources.LoadAll("Rooms", typeof(TextAsset));
@@ -96,31 +101,29 @@ namespace ShittyWizard.Model.World
 					}
 					y--;
 				}
-
 				Tuple<int, int> key = new Tuple<int, int>(w, h);
 				if (!RoomPrototypes.ContainsKey (key)) {
 					RoomPrototypes [key] = new List<Room> ();
 				}
 				RoomPrototypes [key].Add(r);
 			}
-
-			GenerateRooms (minDim, maxDim);
-
 		}
 
-		void GenerateRooms(int minDim, int maxDim) {
+		void GenerateRooms() {
 			_width = -1;
 			_height = -1;
 			Rooms = new List<RoomData> ();
 			iterations = 0;
 
+			var keys = new List<Tuple<int, int>> (RoomPrototypes.Keys);
 			for (int i = 0; i < numberOfRooms; i++) {
+				Tuple<int, int> key =  keys[Random.Range (0, RoomPrototypes.Keys.Count)];
 				RoomData tempRoom = new RoomData (
-					                (int)Random.Range (-10, 10), (int)Random.Range (-10, 10),
-					                (int)Random.Range (minDim, maxDim), (int)Random.Range (minDim, maxDim)
-				                );
-				Tuple<int, int> key = new Tuple<int, int> ((int)tempRoom.Width,
-					                      (int)tempRoom.Height);
+					Random.Range(-10, 10),
+					Random.Range(-10, 10),
+					key.Item1, 
+					key.Item2
+				);
 				List<Room> lst = RoomPrototypes [key];
 				int random = Random.Range (0, (int)lst.Count);
 				tempRoom._tiles = lst [random].Tiles;
