@@ -10,7 +10,7 @@ public enum EntityType {
 
 public class Entity : MonoBehaviour {
 
-    public bool inControl;
+    public bool inControl = true;
 
     public EntityType type;
     public float health;
