@@ -52,6 +52,23 @@ namespace ShittyWizard.Controller.Game
 				enemy.GetComponent<EnemyController> ().target = ply.transform;
 				enemy.transform.parent = entities.transform;
 			}
+
+			for (int i = 0; i < numberOfRooms; i++) {
+				for (int j = 0; j < 5; j++) {
+					t = ActiveMap.TileManager.GetRandomTileOfType (TileType.Floor);
+					GameObject light = new GameObject();
+					light.AddComponent<Light> ();
+					light.GetComponent<Light> ().color = new Color(
+						UnityEngine.Random.Range(0.5f, 0.7f), 
+						UnityEngine.Random.Range(0.2f, 0.5f), 
+						UnityEngine.Random.Range(0.2f, 0.5f)
+					);
+					light.GetComponent<Light> ().range = 30.0f;
+					//light.GetComponent<Light> ().shadows = LightShadows.Hard;
+					light.transform.position = new Vector3 (t.X + 0.5f, 1.5f, t.Y + 0.5f);
+					light.transform.parent = entities.transform;
+				}
+			}
 		}
 
 		void Update ()

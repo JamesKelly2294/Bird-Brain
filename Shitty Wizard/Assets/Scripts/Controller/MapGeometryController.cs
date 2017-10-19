@@ -249,6 +249,6 @@ public class MapGeometryController : MonoBehaviour {
 		mr.material.EnableKeyword ("_NORMALMAP");
 		mr.material.SetFloat("_Glossiness", 0.0f);
 		mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
-		mr.material.SetTexture ("_BumpMap", tileMapNormals);
+		//mr.material.SetTexture ("_BumpMap", tileMapNormals);
 	}
 }
