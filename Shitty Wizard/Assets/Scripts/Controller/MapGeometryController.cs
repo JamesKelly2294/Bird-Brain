@@ -33,20 +33,40 @@ public class MapGeometryController : MonoBehaviour {
 		BuildInitialGeometry ();
 	}
 
-	bool NeighborsAreOfType(int x, int y, TileType type) {
+	bool NeighborsAreOfType(int x, int y, TileType type, bool includeDiagonal = false) {
 		TileManager tm = ActiveMap.TileManager;
-		return tm.GetTileAt(x, y + 1).Type == type &&
+		bool lrud = tm.GetTileAt(x, y + 1).Type == type &&
 			tm.GetTileAt(x, y - 1).Type == type &&
 			tm.GetTileAt(x + 1, y).Type == type &&
 			tm.GetTileAt(x - 1, y).Type == type;
+
+		if (includeDiagonal) {
+			return lrud &&
+				tm.GetTileAt(x + 1, y + 1).Type == type &&
+				tm.GetTileAt(x + 1, y - 1).Type == type &&
+				tm.GetTileAt(x - 1, y + 1).Type == type &&
+				tm.GetTileAt(x - 1, y - 1).Type == type;
+		} else {
+			return lrud;
+		}
 	}
 
-	bool NeighborIsOfType(int x, int y, TileType type) {
+	bool NeighborIsOfType(int x, int y, TileType type, bool includeDiagonal = false) {
 		TileManager tm = ActiveMap.TileManager;
-		return tm.GetTileAt(x, y + 1).Type == type ||
+		bool lrud = tm.GetTileAt(x, y + 1).Type == type ||
 			tm.GetTileAt(x, y - 1).Type == type ||
 			tm.GetTileAt(x + 1, y).Type == type ||
 			tm.GetTileAt(x - 1, y).Type == type;
+
+		if (includeDiagonal) {
+			return lrud ||
+				tm.GetTileAt(x + 1, y + 1).Type == type ||
+				tm.GetTileAt(x + 1, y - 1).Type == type ||
+				tm.GetTileAt(x - 1, y + 1).Type == type ||
+				tm.GetTileAt(x - 1, y - 1).Type == type;
+		} else {
+			return lrud;
+		}
 	}
 
 	void BuildInitialGeometry ()
@@ -85,6 +105,7 @@ public class MapGeometryController : MonoBehaviour {
 		GameObject colliderParent = new GameObject ();
 		m_geometry.Add (colliderParent);
 		colliderParent.name = "Colliders";
+		colliderParent.layer = LayerMask.NameToLayer ("Wall");
 		colliderParent.transform.parent = transform;
 
 
@@ -108,8 +129,7 @@ public class MapGeometryController : MonoBehaviour {
 						bc.size = new Vector3 (1.0f, 4.0f, 1.0f);
 					}
 
-					if (tm.GetTileAt (x, y - 1).Type == TileType.Wall || tm.GetTileAt (x, y - 1).Type == TileType.Empty) {
-
+					if(NeighborIsOfType(x, y, TileType.Floor, true) || NeighborIsOfType(x, y + 1, TileType.Floor, true)) {
 						if (tm.GetTileAt (x, y + 1).Type == TileType.Wall) {
 							tileLoc = ceilingLoc;
 							tileOffset = Vector2.Scale (ceilingLoc, offset);
@@ -133,6 +153,11 @@ public class MapGeometryController : MonoBehaviour {
 
 							currentIndex += 4;
 						}
+					}
+
+					if (tm.GetTileAt (x, y - 1).Type == TileType.Wall || tm.GetTileAt (x, y - 1).Type == TileType.Empty) {
+
+
 
 						continue;
 					}
@@ -177,28 +202,6 @@ public class MapGeometryController : MonoBehaviour {
 					indices.Add (currentIndex + 1);
 
 					currentIndex += 4;
-
-					tileLoc = ceilingLoc;
-					tileOffset = Vector2.Scale (ceilingLoc, offset);
-
-					vertices.Add (new Vector3 (x, 2.0f, y));
-					vertices.Add (new Vector3 (x + 1.0f, 2.0f, y));
-					vertices.Add (new Vector3 (x + 1.0f, 2.0f, y + 1.0f));
-					vertices.Add (new Vector3 (x, 2.0f, y + 1.0f));
-
-					uvs.Add (new Vector2 ((tileLoc.x + 0) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
-					uvs.Add (new Vector2 ((tileLoc.x + 1) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
-					uvs.Add (new Vector2 ((tileLoc.x + 1) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 0) * tileTexHeight + tileOffset.y));
-					uvs.Add (new Vector2 ((tileLoc.x + 0) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 0) * tileTexHeight + tileOffset.y));
-
-					indices.Add (currentIndex);
-					indices.Add (currentIndex + 3);
-					indices.Add (currentIndex + 2);
-					indices.Add (currentIndex);
-					indices.Add (currentIndex + 2);
-					indices.Add (currentIndex + 1);
-
-					currentIndex += 4;
 					break;
 				case TileType.Floor:
 					tileLoc = floorLoc + Vector2.Scale(floorLoc, offset);
@@ -228,6 +231,10 @@ public class MapGeometryController : MonoBehaviour {
 				}
 
 			}
+		}
+
+		for (int i = 0; i < colliderParent.transform.childCount; i++) {
+			colliderParent.transform.GetChild(i).gameObject.layer = LayerMask.NameToLayer ("Wall");
 		}
 
 		m.SetVertices (vertices);
