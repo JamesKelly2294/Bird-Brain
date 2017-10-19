@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EntityEnemy : Entity {
 
+    [Header("Enemy Settings")]
     public int expToGive;
 
     protected override void OnDeath() {

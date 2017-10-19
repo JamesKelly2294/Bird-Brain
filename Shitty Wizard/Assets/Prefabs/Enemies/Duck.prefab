@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 33942003280015786}
   - component: {fileID: 23799658372400696}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea304e98e2b7a949a1db06e3fed36dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inControl: 0
+  inControl: 1
   type: 1
   health: 150
   sprite: {fileID: 1742132697836976}

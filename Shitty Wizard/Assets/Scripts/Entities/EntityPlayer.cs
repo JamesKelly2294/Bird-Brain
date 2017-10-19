@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EntityPlayer : Entity {
 
+    [Header("Player Settings")]
     public int exp;
     public int expToNextLevel;
 
