@@ -10,24 +10,46 @@ public enum EntityType {
 
 public class Entity : MonoBehaviour {
 
-    public bool inControl;
-
+    [Header("Basic Settings")]
     public EntityType type;
+
+    [Header("State Settings")]
+    public bool inControl = true;
     public float health;
+    public bool invulnerable = false;
+
+    [Header("Bounce Settings")]
+    public float bounceSpeedMultiplier = 3;
+    public float bounceHeight = 0.3f;
+
     public GameObject sprite;
 
     private float blinkRate = 0.2f;
     private bool visible = true;
-    public bool invulnerable = false;
     private bool flashing = false;
 
+    private Rigidbody rb;
+    private float bounceCycle = 0;
+    private Vector3 spriteStartPos;
+
     public void Start() {
+        rb = GetComponent<Rigidbody>();
+        spriteStartPos = sprite.transform.localPosition;
         OnStart();
     }
     protected virtual void OnStart() { }
 
     public void Update() {
+
         OnUpdate();
+
+        float bounceSpeed = rb.velocity.magnitude * bounceSpeedMultiplier;
+        if (bounceSpeed == 0) {
+            bounceCycle = 0;
+        }
+        bounceCycle += bounceSpeed * Time.deltaTime;
+        sprite.transform.localPosition = spriteStartPos + Vector3.up * bounceHeight * Mathf.Abs(Mathf.Sin(bounceCycle));
+
     }
     protected virtual void OnUpdate() { }
 
@@ -37,10 +59,12 @@ public class Entity : MonoBehaviour {
     }
 
     private void MoveOverride(Vector3 speed) {
-        GetComponent<Rigidbody>().velocity = speed;
+        rb.velocity = speed;
     }
 
 	public void Damage(float _amount) {
+
+        if (invulnerable) return;
 
         health -= _amount;
 

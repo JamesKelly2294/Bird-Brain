@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class EntityPlayer : Entity {
 
+    [Header("Player Settings")]
     public int exp;
     public int expToNextLevel;
 	public int currentHealth = 6;

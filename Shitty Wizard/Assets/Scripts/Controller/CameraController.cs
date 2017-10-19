@@ -7,6 +7,9 @@ public class CameraController : MonoBehaviour {
 	public Transform target;
 	public Vector3 offset = new Vector3 (0.0f, 0.0f, 18.0f);
 
+	public AudioClip[] music;
+	public AudioSource musicSource;
+
     private Camera cam;
 
 	// Use this for initialization
@@ -18,6 +21,10 @@ public class CameraController : MonoBehaviour {
 
         m.m11 *= 1.5f;
         cam.projectionMatrix = m;
+
+		musicSource.loop = true;
+		musicSource.clip = music [0];
+		musicSource.Play (44100 / 2);
     }
 	
 	// Update is called once per frame

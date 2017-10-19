@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class EntityEnemy : Entity {
 
+    [Header("Enemy Settings")]
     public int expToGive;
+    public int damageOnContact;
+
+    protected override void OnUpdate() {
+        base.OnUpdate();
+    }
 
     protected override void OnDeath() {
         base.OnDeath();
@@ -15,4 +21,12 @@ public class EntityEnemy : Entity {
         base.OnDamage();
         Flash(0.05f);
     }
+
+    private void OnTriggerStay(Collider other) {
+        if (other.gameObject.tag == "Player") {
+            Entity player = other.gameObject.GetComponent<Entity>();
+            player.Damage(damageOnContact);
+        }
+    }
+
 }

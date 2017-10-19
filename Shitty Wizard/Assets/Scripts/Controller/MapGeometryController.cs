@@ -33,20 +33,40 @@ public class MapGeometryController : MonoBehaviour {
 		BuildInitialGeometry ();
 	}
 
-	bool NeighborsAreOfType(int x, int y, TileType type) {
+	bool NeighborsAreOfType(int x, int y, TileType type, bool includeDiagonal = false) {
 		TileManager tm = ActiveMap.TileManager;
-		return tm.GetTileAt(x, y + 1).Type == type &&
+		bool lrud = tm.GetTileAt(x, y + 1).Type == type &&
 			tm.GetTileAt(x, y - 1).Type == type &&
 			tm.GetTileAt(x + 1, y).Type == type &&
 			tm.GetTileAt(x - 1, y).Type == type;
+
+		if (includeDiagonal) {
+			return lrud &&
+				tm.GetTileAt(x + 1, y + 1).Type == type &&
+				tm.GetTileAt(x + 1, y - 1).Type == type &&
+				tm.GetTileAt(x - 1, y + 1).Type == type &&
+				tm.GetTileAt(x - 1, y - 1).Type == type;
+		} else {
+			return lrud;
+		}
 	}
 
-	bool NeighborIsOfType(int x, int y, TileType type) {
+	bool NeighborIsOfType(int x, int y, TileType type, bool includeDiagonal = false) {
 		TileManager tm = ActiveMap.TileManager;
-		return tm.GetTileAt(x, y + 1).Type == type ||
+		bool lrud = tm.GetTileAt(x, y + 1).Type == type ||
 			tm.GetTileAt(x, y - 1).Type == type ||
 			tm.GetTileAt(x + 1, y).Type == type ||
 			tm.GetTileAt(x - 1, y).Type == type;
+
+		if (includeDiagonal) {
+			return lrud ||
+				tm.GetTileAt(x + 1, y + 1).Type == type ||
+				tm.GetTileAt(x + 1, y - 1).Type == type ||
+				tm.GetTileAt(x - 1, y + 1).Type == type ||
+				tm.GetTileAt(x - 1, y - 1).Type == type;
+		} else {
+			return lrud;
+		}
 	}
 
 	void BuildInitialGeometry ()
@@ -85,6 +105,7 @@ public class MapGeometryController : MonoBehaviour {
 		GameObject colliderParent = new GameObject ();
 		m_geometry.Add (colliderParent);
 		colliderParent.name = "Colliders";
+		colliderParent.layer = LayerMask.NameToLayer ("Wall");
 		colliderParent.transform.parent = transform;
 
 
@@ -105,11 +126,10 @@ public class MapGeometryController : MonoBehaviour {
 						collider.transform.parent = colliderParent.transform;
 						collider.transform.name = string.Format ("Collider ({0}, {1})", x, y);
 						bc.center = new Vector3 (0.5f, 1.0f, 0.5f);
-						bc.size = new Vector3 (1.0f, 2.0f, 1.0f);
+						bc.size = new Vector3 (1.0f, 4.0f, 1.0f);
 					}
 
-					if (tm.GetTileAt (x, y - 1).Type == TileType.Wall || tm.GetTileAt (x, y - 1).Type == TileType.Empty) {
-
+					if(NeighborIsOfType(x, y, TileType.Floor, true) || NeighborIsOfType(x, y + 1, TileType.Floor, true)) {
 						if (tm.GetTileAt (x, y + 1).Type == TileType.Wall) {
 							tileLoc = ceilingLoc;
 							tileOffset = Vector2.Scale (ceilingLoc, offset);
@@ -133,6 +153,11 @@ public class MapGeometryController : MonoBehaviour {
 
 							currentIndex += 4;
 						}
+					}
+
+					if (tm.GetTileAt (x, y - 1).Type == TileType.Wall || tm.GetTileAt (x, y - 1).Type == TileType.Empty) {
+
+
 
 						continue;
 					}
@@ -163,28 +188,6 @@ public class MapGeometryController : MonoBehaviour {
 					vertices.Add (new Vector3 (x + 1.0f, 1.0f, y));
 					vertices.Add (new Vector3 (x + 1.0f, 2.0f, y));
 					vertices.Add (new Vector3 (x, 2.0f, y));
-
-					uvs.Add (new Vector2 ((tileLoc.x + 0) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
-					uvs.Add (new Vector2 ((tileLoc.x + 1) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
-					uvs.Add (new Vector2 ((tileLoc.x + 1) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 0) * tileTexHeight + tileOffset.y));
-					uvs.Add (new Vector2 ((tileLoc.x + 0) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 0) * tileTexHeight + tileOffset.y));
-
-					indices.Add (currentIndex);
-					indices.Add (currentIndex + 3);
-					indices.Add (currentIndex + 2);
-					indices.Add (currentIndex);
-					indices.Add (currentIndex + 2);
-					indices.Add (currentIndex + 1);
-
-					currentIndex += 4;
-
-					tileLoc = ceilingLoc;
-					tileOffset = Vector2.Scale (ceilingLoc, offset);
-
-					vertices.Add (new Vector3 (x, 2.0f, y));
-					vertices.Add (new Vector3 (x + 1.0f, 2.0f, y));
-					vertices.Add (new Vector3 (x + 1.0f, 2.0f, y + 1.0f));
-					vertices.Add (new Vector3 (x, 2.0f, y + 1.0f));
 
 					uvs.Add (new Vector2 ((tileLoc.x + 0) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
 					uvs.Add (new Vector2 ((tileLoc.x + 1) * tileTexWidth + tileOffset.x, 1.0f - (tileLoc.y + 1) * tileTexHeight + tileOffset.y));
@@ -230,6 +233,10 @@ public class MapGeometryController : MonoBehaviour {
 			}
 		}
 
+		for (int i = 0; i < colliderParent.transform.childCount; i++) {
+			colliderParent.transform.GetChild(i).gameObject.layer = LayerMask.NameToLayer ("Wall");
+		}
+
 		m.SetVertices (vertices);
 		m.SetUVs (0, uvs);
 		m.SetIndices (indices.ToArray(), MeshTopology.Triangles, 0);
@@ -242,6 +249,6 @@ public class MapGeometryController : MonoBehaviour {
 		mr.material.EnableKeyword ("_NORMALMAP");
 		mr.material.SetFloat("_Glossiness", 0.0f);
 		mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
-		mr.material.SetTexture ("_BumpMap", tileMapNormals);
+		//mr.material.SetTexture ("_BumpMap", tileMapNormals);
 	}
 }
