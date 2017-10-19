@@ -20,7 +20,7 @@ namespace ShittyWizard.Controller.Game
 		[Range(1, 20)]
 		public int numberOfRooms;
 
-		[Range(0, 20)]
+		[Range(0, 100)]
 		public int numberOfEnemies;
 
 		void Awake ()
