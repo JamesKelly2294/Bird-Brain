@@ -105,7 +105,7 @@ public class MapGeometryController : MonoBehaviour {
 						collider.transform.parent = colliderParent.transform;
 						collider.transform.name = string.Format ("Collider ({0}, {1})", x, y);
 						bc.center = new Vector3 (0.5f, 1.0f, 0.5f);
-						bc.size = new Vector3 (1.0f, 2.0f, 1.0f);
+						bc.size = new Vector3 (1.0f, 4.0f, 1.0f);
 					}
 
 					if (tm.GetTileAt (x, y - 1).Type == TileType.Wall || tm.GetTileAt (x, y - 1).Type == TileType.Empty) {

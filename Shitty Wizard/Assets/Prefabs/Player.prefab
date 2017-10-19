@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 114165732462735692}
   - component: {fileID: 136112560413957828}
   - component: {fileID: 95127893443431550}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -315,7 +315,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage:
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114165732462735692
@@ -327,15 +327,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a8a38796523a324080863b4603cf279, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   type: 0
   inControl: 1
   health: 100
   invulnerable: 0
-  bounceSpeedMultiplier: 3
-  bounceHeight: 0.3
-  sprite: {fileID: 1076760772435678}
+  bounceSpeedMultiplier: 2
+  bounceHeight: 0.25
+  sprite: {fileID: 1601459732251976}
   exp: 0
   expToNextLevel: 20
 --- !u!114 &114520246995852836
@@ -347,8 +347,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a6f4c7f712904f55aec555addbe0f58, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   speed: 4.55
 --- !u!114 &114694379388745612
 MonoBehaviour:
@@ -359,8 +359,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9bc31b49dc4c0944bc6ed83c7d56287, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   reloadTime: 0.02
   icePrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec, type: 2}
   coneWidth: 45
@@ -374,8 +374,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c98aaf8478119944ba17051a0864bfd, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   reloadTime: 1
   fireballPrefab: {fileID: 1287503641074422, guid: a96ed27a53a81954c81defeab7c0d2bb,
     type: 2}
