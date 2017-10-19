@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         //rbody.velocity = new Vector3 (horizontalInput * speed, 0.0f, verticalInput * speed);
-        entity.Move(new Vector3(horizontalInput * speed, 0.0f, verticalInput * speed));
+		entity.Move(new Vector3(horizontalInput, 0.0f, verticalInput).normalized * speed);
 		transform.position = new Vector3 (transform.position.x, 0.0f, transform.position.z);
 
     }

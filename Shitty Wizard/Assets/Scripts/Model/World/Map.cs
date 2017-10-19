@@ -17,7 +17,7 @@ namespace ShittyWizard.Model.World
 
 		public int Height { get { return TileManager.Height; } }
 
-		public Map (int numberOfRooms=20)
+		public Map (int numberOfRooms)
 		{
 			SetupManagers (numberOfRooms);
 		}
@@ -27,9 +27,9 @@ namespace ShittyWizard.Model.World
 
 		}
 
-		private void SetupManagers (int numberOfRooms=20)
+		private void SetupManagers (int numberOfRooms)
 		{
-			RoomManager = new RoomManager (this, numberOfRooms, 13, 15 + 1);
+			RoomManager = new RoomManager (this, numberOfRooms);
 			TileManager = new TileManager (this);
 		}
 	}
