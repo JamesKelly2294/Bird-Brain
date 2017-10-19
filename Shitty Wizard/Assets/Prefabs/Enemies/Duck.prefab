@@ -166,11 +166,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea304e98e2b7a949a1db06e3fed36dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inControl: 1
   type: 1
+  inControl: 1
   health: 150
-  sprite: {fileID: 1742132697836976}
   invulnerable: 0
+  bounceSpeedMultiplier: 3
+  bounceHeight: 0.3
+  sprite: {fileID: 1742132697836976}
   expToGive: 5
   grenadePrefab: {fileID: 1045179873313082, guid: 185dccb8e804045458f2ab2429c3f1be,
     type: 2}

@@ -241,11 +241,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8a38796523a324080863b4603cf279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inControl: 1
   type: 0
+  inControl: 1
   health: 100
-  sprite: {fileID: 1076760772435678}
   invulnerable: 0
+  bounceSpeedMultiplier: 3
+  bounceHeight: 0.3
+  sprite: {fileID: 1076760772435678}
   exp: 0
   expToNextLevel: 20
 --- !u!114 &114520246995852836
