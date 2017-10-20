@@ -145,21 +145,20 @@ public class Entity : MonoBehaviour {
 
     }
 
-    public void Knockback(Vector3 force) {
-        StartCoroutine(KnockbackCR(force));
+    public void Knockback(Vector3 _dir, float _distance) {
+        StartCoroutine(KnockbackCR(_dir, _distance));
     }
 
-    private IEnumerator KnockbackCR(Vector3 force) {
+    private IEnumerator KnockbackCR(Vector3 _dir, float _distance) {
 
         inControl = false;
+        Vector3 startPos = this.transform.position;
 
-        while (force.magnitude > 0.1f) {
-
-            this.MoveOverride(force);
-            force *= 0.9f;
-
+        float distanceTraveled = Vector3.Distance(startPos, this.transform.position);
+        while (_distance - distanceTraveled > 0.5f) {
+            distanceTraveled = Vector3.Distance(startPos, this.transform.position);
+            this.MoveOverride(_dir * (_distance - distanceTraveled) * 5);
             yield return null;
-
         }
 
         inControl = true;
