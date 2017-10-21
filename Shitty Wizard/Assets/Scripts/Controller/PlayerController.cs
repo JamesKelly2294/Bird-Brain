@@ -54,7 +54,10 @@ public class PlayerController : MonoBehaviour {
             currentSpell = 3;
         }
 
-		currentSpell = Mathf.Abs(currentSpell) % spells.Count;
+		currentSpell = currentSpell % spells.Count;
+        while (currentSpell < 0) {
+            currentSpell += spells.Count;
+        }
 
         // Shooting
         if (Input.GetMouseButton(0)) {

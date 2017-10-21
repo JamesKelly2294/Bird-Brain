@@ -154,8 +154,10 @@ public class Entity : MonoBehaviour {
         inControl = false;
         Vector3 startPos = this.transform.position;
 
+        float breakTime = 0.5f;
         float distanceTraveled = Vector3.Distance(startPos, this.transform.position);
-        while (_distance - distanceTraveled > 0.5f) {
+        while (_distance - distanceTraveled > 0.5f && !inControl && breakTime > 0) {
+            breakTime -= Time.deltaTime;
             distanceTraveled = Vector3.Distance(startPos, this.transform.position);
             this.MoveOverride(_dir * (_distance - distanceTraveled) * 5);
             yield return null;
