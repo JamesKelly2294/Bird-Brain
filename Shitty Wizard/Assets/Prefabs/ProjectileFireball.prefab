@@ -120,6 +120,7 @@ MonoBehaviour:
   owner: {fileID: 0}
   damage: 50
   lifetime: 1000
+  sprite: {fileID: 1344020182780146}
 --- !u!135 &135088190904944248
 SphereCollider:
   m_ObjectHideFlags: 1
