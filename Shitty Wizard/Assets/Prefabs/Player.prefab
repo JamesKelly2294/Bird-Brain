@@ -351,6 +351,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5.67
+  spellSound0: {fileID: 8300000, guid: 4f7cf44fab97b8b41b383a888a7fca4d, type: 3}
+  spellSound1: {fileID: 8300000, guid: 1d34828acfe40994a8debecf256175ce, type: 3}
+  spellSound2: {fileID: 8300000, guid: 688ccab0c744b8d4dbb1a4de41fa5b1a, type: 3}
+  spellSound3: {fileID: 8300000, guid: 106f3b2ce4358424e9bd484df910fff5, type: 3}
 --- !u!114 &114694379388745612
 MonoBehaviour:
   m_ObjectHideFlags: 1
