@@ -14,5 +14,4 @@ public class Fireball : Spell {
         owner.GetComponent<Entity>().Knockback(-_dir, 3);
 
     }
-
 }
