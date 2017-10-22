@@ -827,7 +827,7 @@ MonoBehaviour:
   enemies:
   - {fileID: 1481803918940612, guid: 8329b7df53fe9d24cab7f3911566399c, type: 2}
   - {fileID: 1669478416709228, guid: 61342e2e186224ab9930f022bf3c7424, type: 2}
-  player: {fileID: 1698488722728406, guid: 9ec9c79c7843c4bc0b58d9716df4adc8, type: 2}
+  player: {fileID: 1343278498494530, guid: 9ec9c79c7843c4bc0b58d9716df4adc8, type: 2}
   numberOfRooms: 5
   numberOfEnemies: 28
 --- !u!1 &1643341323
