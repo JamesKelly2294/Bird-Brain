@@ -120,6 +120,8 @@ MonoBehaviour:
   owner: {fileID: 0}
   damage: 50
   lifetime: 1000
+  sound: {fileID: 8300000, guid: 4f7cf44fab97b8b41b383a888a7fca4d, type: 3}
+  volume: 1
   sprite: {fileID: 1344020182780146}
 --- !u!135 &135088190904944248
 SphereCollider:

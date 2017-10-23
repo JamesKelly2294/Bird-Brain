@@ -16,8 +16,8 @@ using ShittyWizzard.Utilities;
 public class MapGeometryController : MonoBehaviour {
 	[SerializeField]
 	private Texture2D tileMap = null;
-	[SerializeField]
-	private Texture2D tileMapNormals = null;
+	//[SerializeField]
+	//private Texture2D tileMapNormals = null;
 
 	private List<GameObject> m_geometry;
 

@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114184327210371288}
   - component: {fileID: 54540198801979660}
   - component: {fileID: 65858337999555450}
-  - component: {fileID: 114919746232053688}
+  - component: {fileID: 114496209982749906}
   m_Layer: 11
   m_Name: Chick
   m_TagString: Untagged
@@ -148,7 +148,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: b17ceb417b9495948accc5b240caa6e8, type: 2}
+  - {fileID: 2100000, guid: a0104590b55afda48b2ec2464cc61fe8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -263,11 +263,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2cd31bbfb174400ab112efe954e021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 60
+  speed: 100
   target: {fileID: 0}
   targetAquisitionThreshold: 10
   targetAbandonmentThreshold: 20
---- !u!114 &114919746232053688
+--- !u!114 &114496209982749906
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -275,15 +275,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1357857481265470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b0e960949163f44b957568e12855130, type: 3}
+  m_Script: {fileID: 11500000, guid: a1a10c3cec83b4b4fba471d0ddf2577e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
   inControl: 1
-  health: 200
+  health: 50
   invulnerable: 0
-  bounceSpeedMultiplier: 3
-  bounceHeight: 0.3
+  bounceSpeedMultiplier: 2.5
+  bounceHeight: 1
   sprite: {fileID: 1776406228359460}
-  expToGive: 2
+  expToGive: 0
   damageOnContact: 0
+  someval: 0
