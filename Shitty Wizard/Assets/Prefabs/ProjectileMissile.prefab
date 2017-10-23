@@ -100,9 +100,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   owner: {fileID: 0}
-  damage: 50
+  damage: 1000
   lifetime: 1000
+  sound: {fileID: 0}
+  volume: 0.5
   sprite: {fileID: 1633563332069756}
+  frequency: 20
+  magnitude: 0.5
 --- !u!135 &135529989200362352
 SphereCollider:
   m_ObjectHideFlags: 1
