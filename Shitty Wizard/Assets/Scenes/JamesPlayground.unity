@@ -657,7 +657,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMap: {fileID: 2800000, guid: a099c567c309148119147046b0b18053, type: 3}
-  tileMapNormals: {fileID: 2800000, guid: 5380bbd3c371b4ecb94ae5f82a6e542d, type: 3}
 --- !u!1 &853276576
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,7 +826,8 @@ MonoBehaviour:
   enemies:
   - {fileID: 1481803918940612, guid: 8329b7df53fe9d24cab7f3911566399c, type: 2}
   - {fileID: 1669478416709228, guid: 61342e2e186224ab9930f022bf3c7424, type: 2}
-  player: {fileID: 1698488722728406, guid: 9ec9c79c7843c4bc0b58d9716df4adc8, type: 2}
+  - {fileID: 1183826021899096, guid: 7d2946cc10812c847942774f1368e9c9, type: 2}
+  player: {fileID: 1343278498494530, guid: 9ec9c79c7843c4bc0b58d9716df4adc8, type: 2}
   numberOfRooms: 5
   numberOfEnemies: 28
 --- !u!1 &1643341323

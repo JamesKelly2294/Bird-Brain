@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour {
 
 		musicSource.loop = true;
 		musicSource.clip = music [0];
-		musicSource.Play (44100 / 2);
+		musicSource.PlayDelayed (1);
     }
 	
 	// Update is called once per frame

@@ -21,7 +21,6 @@ public class UI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		healthUI.sprite = healthSprites [currentHealth];
-		Debug.Log (currentHealth);
 		if (currentHealth <= 0) {
 			Application.Quit();
 		}
