@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour {
 				// Play audio based on which weapon is active
 				if (currentSpell == 0) {
 					AudioSource.PlayClipAtPoint (spellSound0, transform.position);
+
 				} else if (currentSpell == 1) {
 					AudioSource.PlayClipAtPoint (spellSound1, transform.position);
 				} else if (currentSpell == 2) {
