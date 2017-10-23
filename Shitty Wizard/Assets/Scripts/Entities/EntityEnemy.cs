@@ -7,6 +7,7 @@ public class EntityEnemy : Entity {
     [Header("Enemy Settings")]
     public int expToGive;
     public int damageOnContact;
+	public AudioClip deathSound;
 
     protected override void OnUpdate() {
         base.OnUpdate();
@@ -14,6 +15,7 @@ public class EntityEnemy : Entity {
 
     protected override void OnDeath() {
         base.OnDeath();
+		AudioSource.PlayClipAtPoint (deathSound, transform.position);
         Destroy(this.gameObject);
     }
 

@@ -6,11 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 0.4f;
-	public AudioClip spellSound0;
-	public AudioClip spellSound1;
-	public AudioClip spellSound2;
-	public AudioClip spellSound3;
-    
+	Rigidbody rbody;
 	Transform m_SpriteTransform;
     Entity entity;
 
@@ -21,7 +17,8 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
+
+		rbody = GetComponent<Rigidbody> ();
         entity = GetComponent<Entity>();
         groundPlane = new Plane(new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(1, 0, 0));
 
@@ -72,7 +69,6 @@ public class PlayerController : MonoBehaviour {
 				projectileDirection = projectileDirection.normalized;
 
                 spells[currentSpell].RequestCast(projectileDirection);
-
             }
         }
     }

@@ -102,8 +102,14 @@ MonoBehaviour:
   owner: {fileID: 0}
   damage: 1000
   lifetime: 1000
+<<<<<<< HEAD
   sound: {fileID: 0}
   volume: 0.5
+=======
+  sound: {fileID: 8300000, guid: 688ccab0c744b8d4dbb1a4de41fa5b1a, type: 3}
+  hitSound: {fileID: 8300000, guid: 7037d3fc584cc774580e592036f7763c, type: 3}
+  volume: 1
+>>>>>>> 0b8a92135d04c4e09d5c467d268a8266be15f176
   sprite: {fileID: 1633563332069756}
   frequency: 20
   magnitude: 0.5

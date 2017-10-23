@@ -12,7 +12,8 @@ public abstract class Projectile : MonoBehaviour {
 
     [Header("Sound Options")]
     public AudioClip sound;
-    public float volume = 0.5f;
+	public AudioClip hitSound;
+    public float volume = 1.0f;
 
     public static Projectile Create(GameObject _projectilePrefab, EntityType _type, GameObject _owner, Vector3 _initialPosition) {
 
@@ -62,14 +63,16 @@ public abstract class Projectile : MonoBehaviour {
 
         if (oGo != owner) {
 
-            // Damage collided if entity
+            // Damage collided if entity and play hit sound
             Entity entity = oGo.GetComponent<Entity>();
             if (entity != null) {
 
                 if (entity.type != this.type && !entity.invulnerable) {
-
+					AudioSource.PlayClipAtPoint (hitSound, transform.position, volume);
                     entity.Damage(damage);
                     Destroy(this.gameObject);
+
+
 
                 }
 
