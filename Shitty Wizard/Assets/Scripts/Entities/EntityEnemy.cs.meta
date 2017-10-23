@@ -1,10 +1,12 @@
 fileFormatVersion: 2
 guid: 2b0e960949163f44b957568e12855130
-timeCreated: 1508356606
+timeCreated: 1508800156
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - sprite: {instanceID: 0}
+  - deathSound: {fileID: 8300000, guid: 4543d518d6e162a499720fb81d09014a, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

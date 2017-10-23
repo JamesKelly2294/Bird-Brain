@@ -22,6 +22,7 @@ public class CameraController : MonoBehaviour {
         m.m11 *= 1.5f;
         cam.projectionMatrix = m;
 
+		musicSource.volume = 0.25f;
 		musicSource.loop = true;
 		musicSource.clip = music [0];
 		musicSource.PlayDelayed (1);

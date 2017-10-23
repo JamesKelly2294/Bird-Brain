@@ -272,6 +272,7 @@ MonoBehaviour:
   sprite: {fileID: 1060416529823498}
   expToGive: 2
   damageOnContact: 0
+  deathSound: {fileID: 8300000, guid: 4543d518d6e162a499720fb81d09014a, type: 3}
 --- !u!114 &114924570550920934
 MonoBehaviour:
   m_ObjectHideFlags: 1
