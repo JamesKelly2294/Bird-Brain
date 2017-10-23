@@ -102,6 +102,9 @@ MonoBehaviour:
   owner: {fileID: 0}
   damage: 50
   lifetime: 1000
+  sound: {fileID: 8300000, guid: 688ccab0c744b8d4dbb1a4de41fa5b1a, type: 3}
+  hitSound: {fileID: 8300000, guid: 7037d3fc584cc774580e592036f7763c, type: 3}
+  volume: 1
   sprite: {fileID: 1633563332069756}
 --- !u!135 &135529989200362352
 SphereCollider:

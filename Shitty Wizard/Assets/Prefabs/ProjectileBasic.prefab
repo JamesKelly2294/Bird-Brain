@@ -103,7 +103,8 @@ MonoBehaviour:
   damage: 1
   lifetime: 1000
   sound: {fileID: 8300000, guid: 1d34828acfe40994a8debecf256175ce, type: 3}
-  volume: 0.01
+  hitSound: {fileID: 8300000, guid: 7037d3fc584cc774580e592036f7763c, type: 3}
+  volume: 0.1
   sprite: {fileID: 1493948168720838}
 --- !u!135 &135887239913588474
 SphereCollider:

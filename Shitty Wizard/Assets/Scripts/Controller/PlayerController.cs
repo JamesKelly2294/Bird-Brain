@@ -6,11 +6,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 0.4f;
-	public AudioClip spellSound0;
-	public AudioClip spellSound1;
-	public AudioClip spellSound2;
-	public AudioClip spellSound3;
-
 	Rigidbody rbody;
 	Transform m_SpriteTransform;
     Entity entity;
@@ -74,18 +69,6 @@ public class PlayerController : MonoBehaviour {
 				projectileDirection = projectileDirection.normalized;
 
                 spells[currentSpell].RequestCast(projectileDirection);
-
-				// Play audio based on which weapon is active
-				if (currentSpell == 0) {
-					AudioSource.PlayClipAtPoint (spellSound0, transform.position);
-
-				} else if (currentSpell == 1) {
-					AudioSource.PlayClipAtPoint (spellSound1, transform.position);
-				} else if (currentSpell == 2) {
-					AudioSource.PlayClipAtPoint (spellSound2, transform.position);
-				} else if (currentSpell == 3) {
-					AudioSource.PlayClipAtPoint (spellSound3, transform.position);
-				}
             }
         }
     }
