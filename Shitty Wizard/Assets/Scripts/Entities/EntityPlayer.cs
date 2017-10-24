@@ -27,7 +27,7 @@ public class EntityPlayer : Entity {
 
     protected override void OnDamage() {
         base.OnDamage();
-		_ui.currentHealth--;
+		_ui.TakeDamage(10f);
         MakeInvulnerable(2);
     }
 

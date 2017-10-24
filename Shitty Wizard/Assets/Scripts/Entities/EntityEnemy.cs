@@ -5,9 +5,17 @@ using UnityEngine;
 public class EntityEnemy : Entity {
 
     [Header("Enemy Settings")]
-    public int expToGive;
+    public float expToGive = 10;
     public int damageOnContact;
 	public AudioClip deathSound;
+
+	private UI _ui;
+
+	protected override void OnStart ()
+	{
+		base.OnStart ();
+		_ui = GameObject.Find ("HUD").GetComponent<UI> ();
+	}
 
     protected override void OnUpdate() {
         base.OnUpdate();
@@ -16,6 +24,7 @@ public class EntityEnemy : Entity {
     protected override void OnDeath() {
         base.OnDeath();
 		AudioSource.PlayClipAtPoint (deathSound, transform.position);
+		_ui.GiveEXP (expToGive);
         Destroy(this.gameObject);
     }
 
