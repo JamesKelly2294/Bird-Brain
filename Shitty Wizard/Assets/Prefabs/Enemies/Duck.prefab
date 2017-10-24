@@ -239,12 +239,13 @@ MonoBehaviour:
   type: 1
   inControl: 1
   health: 150
+  maxHealth: 0
   invulnerable: 0
   bounceSpeedMultiplier: 3
   bounceHeight: 0.3
   sprite: {fileID: 1742132697836976}
   expToGive: 5
-  damageOnContact: 0
+  damageOnContact: 30
   deathSound: {fileID: 8300000, guid: e5afeca270f36db4d86fa2022e64ae52, type: 3}
   grenadePrefab: {fileID: 1045179873313082, guid: 185dccb8e804045458f2ab2429c3f1be,
     type: 2}

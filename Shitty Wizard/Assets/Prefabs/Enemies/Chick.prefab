@@ -281,11 +281,12 @@ MonoBehaviour:
   type: 1
   inControl: 1
   health: 50
+  maxHealth: 0
   invulnerable: 0
   bounceSpeedMultiplier: 2.5
   bounceHeight: 1
   sprite: {fileID: 1776406228359460}
   expToGive: 0
-  damageOnContact: 0
+  damageOnContact: 10
   deathSound: {fileID: 8300000, guid: ff6c469f16812c24e88af45628eb6a53, type: 3}
   someval: 0

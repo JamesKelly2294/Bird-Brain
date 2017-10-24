@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EntityPlayer : Entity {
 
@@ -14,7 +15,7 @@ public class EntityPlayer : Entity {
 
     protected override void OnStart() {
         base.OnStart();
-		_ui = GameObject.Find ("HUD").GetComponent<UI> ();
+		_ui = GameObject.Find("HUD").GetComponent<UI>();
     }
 
     protected override void OnUpdate() {
@@ -26,9 +27,16 @@ public class EntityPlayer : Entity {
     }
 
     protected override void OnDamage() {
+
         base.OnDamage();
-		_ui.TakeDamage(10f);
+        _ui.UpdateHealthBar();
+
+        if (this.health <= 0) {
+            SceneManager.LoadScene("MenuScene");
+        }
+
         MakeInvulnerable(2);
+
     }
 
 
