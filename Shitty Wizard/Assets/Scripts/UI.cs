@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 public class UI : MonoBehaviour {
 
 	public Image currentHealthBar;
-	public float currentHealth = 100f;
-	public float maxHealth = 100f;
 
 	public Image currentEXPbar;
 	public float currentEXP = 0f;
@@ -16,23 +14,19 @@ public class UI : MonoBehaviour {
 	public int level = 1;
 	public Text levelText;
 
-	//private EntityPlayer player;
+	private EntityPlayer player;
 
 	// Use this for initialization
 	void Start () {
-		currentHealth = maxHealth;
 		currentEXP = 0f;
-		//player = GameObject.FindGameObjectWithTag ("Player").GetComponent<EntityPlayer> ();
+		player = GameObject.FindGameObjectWithTag("Player").GetComponent<EntityPlayer>();
+        UpdateHealthBar();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		float ratio = currentHealth / maxHealth;
-		currentHealthBar.rectTransform.sizeDelta = new Vector2 (ratio * 250f, 20f);
 
-		if (currentHealth <= 0f) {
-			SceneManager.LoadScene ("MenuScene");
-		}
+        UpdateHealthBar();
 
 		float EXPratio = currentEXP / maxEXP;
 		currentEXPbar.rectTransform.sizeDelta = new Vector2 (EXPratio * 250f, 20f);
@@ -45,15 +39,15 @@ public class UI : MonoBehaviour {
 		}
 	}
 
-	public void TakeDamage(float damage) {
-		currentHealth -= damage;
-		if (currentHealth < 0f) {
-			currentHealth = 0f;
-		}
-		if (currentHealth > 100f) {
-			currentHealth = 100f;
-		}
-	}
+    public void UpdateHealthBar() {
+
+        float ratio = player.health / player.maxHealth;
+        if (player.maxHealth <= 0) {
+            ratio = 1;
+        }
+        currentHealthBar.rectTransform.sizeDelta = new Vector2(ratio * 250f, 20f);
+
+    }
 
 	public void GiveEXP(float EXP) {
 		currentEXP += EXP;

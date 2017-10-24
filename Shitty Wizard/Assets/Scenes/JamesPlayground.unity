@@ -525,8 +525,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealthBar: {fileID: 1087276572}
-  currentHealth: 100
-  maxHealth: 100
   currentEXPbar: {fileID: 543863647}
   currentEXP: 0
   maxEXP: 100

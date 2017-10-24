@@ -60,38 +60,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1468346959235446
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4142486370443622}
-  - component: {fileID: 114047696860548254}
-  m_Layer: 0
-  m_Name: Magic Missile
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1679096172962146
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4772763889193556}
-  - component: {fileID: 114771392281553930}
-  m_Layer: 0
-  m_Name: Water Wall
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1708221837032086
 GameObject:
   m_ObjectHideFlags: 1
@@ -145,19 +113,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4142486370443622
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1468346959235446}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4229597952501642}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4229597952501642
 Transform:
   m_ObjectHideFlags: 1
@@ -170,8 +125,6 @@ Transform:
   m_Children:
   - {fileID: 4361798640978392}
   - {fileID: 4895567939906972}
-  - {fileID: 4772763889193556}
-  - {fileID: 4142486370443622}
   m_Father: {fileID: 4891479999506430}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -214,19 +167,6 @@ Transform:
   m_Father: {fileID: 4891479999506430}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: -90}
---- !u!4 &4772763889193556
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1679096172962146}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4229597952501642}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4891479999506430
 Transform:
   m_ObjectHideFlags: 1
@@ -378,20 +318,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114047696860548254
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1468346959235446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e22b470fafffcc41afb351aae5d1a3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reloadTime: 1
-  missilePrefab: {fileID: 1680316360679318, guid: 2f0cf6c4c74f602448baae91e25e2338,
-    type: 2}
 --- !u!114 &114107319364453364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -404,6 +330,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reloadTime: 1
+  castSound: {fileID: 8300000, guid: 4f7cf44fab97b8b41b383a888a7fca4d, type: 3}
+  volume: 0.5
   fireballPrefab: {fileID: 1287503641074422, guid: a96ed27a53a81954c81defeab7c0d2bb,
     type: 2}
 --- !u!114 &114189132144303026
@@ -432,6 +360,7 @@ MonoBehaviour:
   type: 0
   inControl: 1
   health: 100
+  maxHealth: 0
   invulnerable: 0
   bounceSpeedMultiplier: 2
   bounceHeight: 0.25
@@ -439,22 +368,6 @@ MonoBehaviour:
   exp: 0
   expToNextLevel: 20
   currentHealth: 0
---- !u!114 &114771392281553930
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1679096172962146}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a3a42be58875e4abc283c994f36ad6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reloadTime: 2
-  waterPrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec,
-    type: 2}
-  wallWidth: 90
-  numProjectiles: 40
 --- !u!114 &114877965099342692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -467,6 +380,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reloadTime: 0.02
+  castSound: {fileID: 8300000, guid: 1d34828acfe40994a8debecf256175ce, type: 3}
+  volume: 0.1
   icePrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec, type: 2}
   coneWidth: 45
   numStreams: 5

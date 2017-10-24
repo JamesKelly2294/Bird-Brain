@@ -16,6 +16,7 @@ public class Entity : MonoBehaviour {
     [Header("State Settings")]
     public bool inControl = true;
     public float health;
+    public float maxHealth = 0;
     public bool invulnerable = false;
 
     [Header("Bounce Settings")]
@@ -35,6 +36,7 @@ public class Entity : MonoBehaviour {
     public void Start() {
         rb = GetComponent<Rigidbody>();
         spriteStartPos = sprite.transform.localPosition;
+        maxHealth = health;
         OnStart();
     }
     protected virtual void OnStart() { }

@@ -11,7 +11,6 @@ public abstract class Projectile : MonoBehaviour {
     public float lifetime = 1000;
 
     [Header("Sound Options")]
-    public AudioClip sound;
 	public AudioClip hitSound;
     public float volume = 1.0f;
 
@@ -28,12 +27,6 @@ public abstract class Projectile : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-        // Play sound if there is one
-        if (sound != null) {
-            AudioSource.PlayClipAtPoint(sound, Camera.main.transform.position, volume);
-        }
-        
 
     }
 	
@@ -71,9 +64,6 @@ public abstract class Projectile : MonoBehaviour {
 					AudioSource.PlayClipAtPoint (hitSound, transform.position, volume);
                     entity.Damage(damage);
                     Destroy(this.gameObject);
-
-
-
                 }
 
             } else {
