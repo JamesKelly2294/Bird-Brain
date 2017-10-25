@@ -14,7 +14,6 @@ namespace ShittyWizard.Model.World
 		public TileManager TileManager { get; protected set; }
 
 		public int Width { get { return TileManager.Width; } }
-
 		public int Height { get { return TileManager.Height; } }
 
 		public Map (int numberOfRooms)

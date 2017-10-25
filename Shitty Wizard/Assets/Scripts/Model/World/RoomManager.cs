@@ -4,6 +4,7 @@ using UnityEngine;
 using ShittyWizzard.Utilities;
 using ShittyWizzard.Model;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace ShittyWizard.Model.World
 {
@@ -116,11 +117,25 @@ namespace ShittyWizard.Model.World
 			iterations = 0;
 
 			var keys = new List<Tuple<int, int>> (RoomPrototypes.Keys);
+
+			// Add a bunch of small rooms to push the larger rooms around.
+			// We remove this later on...
+//			for (int i = 0; i < numberOfRooms*3; i++) {
+//				Tuple<int, int> key =  keys[Random.Range (0, RoomPrototypes.Keys.Count)];
+//				RoomData tempRoom = new RoomData (
+//					Random.Range(-15, 15),
+//					Random.Range(-15, 15),
+//					5, 
+//					5
+//				);
+//				Rooms.Add (tempRoom);
+//			}
+
 			for (int i = 0; i < numberOfRooms; i++) {
 				Tuple<int, int> key =  keys[Random.Range (0, RoomPrototypes.Keys.Count)];
 				RoomData tempRoom = new RoomData (
-					Random.Range(-10, 10),
-					Random.Range(-10, 10),
+					Random.Range(-25, 25),
+					Random.Range(-25, 25),
 					key.Item1, 
 					key.Item2
 				);
@@ -130,6 +145,7 @@ namespace ShittyWizard.Model.World
 				Rooms.Add (tempRoom);
 			}
 
+
 			while (iterations < max_iterations) {
 				if (!SeparateRooms ()) {
 					break;
@@ -137,6 +153,10 @@ namespace ShittyWizard.Model.World
 				iterations += 1;
 			}
 
+//			// remove the smaller rooms
+//			Rooms.RemoveRange (0, numberOfRooms * 3);
+
+			// remove the overlapping rooms
 			RemoveOverlappingRooms ();
 
 			Graph<RoomData> g = new Graph<RoomData>(Rooms, (x,y) => {
@@ -149,8 +169,55 @@ namespace ShittyWizard.Model.World
 				Vertex<Room> first = new Vertex<Room> ((Room)e.first.data);
 				Vertex<Room> second = new Vertex<Room> ((Room)e.second.data);
 				Edge<Vertex<Room>> edge = new Edge<Vertex<Room>> (first, second, e.weight);
+				edge.id = e.id;
 				RoomGraph.Add (edge);
 			}
+
+			// add some edges back in to introduce loops
+//			List<int> randomIndices = new List<int> ();
+//			for (int i = 0; i < g.edgemap.Count; i++) {
+//				randomIndices.Add (i);
+//			}
+//			randomIndices.OrderBy (a => Random.value);
+			// THIS IS SO SLOW.
+			// USE DELANY TRIANGULATION FOR EFFICIENT GRAPH BUILDING
+//			float percentEdgesToAddBackIn = 0.75f;
+//			int edgesToAddBackIn = (int)(percentEdgesToAddBackIn * g.MinimumSpanningTree.Count);
+//			List<Edge<Vertex<RoomData>>> readdedEdges = new List<Edge<Vertex<RoomData>>> ();
+//			for (int i = 0; i < g.edgemap.Count; i++) {
+//				Edge<Vertex<RoomData>> first = g.edgemap [randomIndices[i]];
+//				bool canAddEdge = true;
+//				for (int j = 0; j < RoomGraph.Count; j++) {
+//					Edge<Vertex<Room>> second = RoomGraph [j];
+//
+//					if (first.first.data == second.first.data) {
+//						continue;
+//					}
+//
+//					if (first.id == second.id) {
+//						continue;
+//					}
+//
+//					if (RoomEdgesIntersect (first.first.data, first.second.data, second.first.data, second.second.data)) {
+//						canAddEdge = false;
+//						break;
+//					}
+//				}
+//
+//				if (canAddEdge) {
+//					readdedEdges.Add (first);
+//				}
+//			}
+//			readdedEdges.OrderBy (a => a.weight);
+//			for (int i = 0; i < readdedEdges.Count && i < edgesToAddBackIn; i++) {
+//				Edge<Vertex<RoomData>> e = readdedEdges[i];
+//				Vertex<Room> first = new Vertex<Room> ((Room)e.first.data);
+//				Vertex<Room> second = new Vertex<Room> ((Room)e.second.data);
+//				Edge<Vertex<Room>> edge = new Edge<Vertex<Room>> (first, second, e.weight);
+//				RoomGraph.Add (edge);
+//				Debug.Log ("ADDED EDGE " + i);
+//				Debug.Log (edge);
+//			}
 
 			// I don't like doing this, because we are wasting a lot of
 			// memory on empty tiles. In the future, it would be a good idea
@@ -176,6 +243,38 @@ namespace ShittyWizard.Model.World
 				EmitEvent (GenericEventType.CREATED, new ShittyWizzard.Utilities.Event(payload));
 			}
 		}
+
+		bool ShareRoom(Room first, Room second, Room third, Room fourth) {
+			return first == third || first == fourth || second == third || second == fourth;
+		}
+
+		// inspired by code available at http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
+		int Orientation(Room p, Room q, Room r) {
+			int orientation = (q.CenterY - p.CenterY) * (r.CenterX - q.CenterX) -
+			          (q.CenterX - p.CenterX) * (r.CenterY - q.CenterY);
+
+			if (orientation == 0) {
+				return 0;
+			}
+
+			return (orientation > 0) ? 1 : 2;
+		}
+
+		bool RoomEdgesIntersect(Room p1, Room q1, Room p2, Room q2) {
+			int o1 = Orientation (p1, q1, p2);
+			int o2 = Orientation (p1, q1, q2);
+			int o3 = Orientation (p2, q2, p1);
+			int o4 = Orientation (p2, q2, q1);
+
+			// handles general case for intesection
+			if (o1 != o2 && o3 != o4) {
+				return true;
+			}
+
+			return false;
+		}
+
+		// end borrowed code
 
 		void RemoveOverlappingRooms ()
 		{
@@ -327,6 +426,18 @@ namespace ShittyWizard.Model.World
 		public Vector2 Center {
 			get {
 				return new Vector2 (MinX + _width / 2.0f, MinY + _height / 2.0f);
+			}
+		}
+
+		public int CenterX {
+			get {
+				return Mathf.RoundToInt (Center.x);
+			}
+		}
+
+		public int CenterY {
+			get {
+				return Mathf.RoundToInt (Center.y);
 			}
 		}
 

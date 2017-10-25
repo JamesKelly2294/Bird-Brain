@@ -9,12 +9,9 @@ public class EntityEnemy : Entity {
     public int damageOnContact;
 	public AudioClip deathSound;
 
-	private UI _ui;
-
 	protected override void OnStart ()
 	{
 		base.OnStart ();
-		_ui = GameObject.Find ("HUD").GetComponent<UI> ();
 	}
 
     protected override void OnUpdate() {

@@ -33,11 +33,15 @@ public class Entity : MonoBehaviour {
     private float bounceCycle = 0;
     private Vector3 spriteStartPos;
 
+	protected UI _ui;
+
     public void Start() {
         rb = GetComponent<Rigidbody>();
         spriteStartPos = sprite.transform.localPosition;
         maxHealth = health;
+		_ui = GameObject.Find ("GUIController").GetComponent<UI> ();
         OnStart();
+
     }
     protected virtual void OnStart() { }
 

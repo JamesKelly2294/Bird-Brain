@@ -7,18 +7,23 @@ using System.Diagnostics;
 
 namespace ShittyWizard.Controller.Game
 {
-	public class MapController : MonoBehaviour
+	public class WorldController : MonoBehaviour
 	{
-		public static MapController Instance { get; protected set; }
+		public static WorldController Instance { get; protected set; }
 
 		public List<GameObject> enemies;
 		public GameObject player;
 
 		// World and tile data
-		public Map ActiveMap { get; protected set; }
+		public Map ActiveLevel { 
+			get {
+				return ActiveWorld.ActiveLevel;
+			}
+		}
 
-		[Range(1, 20)]
-		public int numberOfRooms;
+		public World ActiveWorld {
+			get; protected set;
+		}
 
 		[Range(0, 100)]
 		public int numberOfEnemies;
@@ -36,8 +41,9 @@ namespace ShittyWizard.Controller.Game
 			GameObject entities = new GameObject ();
 			entities.transform.parent = transform;
 			entities.transform.name = "Entities";
+			entities.transform.tag = "Entities";
 
-			Tile t = ActiveMap.TileManager.GetRandomTileOfType (TileType.Floor);
+			Tile t = ActiveLevel.TileManager.GetRandomTileOfType (TileType.Floor);
 			GameObject ply = Instantiate (player);
 			ply.transform.position = new Vector3 (t.X, 0.0f, t.Y);
 			Camera.main.GetComponent<CameraController> ().target = ply.transform;
@@ -45,7 +51,7 @@ namespace ShittyWizard.Controller.Game
 			ply.transform.name = "Player";
 
 			for (int i = 0; i < numberOfEnemies; i++) {
-				t = ActiveMap.TileManager.GetRandomTileOfType (TileType.Floor);
+				t = ActiveLevel.TileManager.GetRandomTileOfType (TileType.Floor);
 				GameObject enemyType = enemies [UnityEngine.Random.Range (0, enemies.Count)];
 				GameObject enemy = Instantiate (enemyType);
 				enemy.transform.position = new Vector3 (t.X + 0.5f, 0.0f, t.Y + 0.5f);
@@ -53,33 +59,34 @@ namespace ShittyWizard.Controller.Game
 				enemy.transform.parent = entities.transform;
 			}
 
-			for (int i = 0; i < numberOfRooms; i++) {
-				for (int j = 0; j < 5; j++) {
-					t = ActiveMap.TileManager.GetRandomTileOfType (TileType.Floor);
-					GameObject light = new GameObject();
-					light.AddComponent<Light> ();
-					light.GetComponent<Light> ().color = new Color(
-						UnityEngine.Random.Range(0.5f, 0.7f), 
-						UnityEngine.Random.Range(0.2f, 0.5f), 
-						UnityEngine.Random.Range(0.2f, 0.5f)
-					);
-					light.GetComponent<Light> ().range = 30.0f;
-					//light.GetComponent<Light> ().shadows = LightShadows.Hard;
-					light.transform.position = new Vector3 (t.X + 0.5f, 1.5f, t.Y + 0.5f);
-					light.transform.parent = entities.transform;
-				}
+			GameObject lights = new GameObject ();
+			lights.transform.parent = transform;
+			lights.transform.name = "Lights";
+			for (int i = 0; i < 30; i++) {
+				t = ActiveLevel.TileManager.GetRandomTileOfType (TileType.Floor);
+				GameObject light = new GameObject();
+				light.transform.name = "Light";
+				light.AddComponent<Light> ();
+				light.GetComponent<Light> ().color = new Color(
+					UnityEngine.Random.Range(0.5f, 0.7f), 
+					UnityEngine.Random.Range(0.2f, 0.5f), 
+					UnityEngine.Random.Range(0.2f, 0.5f)
+				);
+				light.GetComponent<Light> ().range = 30.0f;
+				light.transform.position = new Vector3 (t.X + 0.5f, 1.5f, t.Y + 0.5f);
+				light.transform.parent = lights.transform;
 			}
 		}
 
 		void Update ()
 		{
-			ActiveMap.Update (Time.deltaTime);
+			ActiveWorld.Update (Time.deltaTime);
 		}
 			
 		void CreateEmptyWorld ()
 		{
 			// Create a world with Empty tiles
-			ActiveMap = new Map (numberOfRooms);
+			ActiveWorld = new World ();
 		}
 
 		public Tile GetTileAtWorldCoord (Vector3 coord)
@@ -87,7 +94,7 @@ namespace ShittyWizard.Controller.Game
 			int x = Mathf.RoundToInt (coord.x);
 			int y = Mathf.RoundToInt (coord.y);
 
-			return MapController.Instance.ActiveMap.TileManager.GetTileAt (x, y);
+			return WorldController.Instance.ActiveLevel.TileManager.GetTileAt (x, y);
 		}
 	}
 }

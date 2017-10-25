@@ -30,6 +30,11 @@ namespace ShittyWizzard.Utilities
 		{
 			return data.GetHashCode ();
 		}
+
+		public override string ToString ()
+		{
+			return string.Format ("Vertex ({0})", data);
+		}
 	}
 }
 

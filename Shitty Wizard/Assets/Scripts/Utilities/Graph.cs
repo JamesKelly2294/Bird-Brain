@@ -6,8 +6,8 @@ namespace ShittyWizzard.Utilities
 	public class Graph<T>
 	{
 
-		List<Edge<Vertex<T>>> edgemap;
-		List<Vertex<T>> vertexmap;
+		public List<Edge<Vertex<T>>> edgemap;
+		public List<Vertex<T>> vertexmap;
 
 		public delegate float DistanceCalculation(Vertex<T> first, Vertex<T> second);
 

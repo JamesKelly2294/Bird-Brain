@@ -17,6 +17,10 @@ namespace ShittyWizard.Model.World
 
 		int Height { get; }
 
+		int CenterX { get; }
+
+		int CenterY { get; }
+
 		TileType[,] Tiles { get; }
 
 		Vector2 Center { get; }
