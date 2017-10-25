@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ShittyWizard.Controller.Game;
 
 public enum EntityType {
     Player,
@@ -33,13 +34,13 @@ public class Entity : MonoBehaviour {
     private float bounceCycle = 0;
     private Vector3 spriteStartPos;
 
-	protected UI _ui;
+	protected GUIController _ui;
 
     public void Start() {
         rb = GetComponent<Rigidbody>();
         spriteStartPos = sprite.transform.localPosition;
         maxHealth = health;
-		_ui = GameObject.Find ("GUIController").GetComponent<UI> ();
+		_ui = GameObject.Find ("GUIController").GetComponent<GUIController> ();
         OnStart();
 
     }

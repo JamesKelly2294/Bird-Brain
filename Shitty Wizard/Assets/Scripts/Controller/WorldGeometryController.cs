@@ -27,10 +27,14 @@ public class WorldGeometryController : MonoBehaviour {
 		}
 	}
 
+	public Texture2D test;
+
 	// Use this for initialization
 	void Start ()
 	{
 		BuildInitialGeometry ();
+
+		test = ActiveMap.GenerateMinimap ();
 	}
 
 	bool NeighborsAreOfType(int x, int y, TileType type, bool includeDiagonal = false) {
@@ -75,6 +79,7 @@ public class WorldGeometryController : MonoBehaviour {
 		go.transform.parent = transform;
 		go.AddComponent<MeshRenderer> ();
 		go.AddComponent<MeshFilter> ();
+		go.layer = LayerMask.NameToLayer ("Geometry");
 
 		return go;
 	}

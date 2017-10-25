@@ -31,5 +31,59 @@ namespace ShittyWizard.Model.World
 			RoomManager = new RoomManager (this, numberOfRooms);
 			TileManager = new TileManager (this);
 		}
+
+		public int FindClosestSquareOfTwo(int input) {
+			int power = 0;
+			int result = (int)Mathf.Pow (2, power);
+			while (result < input) {
+				power++;
+				result = (int)Mathf.Pow (2, power);
+			}
+			return result;
+		}
+
+		public Texture2D GenerateMinimap() {
+
+			int closestWidth = TileManager.Width;
+			int closestHeight = TileManager.Height;
+			int max = closestWidth;
+			if (closestWidth < closestHeight) {
+				max = closestHeight;
+			}
+			Texture2D tex = new Texture2D (max, max);
+			var pixels = tex.GetPixels ();
+
+			tex.filterMode = FilterMode.Point;
+
+			for (int x = 0; x < tex.width; x++) {
+				for (int y = 0; y < tex.height; y++) {
+					pixels [y * tex.width + x] = new Color (0.0f, 0.0f, 0.0f, 0.0f);
+				}
+			}
+
+			for (int x = 0; x < TileManager.Width; x++) {
+				for (int y = 0; y < TileManager.Height; y++) {
+					Tile t = TileManager.GetTileAt (x, y);
+					switch (t.Type) {
+					case TileType.Wall:
+						pixels [y * tex.width + x] = new Color (0.2f, 0.2f, 0.2f, 1.0f);
+						break;
+					case TileType.Floor:
+						pixels [y * tex.width + x] = new Color (0.5f, 0.25f, 0.2f, 1.0f);
+						break;
+					case TileType.Empty:
+					default:
+						pixels [y * tex.width + x] = new Color (0.0f, 0.0f, 0.0f, 0.0f);
+						break;
+					}
+				}
+			}
+
+			tex.wrapMode = TextureWrapMode.Clamp;
+			tex.SetPixels (pixels);
+			tex.Apply ();
+
+			return tex;
+		}
 	}
 }
