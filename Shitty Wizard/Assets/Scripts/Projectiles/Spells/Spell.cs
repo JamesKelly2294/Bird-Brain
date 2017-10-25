@@ -28,7 +28,7 @@ public abstract class Spell : MonoBehaviour {
 
             // Play sound if there is one
             if (castSound != null) {
-                AudioSource.PlayClipAtPoint(castSound, Camera.main.transform.position, volume);
+                //AudioSource.PlayClipAtPoint(castSound, Camera.main.transform.position, volume);
             }
 
         }

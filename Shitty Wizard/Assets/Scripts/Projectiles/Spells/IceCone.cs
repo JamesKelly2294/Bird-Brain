@@ -19,9 +19,9 @@ public class IceCone : Spell {
             float rot = startRot + offset * i;
             Vector3 streamDir = Quaternion.Euler(0, rot, 0) * _dir;
             
-            ProjectileBasic pBasic = Projectile.Create(icePrefab, EntityType.Player, owner, owner.transform.position + Vector3.up * 0.5f) as ProjectileBasic;
-            pBasic.Init(streamDir, 12);
-            pBasic.lifetime = 0.2f;
+            ProjectileIce pIce = Projectile.Create(icePrefab, EntityType.Player, owner, owner.transform.position + Vector3.up * 0.5f) as ProjectileIce;
+            pIce.Init(streamDir, 12);
+            pIce.lifetime = 0.2f;
 
         }
 

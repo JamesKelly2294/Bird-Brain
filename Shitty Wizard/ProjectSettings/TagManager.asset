@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Projectile
   - Entities
+  - IceTile
   layers:
   - Default
   - TransparentFX

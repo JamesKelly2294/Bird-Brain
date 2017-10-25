@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 114472177259194816}
   - component: {fileID: 136469976601544944}
   - component: {fileID: 95824154849496376}
+  - component: {fileID: 114520856025504392}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -368,6 +369,19 @@ MonoBehaviour:
   exp: 0
   expToNextLevel: 20
   currentHealth: 0
+--- !u!114 &114520856025504392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1886721674197132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f12e06412ce017409f2dcc19a6b11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iceTilePrefab: {fileID: 1520571598525648, guid: a4ec7a43ab84740419e7d6b2301b6012,
+    type: 2}
 --- !u!114 &114877965099342692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -382,7 +396,7 @@ MonoBehaviour:
   reloadTime: 0.02
   castSound: {fileID: 8300000, guid: 1d34828acfe40994a8debecf256175ce, type: 3}
   volume: 0.1
-  icePrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec, type: 2}
+  icePrefab: {fileID: 1956893070926138, guid: da07160687be95444bd68299ffa0d77a, type: 2}
   coneWidth: 45
   numStreams: 5
 --- !u!136 &136469976601544944

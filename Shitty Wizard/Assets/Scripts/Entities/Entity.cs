@@ -36,11 +36,15 @@ public class Entity : MonoBehaviour {
 
 	protected GUIController _ui;
 
+    private IceTileManager itm;
+    private bool collidingWithWall = false;
+
     public void Start() {
         rb = GetComponent<Rigidbody>();
         spriteStartPos = sprite.transform.localPosition;
         maxHealth = health;
 		_ui = GameObject.Find ("GUIController").GetComponent<GUIController> ();
+        itm = GetComponent<IceTileManager>();
         OnStart();
 
     }
@@ -160,18 +164,43 @@ public class Entity : MonoBehaviour {
 
         inControl = false;
         Vector3 startPos = this.transform.position;
+        float baseSpeed = 5;
+
+        collidingWithWall = false;
 
         float breakTime = 0.5f;
+        float breakTimer = 0;
         float distanceTraveled = Vector3.Distance(startPos, this.transform.position);
-        while (_distance - distanceTraveled > 0.5f && !inControl && breakTime > 0) {
-            breakTime -= Time.deltaTime;
+        while (_distance - distanceTraveled > 0.5f && !inControl && breakTimer < breakTime) {
+
+            if (collidingWithWall) {
+                _distance /= 2;
+                collidingWithWall = false;
+            }
+
+            if (itm.onIce) {
+                breakTime = 1f;
+                _distance += Vector3.Dot(rb.velocity, _dir) * Time.deltaTime;
+            } else {
+                breakTime = 0.5f;
+            }
+
+            breakTimer += Time.deltaTime;
             distanceTraveled = Vector3.Distance(startPos, this.transform.position);
-            this.MoveOverride(_dir * (_distance - distanceTraveled) * 5);
+            this.MoveOverride(_dir * (_distance - distanceTraveled) * baseSpeed);
+
             yield return null;
+
         }
 
         inControl = true;
 
+    }
+
+    private void OnCollisionStay(Collision collision) {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")) {
+            collidingWithWall = true;
+        }
     }
 
 }
