@@ -43,14 +43,14 @@ namespace ShittyWizard.Model.World
 		}
 
 		public Texture2D GenerateMinimap() {
-
-			int closestWidth = FindClosestSquareOfTwo(TileManager.Width);
-			int closestHeight = FindClosestSquareOfTwo(TileManager.Height);
-			int max = closestWidth;
-			if (closestWidth < closestHeight) {
-				max = closestHeight;
-			}
-			Texture2D tex = new Texture2D (max, max);
+//			int closestWidth = FindClosestSquareOfTwo(TileManager.Width);
+//			int closestHeight = FindClosestSquareOfTwo(TileManager.Height);
+//			int max = closestWidth;
+//			if (closestWidth < closestHeight) {
+//				max = closestHeight;
+//			}
+			//Texture2D tex = new Texture2D (max, max);
+			Texture2D tex = new Texture2D (Width, Height);
 
 			var pixels = tex.GetPixels ();
 
