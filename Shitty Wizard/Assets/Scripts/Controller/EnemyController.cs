@@ -72,7 +72,7 @@ public class EnemyController : MonoBehaviour
 		}
 
 		// reset update timer
-		m_TimeSinceLastAIUpdate = 0.0f;
+		m_TimeSinceLastAIUpdate -= m_AIUpdateRate;
 
 		// perform AI Update
 		switch (m_AIState) {

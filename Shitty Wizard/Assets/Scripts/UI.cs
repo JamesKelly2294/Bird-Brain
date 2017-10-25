@@ -30,7 +30,7 @@ public class UI : MonoBehaviour {
 
 		float EXPratio = currentEXP / maxEXP;
 		currentEXPbar.rectTransform.sizeDelta = new Vector2 (EXPratio * 250f, 20f);
-		levelText.text = level.ToString();
+		levelText.text = "Level " + level;
 
 		if (currentEXP >= maxEXP) {
 			level = level + 1;
