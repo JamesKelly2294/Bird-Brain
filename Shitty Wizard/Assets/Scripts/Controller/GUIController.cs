@@ -17,6 +17,7 @@ namespace ShittyWizard.Controller.Game
 		public int level = 1;
 		public Text levelText;
 		public RawImage minimap;
+		public RectTransform minimapRectTransform;
 		public RectTransform minimapPlayerTracker;
 
 		private GameObject playerGO;
@@ -51,8 +52,10 @@ namespace ShittyWizard.Controller.Game
 				currentEXP = tempXP - maxEXP;
 			}
 
-			minimapPlayerTracker.localPosition = new Vector3 ((int)(playerGO.transform.position.x), 
-				(int)playerGO.transform.position.z, 0.0f);
+			float x = (playerGO.transform.position.x / minimap.texture.width) * minimapRectTransform.rect.width;
+			float z = (playerGO.transform.position.z / minimap.texture.height) * minimapRectTransform.rect.height;
+
+			minimapPlayerTracker.localPosition = new Vector3 (x, z, 0.0f);
 		}
 
 		public void UpdateHealthBar ()

@@ -646,7 +646,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMap: {fileID: 2800000, guid: a099c567c309148119147046b0b18053, type: 3}
-  test: {fileID: 0}
 --- !u!1 &853276576
 GameObject:
   m_ObjectHideFlags: 0
@@ -953,7 +952,7 @@ MonoBehaviour:
   - {fileID: 1669478416709228, guid: 61342e2e186224ab9930f022bf3c7424, type: 2}
   - {fileID: 1183826021899096, guid: 7d2946cc10812c847942774f1368e9c9, type: 2}
   player: {fileID: 1886721674197132, guid: 9ec9c79c7843c4bc0b58d9716df4adc8, type: 2}
-  numberOfEnemies: 28
+  numberOfEnemies: 0
 --- !u!1 &1570095922
 GameObject:
   m_ObjectHideFlags: 0
@@ -1250,6 +1249,7 @@ MonoBehaviour:
   level: 1
   levelText: {fileID: 1810609191}
   minimap: {fileID: 1570095924}
+  minimapRectTransform: {fileID: 1570095923}
   minimapPlayerTracker: {fileID: 2035270940}
   worldController: {fileID: 1497681360}
 --- !u!1 &1810609189
@@ -1359,7 +1359,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2, y: 2}
+  m_SizeDelta: {x: 2.5, y: 2.5}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &2035270941
 MonoBehaviour:

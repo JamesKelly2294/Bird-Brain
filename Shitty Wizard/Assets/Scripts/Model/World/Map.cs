@@ -44,13 +44,14 @@ namespace ShittyWizard.Model.World
 
 		public Texture2D GenerateMinimap() {
 
-			int closestWidth = TileManager.Width;
-			int closestHeight = TileManager.Height;
+			int closestWidth = FindClosestSquareOfTwo(TileManager.Width);
+			int closestHeight = FindClosestSquareOfTwo(TileManager.Height);
 			int max = closestWidth;
 			if (closestWidth < closestHeight) {
 				max = closestHeight;
 			}
 			Texture2D tex = new Texture2D (max, max);
+
 			var pixels = tex.GetPixels ();
 
 			tex.filterMode = FilterMode.Point;
