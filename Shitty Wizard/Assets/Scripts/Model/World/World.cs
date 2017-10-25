@@ -10,7 +10,7 @@ namespace ShittyWizard.Model.World
 		private int m_currentLevel = 0;
 		private int m_maxLevels = 5;
 
-		private int m_roomsPerLevel = 10;
+		private int m_roomsPerLevel = 15;
 
 		public World ()
 		{

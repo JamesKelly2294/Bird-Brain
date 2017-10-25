@@ -120,16 +120,16 @@ namespace ShittyWizard.Model.World
 
 			// Add a bunch of small rooms to push the larger rooms around.
 			// We remove this later on...
-//			for (int i = 0; i < numberOfRooms*3; i++) {
-//				Tuple<int, int> key =  keys[Random.Range (0, RoomPrototypes.Keys.Count)];
-//				RoomData tempRoom = new RoomData (
-//					Random.Range(-15, 15),
-//					Random.Range(-15, 15),
-//					5, 
-//					5
-//				);
-//				Rooms.Add (tempRoom);
-//			}
+			for (int i = 0; i < numberOfRooms*3; i++) {
+				Tuple<int, int> key =  keys[Random.Range (0, RoomPrototypes.Keys.Count)];
+				RoomData tempRoom = new RoomData (
+					Random.Range(-15, 15),
+					Random.Range(-15, 15),
+					5, 
+					5
+				);
+				Rooms.Add (tempRoom);
+			}
 
 			for (int i = 0; i < numberOfRooms; i++) {
 				Tuple<int, int> key =  keys[Random.Range (0, RoomPrototypes.Keys.Count)];
@@ -153,8 +153,8 @@ namespace ShittyWizard.Model.World
 				iterations += 1;
 			}
 
-//			// remove the smaller rooms
-//			Rooms.RemoveRange (0, numberOfRooms * 3);
+			// remove the smaller rooms
+			Rooms.RemoveRange (0, numberOfRooms * 3);
 
 			// remove the overlapping rooms
 			RemoveOverlappingRooms ();
