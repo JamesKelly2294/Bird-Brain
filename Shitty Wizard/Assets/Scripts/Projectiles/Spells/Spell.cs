@@ -11,12 +11,15 @@ public abstract class Spell : MonoBehaviour {
     protected float lastCastTime = -100000;
 
     [SerializeField]
-    protected AudioClip castSound;
-    [SerializeField]
+	protected AudioClip castSound;
+	//public AudioSource audioSource;
+
+	[SerializeField]
     protected float volume = 0.5f;
 
     private void Start() {
         this.owner = this.transform.parent.parent.gameObject;
+		//audioSource = GetComponent<AudioSource> ();
     }
 
     public void RequestCast(Vector3 _dir) {
@@ -25,12 +28,6 @@ public abstract class Spell : MonoBehaviour {
         if (currTime - lastCastTime >= reloadTime) {
             lastCastTime = currTime;
             Cast(_dir);
-
-            // Play sound if there is one
-            if (castSound != null) {
-                //AudioSource.PlayClipAtPoint(castSound, Camera.main.transform.position, volume);
-            }
-
         }
     }
 

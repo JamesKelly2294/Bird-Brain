@@ -1,13 +1,12 @@
 fileFormatVersion: 2
 guid: e9bc31b49dc4c0944bc6ed83c7d56287
-timeCreated: 1507929831
+timeCreated: 1508978876
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - owner: {instanceID: 0}
-  - projectilePrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec,
-      type: 2}
+  - castSound: {fileID: 8300000, guid: 119148222cedbf1448f109727e676207, type: 3}
+  - icePrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

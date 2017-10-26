@@ -14,6 +14,19 @@ public class IceCone : Spell {
         float offset = coneWidth / (float)(numStreams - 1);
         float startRot = -coneWidth / 2.0f;
 
+
+		// Play sound if there is one
+		//if (castSound != null) {
+
+			// If the sound is not already being played, play it
+			//if(!audioSource.isPlaying)
+			//{
+			//	//audioSource.clip = castSound;
+			//	audioSource.Play();
+			//}
+			AudioSource.PlayClipAtPoint(castSound, Camera.main.transform.position, volume);
+		//}
+
         for (int i = 0; i < numStreams; i++) {
 
             float rot = startRot + offset * i;
