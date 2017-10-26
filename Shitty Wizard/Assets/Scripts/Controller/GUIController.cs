@@ -16,6 +16,7 @@ namespace ShittyWizard.Controller.Game
 		public float maxEXP = 100f;
 		public int level = 1;
 		public Text levelText;
+		public Text floorText;
 		public RawImage minimap;
 		public RectTransform minimapRectTransform;
 		public RectTransform minimapPlayerTracker;
@@ -32,8 +33,19 @@ namespace ShittyWizard.Controller.Game
 			playerGO = GameObject.FindGameObjectWithTag ("Player");
 			player = playerGO.GetComponent<EntityPlayer> ();
 			UpdateHealthBar ();
+		}
 
+		public void UpdateForNewLevel(string floor) {
 			minimap.texture = worldController.ActiveLevel.GenerateMinimap ();
+
+			floorText.text = "Floor " + floor;
+		}
+
+		public void UpdateMinimap() {
+			float x = (playerGO.transform.position.x / minimap.texture.width) * minimapRectTransform.rect.width;
+			float z = (playerGO.transform.position.z / minimap.texture.height) * minimapRectTransform.rect.height;
+
+			minimapPlayerTracker.localPosition = new Vector3 (x, z, 0.0f);
 		}
 
 		// Update is called once per frame
@@ -44,18 +56,16 @@ namespace ShittyWizard.Controller.Game
 
 			float EXPratio = currentEXP / maxEXP;
 			currentEXPbar.rectTransform.sizeDelta = new Vector2 (EXPratio * 250f, 20f);
-			levelText.text = "Level " + level;
+
 
 			if (currentEXP >= maxEXP) {
 				level = level + 1;
+				levelText.text = "Level " + level;
 				float tempXP = currentEXP;
 				currentEXP = tempXP - maxEXP;
 			}
 
-			float x = (playerGO.transform.position.x / minimap.texture.width) * minimapRectTransform.rect.width;
-			float z = (playerGO.transform.position.z / minimap.texture.height) * minimapRectTransform.rect.height;
-
-			minimapPlayerTracker.localPosition = new Vector3 (x, z, 0.0f);
+			UpdateMinimap ();
 		}
 
 		public void UpdateHealthBar ()

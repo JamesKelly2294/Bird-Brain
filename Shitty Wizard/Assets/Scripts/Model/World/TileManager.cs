@@ -48,6 +48,11 @@ namespace ShittyWizard.Model.World
 			return GetTileAt(xyPair.Item1 + r.MinX, xyPair.Item2 + r.MinY);
 		}
 
+		private TileManager() {
+			_width = 0;
+			_height = 0;
+		}
+
 		public TileManager (Map map)
 		{
 			this.Map = map;
@@ -56,6 +61,34 @@ namespace ShittyWizard.Model.World
 
 			SetupTiles ();
 			SetupTypeToTileDict ();
+		}
+
+		public static TileManager TileManagerForBossMap(Map map) {
+			TileManager tm = new TileManager ();
+			tm._width = 18;
+			tm._height = 18;
+
+			tm.m_tiles = new TileData[tm._width, tm._height];
+
+			for (int x = 0; x < tm._width; x++) {
+				for (int y = 0; y < tm._height; y++) {
+					tm.m_tiles [x, y] = (TileData)tm.CreateTile (x, y);
+				}
+			}
+
+			for (int x = 0; x < tm._width; x++) {
+				for (int y = 0; y < tm._height; y++) {
+					if (x == 0 || x == tm._width - 1 || y == 0 || y == 1 || y == tm._height - 1 | y == tm._height - 2) {
+						tm.m_tiles [x, y].Type = TileType.Wall;
+					} else {
+						tm.m_tiles [x, y].Type = TileType.Floor;
+					}
+				}
+			}
+
+			tm.SetupTypeToTileDict ();
+
+			return tm;
 		}
 
 		private void SetupTypeToTileDict() {

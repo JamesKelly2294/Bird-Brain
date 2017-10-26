@@ -113,8 +113,8 @@ namespace ShittyWizard.Model.World
 
 
 			// set up staircase room
-			int staircaseRoomNewWidth = 10;
-			int staircaseRoomNewHeight = 10;
+			int staircaseRoomNewWidth = 7;
+			int staircaseRoomNewHeight = 11;
 
 			newMinX = path [path.Count - 1].data.MinX + (path [path.Count - 1].data.Width / 2) - (staircaseRoomNewWidth / 2);
 			newMinY = path [path.Count - 1].data.MinY + (path [path.Count - 1].data.Height / 2) - (staircaseRoomNewHeight / 2);
@@ -165,7 +165,9 @@ namespace ShittyWizard.Model.World
 			LoadRooms ();
 			GenerateRooms ();
 
-			this.DetermineSpecialRooms ();
+			if (numberOfRooms > 0) {
+				this.DetermineSpecialRooms ();
+			}
 		}
 
 		void LoadRooms() {
@@ -218,6 +220,10 @@ namespace ShittyWizard.Model.World
 			_height = -1;
 			Rooms = new List<RoomData> ();
 			iterations = 0;
+
+			if (numberOfRooms <= 0) {
+				return;
+			}
 
 			var keys = new List<Tuple<int, int>> (RoomPrototypes.Keys);
 

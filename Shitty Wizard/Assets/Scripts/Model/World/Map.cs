@@ -16,6 +16,17 @@ namespace ShittyWizard.Model.World
 		public int Width { get { return TileManager.Width; } }
 		public int Height { get { return TileManager.Height; } }
 
+		public static Map NewBossMap() {
+			Map m = new Map ();
+			m.RoomManager = new RoomManager (m, 0);
+			m.TileManager = TileManager.TileManagerForBossMap (m);
+
+			return m;
+		}
+
+		private Map() {
+		}
+
 		public Map (int numberOfRooms)
 		{
 			SetupManagers (numberOfRooms);

@@ -29,6 +29,10 @@ public class Owlman : EntityEnemy {
 	public GameObject idleObject;
 	public GameObject attackObject;
 
+	public GameObject target;
+
+	public Vector3 offset = Vector3.zero;
+
 	protected override void OnUpdate ()
 	{
 		// States
@@ -36,7 +40,7 @@ public class Owlman : EntityEnemy {
 
 			// Circle around a point
 			radiansTravelled += circlingSpeed * Time.deltaTime;
-			transform.position = new Vector3 (radius * Mathf.Cos (radiansTravelled), transform.position.y, radius * Mathf.Sin (radiansTravelled));
+			transform.position = offset + new Vector3 (radius * Mathf.Cos (radiansTravelled), transform.position.y, radius * Mathf.Sin (radiansTravelled));
 
 			// Increment attack timer
 			attackTimer += Time.deltaTime;
@@ -66,7 +70,7 @@ public class Owlman : EntityEnemy {
 
 		// Wait one second then shoot then wait again before moving
 		yield return new WaitForSeconds (1.0f);
-		testSpell.RequestCast (-this.transform.position.normalized); // shoot towards (0,0,0)
+		testSpell.RequestCast ((target.transform.position - this.transform.position).normalized); // shoot towards (0,0,0)
 		yield return new WaitForSeconds (1.0f);
 
 		idleObject.SetActive (true);

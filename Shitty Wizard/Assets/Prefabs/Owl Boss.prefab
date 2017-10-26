@@ -144,7 +144,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1336530765659556}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.1214447, y: 9.8084384e-17, z: 11.653442}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4994878452270942}
@@ -173,7 +173,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1985996275886152}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4018539964395660}
@@ -187,7 +187,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1708075930581426}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4886266986415870}
@@ -215,7 +215,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1323559700330992}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4114514708771196}
@@ -296,7 +296,7 @@ MonoBehaviour:
   reloadTime: 0
   castSound: {fileID: 8300000, guid: 430b82eea9e91d04e9dbe81c2e5ba4de, type: 3}
   volume: 0.5
-  icePrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec, type: 2}
+  icePrefab: {fileID: 1956893070926138, guid: da07160687be95444bd68299ffa0d77a, type: 2}
   coneWidth: 10
   numStreams: 10
 --- !u!114 &114392604972058904
@@ -325,6 +325,7 @@ MonoBehaviour:
   attackAnimator: {fileID: 95501977354032034}
   idleObject: {fileID: 1420323091834022}
   attackObject: {fileID: 1511229848819242}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!212 &212346377682086176
 SpriteRenderer:
   m_ObjectHideFlags: 1
