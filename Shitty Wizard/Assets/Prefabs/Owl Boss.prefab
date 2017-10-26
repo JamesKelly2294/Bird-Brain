@@ -145,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 1336530765659556}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.1214447, y: 9.8084384e-17, z: 11.653442}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4994878452270942}
   - {fileID: 4544037376708706}
@@ -325,6 +325,7 @@ MonoBehaviour:
   attackAnimator: {fileID: 95501977354032034}
   idleObject: {fileID: 1420323091834022}
   attackObject: {fileID: 1511229848819242}
+  target: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
 --- !u!212 &212346377682086176
 SpriteRenderer:

@@ -70,8 +70,8 @@ namespace ShittyWizard.Controller.Game
 			entities.transform.tag = "Entities";
 
 			Room endRoom = ActiveLevel.RoomManager.StaircaseRoom;
-//			Tile t = ActiveLevel.TileManager.GetTileAt (Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterX - 2), Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterY) - 1);
-			Tile t = ActiveLevel.TileManager.GetTileAt (Mathf.FloorToInt (endRoom.CenterX), Mathf.FloorToInt (endRoom.CenterY) - 1);
+			Tile t = ActiveLevel.TileManager.GetTileAt (Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterX - 2), Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterY) - 1);
+//			Tile t = ActiveLevel.TileManager.GetTileAt (Mathf.FloorToInt (endRoom.CenterX), Mathf.FloorToInt (endRoom.CenterY) - 1);
 			GameObject stc = Instantiate (staircase);
 			stc.GetComponent<Staircase> ().player = m_player;
 			stc.GetComponent<Staircase> ().worldController = this;
