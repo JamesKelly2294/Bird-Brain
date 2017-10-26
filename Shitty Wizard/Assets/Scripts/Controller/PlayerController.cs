@@ -15,12 +15,18 @@ public class PlayerController : MonoBehaviour {
     private int currentSpell;
     private List<Spell> spells;
 
+    private IceTileManager itm;
+    private float iceAcceleration = 0.2f;
+    private Vector3 moveVec = Vector3.zero;
+
 	// Use this for initialization
 	void Start () {
 
 		rbody = GetComponent<Rigidbody> ();
         entity = GetComponent<Entity>();
         groundPlane = new Plane(new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(1, 0, 0));
+
+        itm = GetComponent<IceTileManager>();
 
         // Gather spells
         spells = new List<Spell>();
@@ -92,7 +98,16 @@ public class PlayerController : MonoBehaviour {
 		}
 
         //rbody.velocity = new Vector3 (horizontalInput * speed, 0.0f, verticalInput * speed);
-		entity.Move(new Vector3(horizontalInput, 0.0f, verticalInput).normalized * speed);
+        Vector3 goalDir = new Vector3(horizontalInput, 0.0f, verticalInput).normalized;
+        if (itm.onIce) {
+            moveVec = moveVec + goalDir * iceAcceleration;
+            if (moveVec.magnitude > speed) {
+                moveVec = moveVec.normalized * speed;
+            }
+        } else {
+            moveVec = goalDir * speed;
+        }
+		entity.Move(moveVec);
 		transform.position = new Vector3 (transform.position.x, 0.0f, transform.position.z);
 
     }
