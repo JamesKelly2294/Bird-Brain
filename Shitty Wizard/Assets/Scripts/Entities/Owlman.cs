@@ -28,7 +28,7 @@ public class Owlman : EntityEnemy {
 	public Animator attackAnimator;
 	public GameObject idleObject;
 	public GameObject attackObject;
-
+	public Transform eyeTransform;
 	public GameObject target;
 
 	public Vector3 offset = Vector3.zero;
@@ -63,15 +63,16 @@ public class Owlman : EntityEnemy {
 	}
 
 	private IEnumerator Attack(){
+		bossState = BossState.Attacking;
 		idleObject.SetActive (false);
 		attackObject.SetActive (true);
 
 		// Start animation
 
 		// Wait one second then shoot then wait again before moving
-		yield return new WaitForSeconds (1.0f);
-		testSpell.RequestCast ((target.transform.position - this.transform.position).normalized); // shoot towards (0,0,0)
-		yield return new WaitForSeconds (1.0f);
+		yield return new WaitForSeconds (2.0f);
+		testSpell.RequestCast ((target.transform.position - (this.transform.position + eyeTransform.position)).normalized); // shoot towards (0,0,0)
+		yield return new WaitForSeconds (0.5f);
 
 		idleObject.SetActive (true);
 		attackObject.SetActive (false);

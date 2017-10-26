@@ -93,6 +93,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1925349133124600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4784824509239562}
+  m_Layer: 0
+  m_Name: Eyes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1954912581516654
 GameObject:
   m_ObjectHideFlags: 1
@@ -101,7 +116,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4018539964395660}
-  - component: {fileID: 114132422454755534}
+  - component: {fileID: 114203697045012546}
   m_Layer: 0
   m_Name: Spell
   m_TagString: Untagged
@@ -150,6 +165,7 @@ Transform:
   - {fileID: 4994878452270942}
   - {fileID: 4544037376708706}
   - {fileID: 4458600438368608}
+  - {fileID: 4784824509239562}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -194,6 +210,19 @@ Transform:
   - {fileID: 4238173960512150}
   m_Father: {fileID: 4114514708771196}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4784824509239562
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925349133124600}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.639, z: 0.076}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_Children: []
+  m_Father: {fileID: 4114514708771196}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4886266986415870
 Transform:
@@ -282,7 +311,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114132422454755534
+--- !u!114 &114203697045012546
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -290,15 +319,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1954912581516654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9bc31b49dc4c0944bc6ed83c7d56287, type: 3}
+  m_Script: {fileID: 11500000, guid: d0fcda6a24a945a40906da53f8a4d343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   reloadTime: 0
-  castSound: {fileID: 8300000, guid: 430b82eea9e91d04e9dbe81c2e5ba4de, type: 3}
+  castSound: {fileID: 8300000, guid: 688ccab0c744b8d4dbb1a4de41fa5b1a, type: 3}
   volume: 0.5
-  icePrefab: {fileID: 1956893070926138, guid: da07160687be95444bd68299ffa0d77a, type: 2}
-  coneWidth: 10
-  numStreams: 10
+  laserPrefab: {fileID: 1042689034522124, guid: 5bc9a8d57dbfd1f4bb43f01bd45c7eec,
+    type: 2}
 --- !u!114 &114392604972058904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -321,10 +349,11 @@ MonoBehaviour:
   expToGive: 10
   damageOnContact: 0
   deathSound: {fileID: 8300000, guid: be9d995e4a186cf4f93824b13708289f, type: 3}
-  testSpell: {fileID: 114132422454755534}
+  testSpell: {fileID: 114203697045012546}
   attackAnimator: {fileID: 95501977354032034}
   idleObject: {fileID: 1420323091834022}
   attackObject: {fileID: 1511229848819242}
+  eyeTransform: {fileID: 4784824509239562}
   target: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
 --- !u!212 &212346377682086176
