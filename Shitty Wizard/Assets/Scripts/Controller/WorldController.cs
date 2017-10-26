@@ -53,7 +53,8 @@ namespace ShittyWizard.Controller.Game
 			ActiveWorld.Update (Time.deltaTime);
 		}
 
-		void CreateEntitiesForLevel() {
+		void CreateEntitiesForLevel ()
+		{
 			Room startRoom = ActiveLevel.RoomManager.PlayerStartRoom;
 			if (m_player == null) {
 				m_player = Instantiate (playerPrefab);
@@ -69,8 +70,8 @@ namespace ShittyWizard.Controller.Game
 			entities.transform.tag = "Entities";
 
 			Room endRoom = ActiveLevel.RoomManager.StaircaseRoom;
-			Tile t = ActiveLevel.TileManager.GetTileAt (Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterX - 2), Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterY) - 1);
-//			Tile t = ActiveLevel.TileManager.GetTileAt(Mathf.FloorToInt(endRoom.CenterX), Mathf.FloorToInt(endRoom.CenterY) - 1);
+//			Tile t = ActiveLevel.TileManager.GetTileAt (Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterX - 2), Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterY) - 1);
+			Tile t = ActiveLevel.TileManager.GetTileAt (Mathf.FloorToInt (endRoom.CenterX), Mathf.FloorToInt (endRoom.CenterY) - 1);
 			GameObject stc = Instantiate (staircase);
 			stc.GetComponent<Staircase> ().player = m_player;
 			stc.GetComponent<Staircase> ().worldController = this;
@@ -106,7 +107,8 @@ namespace ShittyWizard.Controller.Game
 			}
 		}
 
-		public void AdvanceLevel() {
+		public void AdvanceLevel ()
+		{
 			for (int i = 0; i < transform.childCount; i++) {
 				GameObject go = transform.Find ("Entities").gameObject;
 				if (go != null) {
@@ -120,20 +122,20 @@ namespace ShittyWizard.Controller.Game
 				CreateEntitiesForLevel ();
 
 			} else {
-				m_player.transform.position = new Vector3(
+				m_player.transform.position = new Vector3 (
 					ActiveWorld.ActiveLevel.TileManager.Width / 2.0f,
 					0.0f,
 					ActiveWorld.ActiveLevel.TileManager.Height / 3.0f
 				);
 
 				GameObject boss = Instantiate (bossPrefab);
-				boss.transform.position = new Vector3(
+				boss.transform.position = new Vector3 (
 					ActiveWorld.ActiveLevel.TileManager.Width / 2.0f,
 					0.0f,
 					ActiveWorld.ActiveLevel.TileManager.Height / 2.0f
 				);
-				boss.GetComponent<Owlman>().offset = boss.transform.position;
-				boss.GetComponent<Owlman>().target = m_player;
+				boss.GetComponent<Owlman> ().offset = boss.transform.position;
+				boss.GetComponent<Owlman> ().target = m_player;
 				boss.transform.parent = transform;
 
 
@@ -158,7 +160,7 @@ namespace ShittyWizard.Controller.Game
 
 			WorldGeometryController.BuildInitialGeometry ();
 
-			GUIController.UpdateForNewLevel (ActiveWorld.CurrentLevelNumber.ToString());
+			GUIController.UpdateForNewLevel (ActiveWorld.CurrentLevelNumber.ToString ());
 
 
 		}
