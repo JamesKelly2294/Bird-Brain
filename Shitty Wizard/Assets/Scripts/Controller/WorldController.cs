@@ -43,7 +43,7 @@ namespace ShittyWizard.Controller.Game
 			entities.transform.name = "Entities";
 			entities.transform.tag = "Entities";
 
-			Tile t = ActiveLevel.TileManager.GetRandomTileOfType (TileType.Floor);
+			Tile t = ActiveLevel.TileManager.GetRandomTileOfTypeInRoom(TileType.Floor, ActiveLevel.RoomManager.PlayerStartRoom);
 			GameObject ply = Instantiate (player);
 			ply.transform.position = new Vector3 (t.X, 0.0f, t.Y);
 			Camera.main.GetComponent<CameraController> ().target = ply.transform;

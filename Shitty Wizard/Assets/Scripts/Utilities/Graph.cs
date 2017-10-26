@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ShittyWizzard.Utilities
 {
@@ -10,6 +11,31 @@ namespace ShittyWizzard.Utilities
 		public List<Vertex<T>> vertexmap;
 
 		public delegate float DistanceCalculation(Vertex<T> first, Vertex<T> second);
+
+		public void ResetVisited() {
+			foreach (Vertex<T> v in vertexmap) {
+				v.Visited = false;
+			}
+		}
+
+		private List<T> _data;
+		public List<T> Data {
+			get {
+				if (_data == null) {
+					UpdateData ();
+				}
+
+				return _data;
+			}
+		}
+
+		public void UpdateData() {
+			List<T> ret = new List<T> ();
+			foreach (Vertex<T> v in vertexmap) { 
+				ret.Add (v.data);
+			}
+			this._data = ret;
+		}
 
 		public Graph (List<T> data, DistanceCalculation d)
 		{
@@ -34,6 +60,21 @@ namespace ShittyWizzard.Utilities
 					edgemap.Add (e);
 				}
 			}
+		}
+
+		public void SetEdges(List<Edge<Vertex<T>>> edges) {
+			HashSet<Vertex<T>> vertices = new HashSet<Vertex<T>> ();
+
+			foreach (Edge<Vertex<T>> e in edges) {
+				e.first.neighbors.Add (e.second);
+				e.second.neighbors.Add (e.first);
+
+				vertices.Add (e.first);
+				vertices.Add (e.second);
+			}
+
+			this.vertexmap = vertices.ToList ();
+			this.edgemap = edges;
 		}
 
 		public List<Edge<Vertex<T>>> MinimumSpanningTree {

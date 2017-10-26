@@ -28,6 +28,26 @@ namespace ShittyWizard.Model.World
 			return tiles [UnityEngine.Random.Range (0, tiles.Count)];
 		}
 
+		// warning: slow!
+		public Tile GetRandomTileOfTypeInRoom(TileType t, Room r) {
+			List<Tuple<int, int>> tilesOfType = new List<Tuple<int, int>> ();
+
+			for (int x = 0; x < r.Width; x++) {
+				for (int y = 0; y < r.Height; y++) {
+					if (r.Tiles [x, y] == t) {
+						tilesOfType.Add (new Tuple<int, int> (x, y));
+					}
+				}
+			}
+
+			if (tilesOfType.Count <= 0) {
+				return null;
+			}
+
+			var xyPair = tilesOfType [UnityEngine.Random.Range (0, tilesOfType.Count)];
+			return GetTileAt(xyPair.Item1 + r.MinX, xyPair.Item2 + r.MinY);
+		}
+
 		public TileManager (Map map)
 		{
 			this.Map = map;
@@ -76,7 +96,7 @@ namespace ShittyWizard.Model.World
 			// this is really poorly designed, but it works
 			// it's an unfortunate necessity due to the fact that walls
 			// must be 2 tiles thick in the y direction
-			foreach (Edge<Vertex<Room>> e in Map.RoomManager.RoomGraph) {
+			foreach (Edge<Vertex<Room>> e in Map.RoomManager.RoomGraphEdgeList) {
 				// vertical hallways
 				int x = Mathf.RoundToInt(e.first.data.Center.x);
 				int yStart = Mathf.RoundToInt(e.first.data.Center.y);

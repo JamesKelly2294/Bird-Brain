@@ -49,13 +49,114 @@ namespace ShittyWizard.Model.World
 			}
 		}
 
-		public List<RoomData> Rooms;
+		public List<RoomData> Rooms { get; protected set; }
 		public Dictionary<Tuple<int, int>, List<Room>> RoomPrototypes;
-		public List<Edge<Vertex<Room>>> RoomGraph;
+		public List<Edge<Vertex<Room>>> RoomGraphEdgeList;
+		public Graph<RoomData> RoomGraph;
 
 		int numberOfRooms;
 		int max_iterations = 200;
 		int iterations = 0;
+
+		private Room m_playerStartRoom = null;
+		public Room PlayerStartRoom {
+			get {
+				if (m_playerStartRoom == null) {
+					DetermineSpecialRooms ();
+				}
+				return m_playerStartRoom;
+			}
+		}
+		private Room m_staircaseRoom = null;
+		public Room StaircaseRoom {
+			get {
+				if (m_staircaseRoom == null) {
+					DetermineSpecialRooms ();
+				}
+				return m_staircaseRoom;
+			}
+		}
+
+		private void DetermineSpecialRooms() {
+			List<Vertex<RoomData>> path = new List<Vertex<RoomData>> ();
+			foreach (Vertex<RoomData> v in RoomGraph.vertexmap) {
+				RoomGraph.ResetVisited ();
+				// finds the LONGEST SHORTEST path
+				List<Vertex<RoomData>> longestShortest = DFS(v, 0);
+				if (longestShortest.Count > path.Count) {
+					path = longestShortest;
+				}
+			}
+			RoomGraph.ResetVisited ();
+
+			// set up start room
+			int startRoomNewWidth = 11;
+			int startRoomNewHeight = 11;
+
+			int newMinX = path [0].data.MinX + (path [0].data.Width / 2) - (startRoomNewWidth / 2);
+			int newMinY = path [0].data.MinY + (path [0].data.Height / 2) - (startRoomNewHeight / 2);
+			var startRoom = new RoomData(newMinX, newMinY, startRoomNewWidth, startRoomNewHeight);
+
+			for (int x = 0; x < startRoomNewWidth; x++) {
+				for (int y = 0; y < startRoomNewHeight; y++) {
+					if (y == 0 || y == 1 || y == startRoomNewHeight - 1 || y == startRoomNewHeight - 2
+						|| x == 0 || x == startRoomNewWidth - 1) {
+						startRoom.Tiles [x, y] = TileType.Wall;
+					} else {
+						startRoom.Tiles [x, y] = TileType.Floor;
+					}
+				}
+			}
+			path [0].data = startRoom;
+
+			m_playerStartRoom = (Room)startRoom;
+
+
+			// set up staircase room
+			int staircaseRoomNewWidth = 10;
+			int staircaseRoomNewHeight = 10;
+
+			newMinX = path [path.Count - 1].data.MinX + (path [path.Count - 1].data.Width / 2) - (staircaseRoomNewWidth / 2);
+			newMinY = path [path.Count - 1].data.MinY + (path [path.Count - 1].data.Height / 2) - (staircaseRoomNewHeight / 2);
+			var endRoom = new RoomData(newMinX, newMinY, staircaseRoomNewWidth, staircaseRoomNewHeight);
+
+			for (int x = 0; x < staircaseRoomNewWidth; x++) {
+				for (int y = 0; y < staircaseRoomNewHeight; y++) {
+					if (y == 0 || y == 1 || y == staircaseRoomNewHeight - 1 || y == staircaseRoomNewHeight - 2
+						|| x == 0 || x == staircaseRoomNewWidth - 1) {
+						endRoom.Tiles [x, y] = TileType.Wall;
+					} else {
+						endRoom.Tiles [x, y] = TileType.Floor;
+					}
+				}
+			}
+			path [path.Count - 1].data = endRoom;
+
+			m_staircaseRoom = (Room)path [path.Count - 1].data;
+
+			RoomGraph.UpdateData ();
+			Rooms = RoomGraph.Data;
+		}
+
+		List<Vertex<RoomData>> DFS(Vertex<RoomData> v, int depth) {
+			v.Visited = true;
+
+			List<Vertex<RoomData>> path = new List<Vertex<RoomData>> ();
+			foreach (Vertex<RoomData> n in v.neighbors) {
+				if (n.Visited) {
+					continue;
+				}
+
+				List<Vertex<RoomData>> temp = DFS (n, depth+1);
+				if (temp.Count > path.Count) {
+					path = temp;
+				}
+			}
+
+			path.Add (v);
+			return path;
+		}
+		
 
 		public RoomManager(Map map, int numberOfRooms) {
 			this.Map = map;
@@ -63,6 +164,8 @@ namespace ShittyWizard.Model.World
 
 			LoadRooms ();
 			GenerateRooms ();
+
+			this.DetermineSpecialRooms ();
 		}
 
 		void LoadRooms() {
@@ -159,19 +262,20 @@ namespace ShittyWizard.Model.World
 			// remove the overlapping rooms
 			RemoveOverlappingRooms ();
 
-			Graph<RoomData> g = new Graph<RoomData>(Rooms, (x,y) => {
+		 	RoomGraph = new Graph<RoomData>(Rooms, (x,y) => {
 				return Vector2.Distance(x.data.Center, y.data.Center);
 			});
 
 
-			RoomGraph = new List<Edge<Vertex<Room>>> ();
-			foreach(var e in g.MinimumSpanningTree) {
+			RoomGraphEdgeList = new List<Edge<Vertex<Room>>> ();
+			foreach(var e in RoomGraph.MinimumSpanningTree) {
 				Vertex<Room> first = new Vertex<Room> ((Room)e.first.data);
 				Vertex<Room> second = new Vertex<Room> ((Room)e.second.data);
 				Edge<Vertex<Room>> edge = new Edge<Vertex<Room>> (first, second, e.weight);
 				edge.id = e.id;
-				RoomGraph.Add (edge);
+				RoomGraphEdgeList.Add (edge);
 			}
+			RoomGraph.SetEdges (RoomGraph.MinimumSpanningTree);
 
 			// add some edges back in to introduce loops
 //			List<int> randomIndices = new List<int> ();

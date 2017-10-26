@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ShittyWizzard.Utilities
 {
@@ -6,9 +7,12 @@ namespace ShittyWizzard.Utilities
 	{
 		public T data;
 
+		public HashSet<Vertex<T>> neighbors;
+
 		public Vertex (T data)
 		{
 			this.data = data;
+			this.neighbors = new HashSet<Vertex<T>> ();
 		}
 
 		public int ID {
@@ -25,6 +29,8 @@ namespace ShittyWizzard.Utilities
 			Vertex<T> v = (Vertex<T>)obj;
 			return this.ID == v.ID;
 		}
+
+		public bool Visited = false;
 
 		public override int GetHashCode ()
 		{
