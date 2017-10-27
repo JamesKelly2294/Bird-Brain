@@ -279,6 +279,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  footsteps:
+  - {fileID: 8300000, guid: 3b71a3d10561e40099082ab93c0fa456, type: 3}
+  - {fileID: 8300000, guid: c4c966423a7c343919fb3656d2c53abf, type: 3}
+  - {fileID: 8300000, guid: 1d4453e5a195d40d196ef07735b1fab4, type: 3}
+  footstepsVolume: 0.07
   inControl: 1
   health: 10
   maxHealth: 10

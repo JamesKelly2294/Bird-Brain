@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour {
         foreach (Spell s in spellsTransform.GetComponentsInChildren<Spell>()) {
             spells.Add(s);
         }
-
 	}
 	
 	// Update is called once per frame
@@ -70,6 +69,7 @@ public class PlayerController : MonoBehaviour {
 
 				Vector3 projectileDirection = ray.origin + ray.direction * rayDistance - this.transform.position;
 				projectileDirection.y = 0;
+				projectileDirection.z -= 0.5f;
 				projectileDirection = projectileDirection.normalized;
 
                 spells[currentSpell].RequestCast(projectileDirection);

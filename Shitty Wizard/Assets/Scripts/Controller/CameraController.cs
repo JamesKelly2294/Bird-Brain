@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour {
         m.m11 *= 1.5f;
         cam.projectionMatrix = m;
 
-		musicSource.volume = 0.25f;
+		musicSource.volume = 0.07f;
 		PlayMusic ();
     }
 
