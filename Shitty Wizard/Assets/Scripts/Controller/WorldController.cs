@@ -184,6 +184,8 @@ namespace ShittyWizard.Controller.Game
 				);
 
 				GameObject boss = Instantiate (bossPrefab);
+                GUIController.bossGO = boss;
+                GUIController.MakeBossBarActive();
 				boss.transform.position = new Vector3 (
 					ActiveWorld.ActiveLevel.TileManager.Width / 2.0f,
 					0.0f,
