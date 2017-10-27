@@ -12,14 +12,14 @@ public abstract class Spell : MonoBehaviour {
 
     [SerializeField]
 	protected AudioClip castSound;
-	//public AudioSource audioSource;
+	protected AudioSource audioSource;
 
 	[SerializeField]
     protected float volume = 0.5f;
 
     private void Start() {
         this.owner = this.transform.parent.parent.gameObject;
-		//audioSource = GetComponent<AudioSource> ();
+		audioSource = this.owner.GetComponent<AudioSource> ();
     }
 
     public void RequestCast(Vector3 _dir) {

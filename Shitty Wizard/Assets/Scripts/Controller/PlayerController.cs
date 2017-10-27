@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 0.4f;
-	Rigidbody rbody;
 	Transform m_SpriteTransform;
     Entity entity;
 
@@ -22,7 +21,6 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		rbody = GetComponent<Rigidbody> ();
         entity = GetComponent<Entity>();
         groundPlane = new Plane(new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(1, 0, 0));
 
@@ -34,7 +32,6 @@ public class PlayerController : MonoBehaviour {
         foreach (Spell s in spellsTransform.GetComponentsInChildren<Spell>()) {
             spells.Add(s);
         }
-
 	}
 	
 	// Update is called once per frame
@@ -72,6 +69,7 @@ public class PlayerController : MonoBehaviour {
 
 				Vector3 projectileDirection = ray.origin + ray.direction * rayDistance - this.transform.position;
 				projectileDirection.y = 0;
+				projectileDirection.z -= 0.5f;
 				projectileDirection = projectileDirection.normalized;
 
                 spells[currentSpell].RequestCast(projectileDirection);

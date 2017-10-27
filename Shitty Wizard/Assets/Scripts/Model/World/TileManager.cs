@@ -121,7 +121,13 @@ namespace ShittyWizard.Model.World
 			foreach (Room r in Map.RoomManager.Rooms) {
 				for (int x = r.MinX; x < r.MaxX; x++) {
 					for (int y = r.MinY; y < r.MaxY; y++) {
-						m_tiles [x, y].Type = r.Tiles[x - r.MinX, y - r.MinY];
+						var tile = r.Tiles[x - r.MinX, y - r.MinY];
+						try {
+							m_tiles [x, y].Type = tile;
+
+						} catch (Exception e) {
+							Debug.Log (r);
+						}
 					}
 				}
 			}

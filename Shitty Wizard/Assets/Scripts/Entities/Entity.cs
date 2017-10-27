@@ -13,6 +13,8 @@ public class Entity : MonoBehaviour {
 
     [Header("Basic Settings")]
     public EntityType type;
+	public AudioClip[] footsteps;
+	public float footstepsVolume;
 
     [Header("State Settings")]
     public bool inControl = true;
@@ -39,14 +41,20 @@ public class Entity : MonoBehaviour {
     private IceTileManager itm;
     private bool collidingWithWall = false;
 
+	private bool previousFootstepPos = false;
+
+	private Vector3 spriteScale;
+	private GameObject spriteGO;
+
     public void Start() {
         rb = GetComponent<Rigidbody>();
         spriteStartPos = sprite.transform.localPosition;
         maxHealth = health;
 		_ui = GameObject.Find ("GUIController").GetComponent<GUIController> ();
         itm = GetComponent<IceTileManager>();
+		spriteGO = transform.Find ("Sprite").gameObject;
+		spriteScale = spriteGO.transform.localScale;
         OnStart();
-
     }
     protected virtual void OnStart() { }
 
@@ -59,9 +67,25 @@ public class Entity : MonoBehaviour {
             bounceCycle = 0;
         }
         bounceCycle += bounceSpeed * Time.deltaTime;
-        sprite.transform.localPosition = spriteStartPos + Vector3.up * bounceHeight * Mathf.Abs(Mathf.Sin(bounceCycle));
+		float sinVal = Mathf.Sin (bounceCycle);
+		sprite.transform.localPosition = spriteStartPos + Vector3.up * bounceHeight * Mathf.Abs(sinVal);
 
+		if (sprite.transform.localPosition.y < spriteStartPos.y + 0.1f 
+			&& footsteps.Length > 0
+			&& bounceSpeed != 0
+			&& previousFootstepPos != sinVal > 0.0f) {
+			AudioSource.PlayClipAtPoint (footsteps[Random.Range(0, footsteps.Length)], sprite.transform.position, footstepsVolume * Mathf.Pow(rb.velocity.magnitude, 0.5f));
+		}
+
+		previousFootstepPos = sinVal > 0.0f;
+
+
+		if (Mathf.Abs(rb.velocity.x) > 0) {
+			float direction = Mathf.Sign(rb.velocity.x);
+			spriteGO.transform.localScale = new Vector3 (direction * spriteScale.x, spriteGO.transform.localScale.y, spriteGO.transform.localScale.z);
+		}
     }
+
     protected virtual void OnUpdate() { }
 
     public void Move(Vector3 speed) {

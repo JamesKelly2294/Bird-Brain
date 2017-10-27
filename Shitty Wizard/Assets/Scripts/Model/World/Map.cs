@@ -78,10 +78,10 @@ namespace ShittyWizard.Model.World
 					Tile t = TileManager.GetTileAt (x, y);
 					switch (t.Type) {
 					case TileType.Wall:
-						pixels [y * tex.width + x] = new Color (0.2f, 0.2f, 0.2f, 1.0f);
+						pixels [y * tex.width + x] = new Color (0.7f, 0.7f, 0.7f, 1.0f);
 						break;
 					case TileType.Floor:
-						pixels [y * tex.width + x] = new Color (0.5f, 0.25f, 0.2f, 1.0f);
+						pixels [y * tex.width + x] = new Color (0.1f, 0.1f, 0.55f, 1.0f);
 						break;
 					case TileType.Empty:
 					default:
