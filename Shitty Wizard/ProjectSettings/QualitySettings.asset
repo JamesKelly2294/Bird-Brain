@@ -4,7 +4,7 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 0
+  m_CurrentQuality: 5
   m_QualitySettings:
   - serializedVersion: 2
     name: Fastest
@@ -59,7 +59,6 @@ QualitySettings:
     asyncUploadBufferSize: 4
     excludedTargetPlatforms:
     - Android
-    - Standalone
   - serializedVersion: 2
     name: Simple
     pixelLightCount: 1
@@ -87,7 +86,6 @@ QualitySettings:
     asyncUploadBufferSize: 4
     excludedTargetPlatforms:
     - Android
-    - Standalone
   - serializedVersion: 2
     name: Good
     pixelLightCount: 2
@@ -115,7 +113,6 @@ QualitySettings:
     asyncUploadBufferSize: 4
     excludedTargetPlatforms:
     - Android
-    - Standalone
   - serializedVersion: 2
     name: Beautiful
     pixelLightCount: 3
@@ -143,7 +140,6 @@ QualitySettings:
     asyncUploadBufferSize: 4
     excludedTargetPlatforms:
     - Android
-    - Standalone
   - serializedVersion: 2
     name: Fantastic
     pixelLightCount: 32
@@ -171,7 +167,6 @@ QualitySettings:
     asyncUploadBufferSize: 4
     excludedTargetPlatforms:
     - Android
-    - Standalone
   m_PerPlatformDefaultQuality:
     Android: 0
     Nintendo 3DS: 5
@@ -179,7 +174,7 @@ QualitySettings:
     PSM: 5
     PSP2: 2
     Samsung TV: 2
-    Standalone: 0
+    Standalone: 5
     Tizen: 2
     Web: 5
     WebGL: 3
