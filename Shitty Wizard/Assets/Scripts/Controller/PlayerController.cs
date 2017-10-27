@@ -1,9 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 [RequireComponent(typeof(Entity))]
 public class PlayerController : MonoBehaviour {
+
+    public enum ControlMode {
+        KeyboardAndMouse,
+        Mobile
+    }
+    public ControlMode controlMode;
 
 	public float speed = 0.4f;
 	Transform m_SpriteTransform;
@@ -36,65 +43,40 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// switching weapons
-        if (Input.GetKeyDown(KeyCode.E)) {
-            currentSpell++;
-        } else if (Input.GetKeyDown(KeyCode.Q)) {
-            currentSpell--;
-        }
-
-		if(Input.GetKey(KeyCode.Alpha1)){
-            currentSpell = 0;
-		}
-		else if(Input.GetKey(KeyCode.Alpha2)){
-            currentSpell = 1;
-        }
-		else if(Input.GetKey(KeyCode.Alpha3)){
-            currentSpell = 2;
-        }
-		else if(Input.GetKey(KeyCode.Alpha4)){
-            currentSpell = 3;
-        }
-
-		currentSpell = currentSpell % spells.Count;
-        while (currentSpell < 0) {
-            currentSpell += spells.Count;
-        }
-
-        // Shooting
-        if (Input.GetMouseButton(0)) {
-			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			float rayDistance;
-			if (groundPlane.Raycast (ray, out rayDistance)) {
-
-				Vector3 projectileDirection = ray.origin + ray.direction * rayDistance - this.transform.position;
-				projectileDirection.y = 0;
-				projectileDirection.z -= 0.5f;
-				projectileDirection = projectileDirection.normalized;
-
-                spells[currentSpell].RequestCast(projectileDirection);
-            }
-        }
+        Shoot();
     }
 
 	void FixedUpdate() {
+        Move();
+    }
 
-		float verticalInput = 0.0f; // = Input.GetAxis ("Vertical");
-		float horizontalInput = 0.0f; // = Input.GetAxis ("Horizontal");
+    private void Move() {
 
-		if (Input.GetKey (KeyCode.W)) {
-			verticalInput = 1.0f;
-		}
-		if (Input.GetKey (KeyCode.S)) {
-			verticalInput = -1.0f;
-		}
-		if (Input.GetKey (KeyCode.A)) {
-			horizontalInput = -1.0f;
-		}
-		if (Input.GetKey (KeyCode.D)) {
-			horizontalInput = 1.0f;
-		}
+        float verticalInput = 0;
+        float horizontalInput = 0;
+        
+        if (ControlMode.KeyboardAndMouse == controlMode) {
 
+            if (Input.GetKey(KeyCode.W)) {
+                verticalInput = 1.0f;
+            }
+            if (Input.GetKey(KeyCode.S)) {
+                verticalInput = -1.0f;
+            }
+            if (Input.GetKey(KeyCode.A)) {
+                horizontalInput = -1.0f;
+            }
+            if (Input.GetKey(KeyCode.D)) {
+                horizontalInput = 1.0f;
+            }
+
+        } else if (ControlMode.Mobile == controlMode) {
+
+            verticalInput = CrossPlatformInputManager.GetAxis("VerticalLeft");
+            horizontalInput = CrossPlatformInputManager.GetAxis("HorizontalLeft");
+
+        }
+        
         //rbody.velocity = new Vector3 (horizontalInput * speed, 0.0f, verticalInput * speed);
         Vector3 goalDir = new Vector3(horizontalInput, 0.0f, verticalInput).normalized;
         if (itm.onIce) {
@@ -105,8 +87,63 @@ public class PlayerController : MonoBehaviour {
         } else {
             moveVec = goalDir * speed;
         }
-		entity.Move(moveVec);
-		transform.position = new Vector3 (transform.position.x, 0.0f, transform.position.z);
+        entity.Move(moveVec);
+        transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
 
     }
+
+    private void Shoot() {
+
+        if (controlMode == ControlMode.KeyboardAndMouse) {
+
+            // switching weapons
+            if (Input.GetKeyDown(KeyCode.E)) {
+                currentSpell++;
+            } else if (Input.GetKeyDown(KeyCode.Q)) {
+                currentSpell--;
+            }
+
+            currentSpell = currentSpell % spells.Count;
+            while (currentSpell < 0) {
+                currentSpell += spells.Count;
+            }
+
+            // Shooting
+            if (Input.GetMouseButton(0)) {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                float rayDistance;
+                if (groundPlane.Raycast(ray, out rayDistance)) {
+
+                    Vector3 projectileDirection = ray.origin + ray.direction * rayDistance - this.transform.position;
+                    projectileDirection.y = 0;
+                    projectileDirection.z -= 0.5f;
+                    projectileDirection = projectileDirection.normalized;
+
+                    spells[currentSpell].RequestCast(projectileDirection);
+                }
+            }
+
+        } else if (controlMode == ControlMode.Mobile) {
+
+            // Switching weapon
+            if (CrossPlatformInputManager.GetButton("SwitchWeapon")) {
+                currentSpell++;
+                currentSpell = currentSpell % spells.Count;
+            }
+
+            // Aiming
+            float hShoot = CrossPlatformInputManager.GetAxis("HorizontalRight");
+            float vShoot = CrossPlatformInputManager.GetAxis("VerticalRight");
+
+            Vector3 projectileDirection = new Vector3(hShoot, 0, vShoot);
+            if (projectileDirection.magnitude > 0.5f) {
+                projectileDirection.Normalize();
+                spells[currentSpell].RequestCast(projectileDirection);
+            }
+            
+
+        }
+
+    }
+
 }

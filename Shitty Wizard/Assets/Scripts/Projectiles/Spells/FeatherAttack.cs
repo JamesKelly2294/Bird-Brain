@@ -32,7 +32,7 @@ public class FeatherAttack : Spell {
 			float rot = startRot + offset * i;
 			Vector3 streamDir = Quaternion.Euler(0, rot, 0) * _dir;
 
-			ProjectileFeather pFthr = Projectile.Create(featherPrefab, EntityType.Player, owner, owner.transform.position + Vector3.up * 0.5f) as ProjectileFeather;
+			ProjectileFeather pFthr = Projectile.Create(featherPrefab, owner.GetComponent<Entity>().type, owner, owner.transform.position + Vector3.up * 0.5f) as ProjectileFeather;
 			pFthr.Init(streamDir, 6);
 
 		}

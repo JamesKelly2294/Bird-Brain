@@ -140,18 +140,18 @@ namespace ShittyWizard.Controller.Game
 			lights.transform.parent = entities.transform;
 			lights.transform.name = "Lights";
 			for (int i = 0; i < roomsPerFloor * 3; i++) {
-				t = ActiveLevel.TileManager.GetRandomTileOfType (TileType.Floor);
-				GameObject light = new GameObject ();
-				light.transform.name = "Light";
-				light.AddComponent<Light> ();
-				light.GetComponent<Light> ().color = new Color (
-					UnityEngine.Random.Range (0.5f, 0.7f), 
-					UnityEngine.Random.Range (0.2f, 0.5f), 
-					UnityEngine.Random.Range (0.2f, 0.5f)
-				);
-				light.GetComponent<Light> ().range = 30.0f;
-				light.transform.position = new Vector3 (t.X + 0.5f, 1.5f, t.Y + 0.5f);
-				light.transform.parent = lights.transform;
+				//t = ActiveLevel.TileManager.GetRandomTileOfType (TileType.Floor);
+				//GameObject light = new GameObject ();
+				//light.transform.name = "Light";
+				//light.AddComponent<Light> ();
+				//light.GetComponent<Light> ().color = new Color (
+				//	UnityEngine.Random.Range (0.5f, 0.7f), 
+				//	UnityEngine.Random.Range (0.2f, 0.5f), 
+				//	UnityEngine.Random.Range (0.2f, 0.5f)
+				//);
+				//light.GetComponent<Light> ().range = 30.0f;
+				//light.transform.position = new Vector3 (t.X + 0.5f, 1.5f, t.Y + 0.5f);
+				//light.transform.parent = lights.transform;
 			}
 		}
 
