@@ -11,6 +11,7 @@ namespace ShittyWizard.Controller.Game
 
 		public Image currentHealthBar;
 		public Image currentBossBar;
+        public Image currentBossBarBase;
 		public Image currentEXPbar;
 
 		public float currentEXP = 0f;
@@ -24,6 +25,8 @@ namespace ShittyWizard.Controller.Game
 
 		private GameObject playerGO;
 		private EntityPlayer player;
+        public GameObject bossGO;
+        public Owlman owlman;
 
 		public WorldController worldController;
 
@@ -34,6 +37,7 @@ namespace ShittyWizard.Controller.Game
 			playerGO = GameObject.FindGameObjectWithTag ("Player");
 			player = playerGO.GetComponent<EntityPlayer> ();
 			UpdateHealthBar ();
+            HideBossBar();
 		}
 
 		public void UpdateForNewLevel(string floor) {
@@ -52,7 +56,6 @@ namespace ShittyWizard.Controller.Game
 		// Update is called once per frame
 		void Update ()
 		{
-
 			UpdateHealthBar ();
 
 			float EXPratio = currentEXP / maxEXP;
@@ -71,14 +74,34 @@ namespace ShittyWizard.Controller.Game
 
 		public void UpdateHealthBar ()
 		{
-
 			float ratio = player.health / player.maxHealth;
 			if (player.maxHealth <= 0) {
 				ratio = 1;
 			}
 			currentHealthBar.rectTransform.sizeDelta = new Vector2 (ratio * 250f, 20f);
 
+            if(currentBossBar.enabled == true)
+            {
+                /*float bossratio = owlman.health / owlman.maxHealth;
+                if (owlman.maxHealth <= 0)
+                {
+                    ratio = 1;
+                }
+                currentBossBar.rectTransform.sizeDelta = new Vector2(bossratio * 250f, 20f);*/
+            }
 		}
+
+        public void MakeBossBarActive()
+        {
+            currentBossBarBase.enabled = true;
+            currentBossBar.enabled = true;
+        }
+
+        public void HideBossBar()
+        {
+            currentBossBarBase.enabled = false;
+            currentBossBar.enabled = false;
+        }
 
 		public void GiveEXP (float EXP)
 		{

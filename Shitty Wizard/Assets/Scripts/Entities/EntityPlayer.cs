@@ -29,16 +29,9 @@ public class EntityPlayer : Entity {
         _ui.UpdateHealthBar();
 
         if (this.health <= 0) {
-            SceneManager.LoadScene("MenuScene");
+            SceneManager.LoadScene("MenuSceneDeath");
         }
         MakeInvulnerable(2);
 
     }
-
-	void OnTriggerEnter(Collider other){
-		/*if (other.gameObject.CompareTag ("HEALTH")) {
-			currentHealth = currentHealth + 10f;
-			Destroy (other.gameObject);
-		}*/
-	}
 }
