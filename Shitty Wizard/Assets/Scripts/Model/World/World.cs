@@ -12,10 +12,14 @@ namespace ShittyWizard.Model.World
 		private int m_maxLevels = 1;
 
 		private int m_roomsPerLevel = 15;
+		private float m_roomsPerFloorSpread = 0.2f;
 
-		public World ()
+		public World (int numberOfFloors, int roomsPerFloor, float roomsPerFloorSpread)
 		{
 			m_levels = new List<Map> ();
+			m_maxLevels = numberOfFloors;
+			m_roomsPerLevel = roomsPerFloor;
+			m_roomsPerFloorSpread = roomsPerFloorSpread;
 		}
 
 		public void Update(float delta)
@@ -41,7 +45,8 @@ namespace ShittyWizard.Model.World
 			if (IsBossLevel) {
 				newLevel = AdvanceToBossLevel();
 			} else {
-				newLevel = new Map (m_roomsPerLevel);
+				int roomsForThisFloor = (int)(m_roomsPerLevel * (1.0f + UnityEngine.Random.Range (-m_roomsPerFloorSpread, m_roomsPerFloorSpread)));
+				newLevel = new Map (roomsForThisFloor);
 			}
 
 			m_levels.Add (newLevel);
@@ -55,9 +60,15 @@ namespace ShittyWizard.Model.World
 			return m;
 		}
 
-		public int CurrentLevelNumber {
+		public int CurrentFloorNumber {
 			get {
 				return m_currentLevel;
+			}
+		}
+
+		public int MaximumFloors {
+			get {
+				return m_maxLevels;
 			}
 		}
 	}

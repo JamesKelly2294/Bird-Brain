@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 0.4f;
-	Rigidbody rbody;
 	Transform m_SpriteTransform;
     Entity entity;
 
@@ -22,7 +21,6 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		rbody = GetComponent<Rigidbody> ();
         entity = GetComponent<Entity>();
         groundPlane = new Plane(new Vector3(-1, 0, 0), new Vector3(0, 0, 1), new Vector3(1, 0, 0));
 

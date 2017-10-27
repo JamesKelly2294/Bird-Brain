@@ -453,7 +453,9 @@ MonoBehaviour:
   target: {fileID: 0}
   offset: {x: 0, y: 0, z: -17.5}
   music:
-  - {fileID: 8300000, guid: d888b125026ff4b8d8050204420ebfca, type: 3}
+  - {fileID: 8300000, guid: e1e53a8c81434428db02660608936358, type: 3}
+  - {fileID: 8300000, guid: 032001affd52d49ae93a355b0743916d, type: 3}
+  - {fileID: 8300000, guid: 3132f5b30ea984f7da347b1ecb45e226, type: 3}
   musicSource: {fileID: 606046911}
 --- !u!81 &606046906
 AudioListener:
@@ -1022,16 +1024,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies:
-  - {fileID: 1481803918940612, guid: 8329b7df53fe9d24cab7f3911566399c, type: 2}
   - {fileID: 1669478416709228, guid: 61342e2e186224ab9930f022bf3c7424, type: 2}
   - {fileID: 1183826021899096, guid: 7d2946cc10812c847942774f1368e9c9, type: 2}
+  - {fileID: 1481803918940612, guid: 8329b7df53fe9d24cab7f3911566399c, type: 2}
   playerPrefab: {fileID: 1886721674197132, guid: 9ec9c79c7843c4bc0b58d9716df4adc8,
     type: 2}
   bossPrefab: {fileID: 1336530765659556, guid: 762a89a178f487148aa1b02c1f7fa079, type: 2}
   staircase: {fileID: 1979745244436324, guid: b88674a01d38e4aea95b5cb5e5c1f73a, type: 2}
   WorldGeometryController: {fileID: 801957958}
   GUIController: {fileID: 1712979304}
-  numberOfEnemies: 50
+  enemiesPerFloor: 30
+  enemiesPerFloorSpread: 0.2
+  numberOfFloors: 3
+  roomsPerFloor: 10
+  roomsPerFloorSpread: 0.2
+  DebugMode: 0
 --- !u!1 &1570095922
 GameObject:
   m_ObjectHideFlags: 0

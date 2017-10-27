@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
 using ShittyWizard.Model.World;
-using System.Diagnostics;
 
 namespace ShittyWizard.Controller.Game
 {
@@ -33,7 +32,21 @@ namespace ShittyWizard.Controller.Game
 		}
 
 		[Range (0, 100)]
-		public int numberOfEnemies;
+		public int enemiesPerFloor = 30;
+
+		[Range (0.0f, 1.0f)]
+		public float enemiesPerFloorSpread = 0.2f;
+
+		[Range(1, 10)]
+		public int numberOfFloors = 3;
+
+		[Range (1, 20)]
+		public int roomsPerFloor = 10;
+
+		[Range (0.0f, 1.0f)]
+		public float roomsPerFloorSpread = 0.2f;
+
+		public bool DebugMode = false;
 
 		void Awake ()
 		{
@@ -70,8 +83,12 @@ namespace ShittyWizard.Controller.Game
 			entities.transform.tag = "Entities";
 
 			Room endRoom = ActiveLevel.RoomManager.StaircaseRoom;
-			Tile t = ActiveLevel.TileManager.GetTileAt (Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterX - 2), Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterY) - 1);
-//			Tile t = ActiveLevel.TileManager.GetTileAt (Mathf.FloorToInt (endRoom.CenterX), Mathf.FloorToInt (endRoom.CenterY) - 1);
+			Tile t;
+			if (DebugMode) {
+				t = ActiveLevel.TileManager.GetTileAt (Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterX - 2), Mathf.FloorToInt (ActiveLevel.RoomManager.PlayerStartRoom.CenterY) - 1);
+			} else {
+				t = ActiveLevel.TileManager.GetTileAt (Mathf.FloorToInt (endRoom.CenterX), Mathf.FloorToInt (endRoom.CenterY) - 1);
+			}
 			GameObject stc = Instantiate (staircase);
 			stc.GetComponent<Staircase> ().player = m_player;
 			stc.GetComponent<Staircase> ().worldController = this;
@@ -79,9 +96,18 @@ namespace ShittyWizard.Controller.Game
 			stc.transform.parent = entities.transform;
 			stc.transform.name = "Staircase";
 
-			for (int i = 0; i < numberOfEnemies; i++) {
+			Vector2 playerPos = new Vector2 (m_player.transform.position.x, m_player.transform.position.z);
+			float enemyEliminationRadius = 15.0f;
+			int maxEnemyTypes = Mathf.RoundToInt(((float)ActiveWorld.CurrentFloorNumber / (float)ActiveWorld.MaximumFloors) * (float)enemies.Count);
+			Debug.Log (maxEnemyTypes);
+			int enemiesForThisFloor = (int)(enemiesPerFloor * (1.0f + UnityEngine.Random.Range (-enemiesPerFloorSpread, enemiesPerFloorSpread)));
+			for (int i = 0; i < enemiesForThisFloor; i++) {
 				t = ActiveLevel.TileManager.GetRandomTileOfType (TileType.Floor);
-				GameObject enemyType = enemies [UnityEngine.Random.Range (0, enemies.Count)];
+				if (Vector2.Distance (new Vector2 (t.X, t.Y), playerPos) < enemyEliminationRadius) {
+					continue;
+				}
+				GameObject enemyType = enemies [UnityEngine.Random.Range (0, maxEnemyTypes)];
+				Debug.Log (enemyType.name);
 				GameObject enemy = Instantiate (enemyType);
 				enemy.transform.position = new Vector3 (t.X + 0.5f, 0.0f, t.Y + 0.5f);
 				enemy.GetComponent<EnemyController> ().target = m_player.transform;
@@ -91,7 +117,7 @@ namespace ShittyWizard.Controller.Game
 			GameObject lights = new GameObject ();
 			lights.transform.parent = entities.transform;
 			lights.transform.name = "Lights";
-			for (int i = 0; i < 100; i++) {
+			for (int i = 0; i < roomsPerFloor * 3; i++) {
 				t = ActiveLevel.TileManager.GetRandomTileOfType (TileType.Floor);
 				GameObject light = new GameObject ();
 				light.transform.name = "Light";
@@ -160,7 +186,7 @@ namespace ShittyWizard.Controller.Game
 
 			WorldGeometryController.BuildInitialGeometry ();
 
-			GUIController.UpdateForNewLevel (ActiveWorld.CurrentLevelNumber.ToString ());
+			GUIController.UpdateForNewLevel (ActiveWorld.CurrentFloorNumber.ToString ());
 
 
 		}
@@ -168,7 +194,7 @@ namespace ShittyWizard.Controller.Game
 		void CreateEmptyWorld ()
 		{
 			// Create a world with Empty tiles
-			ActiveWorld = new World ();
+			ActiveWorld = new World (numberOfFloors, roomsPerFloor, roomsPerFloorSpread);
 		}
 
 		public Tile GetTileAtWorldCoord (Vector3 coord)

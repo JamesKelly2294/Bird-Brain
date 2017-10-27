@@ -12,7 +12,7 @@ public class ChickGroup : MonoBehaviour {
 
 		GameObject player = GameObject.FindGameObjectWithTag("Player");
 		GameObject entities = GameObject.FindGameObjectWithTag("Entities");
-        
+
         int numChicks = chickBaseCount + Random.Range(0, chickCountVariance);
         for (int i = 0; i < numChicks; i++) {
             GameObject chick = Instantiate(chickPrefab, this.transform.position, Quaternion.identity);

@@ -77,6 +77,7 @@ namespace ShittyWizard.Model.World
 			}
 		}
 
+		// this is p r o f f e s i o n a l code
 		private void DetermineSpecialRooms() {
 			List<Vertex<RoomData>> path = new List<Vertex<RoomData>> ();
 			foreach (Vertex<RoomData> v in RoomGraph.vertexmap) {
@@ -92,10 +93,14 @@ namespace ShittyWizard.Model.World
 			// set up start room
 			int startRoomNewWidth = 11;
 			int startRoomNewHeight = 11;
-
-			int newMinX = path [0].data.MinX + (path [0].data.Width / 2) - (startRoomNewWidth / 2);
-			int newMinY = path [0].data.MinY + (path [0].data.Height / 2) - (startRoomNewHeight / 2);
-			var startRoom = new RoomData(newMinX, newMinY, startRoomNewWidth, startRoomNewHeight);
+			var startRoom = path [0].data;
+			startRoom.ResetWithHeightAndWidth(startRoomNewWidth, startRoomNewHeight);
+			if (startRoom.MaxY >= Height) {
+				startRoom.MinY -= startRoom.MaxY - Height;
+			}
+			if (startRoom.MaxX >= Width) {
+				startRoom.MinX -= startRoom.MaxX - Width;
+			}
 
 			for (int x = 0; x < startRoomNewWidth; x++) {
 				for (int y = 0; y < startRoomNewHeight; y++) {
@@ -115,10 +120,14 @@ namespace ShittyWizard.Model.World
 			// set up staircase room
 			int staircaseRoomNewWidth = 7;
 			int staircaseRoomNewHeight = 11;
-
-			newMinX = path [path.Count - 1].data.MinX + (path [path.Count - 1].data.Width / 2) - (staircaseRoomNewWidth / 2);
-			newMinY = path [path.Count - 1].data.MinY + (path [path.Count - 1].data.Height / 2) - (staircaseRoomNewHeight / 2);
-			var endRoom = new RoomData(newMinX, newMinY, staircaseRoomNewWidth, staircaseRoomNewHeight);
+			var endRoom = path [path.Count - 1].data;
+			endRoom.ResetWithHeightAndWidth(staircaseRoomNewWidth, staircaseRoomNewHeight);
+			if (endRoom.MaxY >= Height) {
+				endRoom.MinY -= endRoom.MaxY - Height;
+			}
+			if (endRoom.MaxX >= Width) {
+				endRoom.MinX -= endRoom.MaxX - Width;
+			}
 
 			for (int x = 0; x < staircaseRoomNewWidth; x++) {
 				for (int y = 0; y < staircaseRoomNewHeight; y++) {
@@ -346,11 +355,22 @@ namespace ShittyWizard.Model.World
 			payload["width"] = Width;
 			payload["height"] = Height;
 			EmitEvent (GenericEventType.INITIALIZED, new ShittyWizzard.Utilities.Event(payload));
-			foreach (RoomData r in Rooms) {
-				r.Position = new Vector2(r.MinX - minX, r.MinY - minY);
-				payload = new Dictionary<string, object> ();
-				payload ["room"] = r;
-				EmitEvent (GenericEventType.CREATED, new ShittyWizzard.Utilities.Event(payload));
+			for ( int i = 0; i < Rooms.Count; i++) {
+				int curMinX = Rooms[i].MinX - minX;
+				if (curMinX < 0) {
+					Debug.Log ("X");
+					curMinX = 0;
+				}
+				int curMinY = Rooms[i].MinY - minY;
+				if (curMinY < 0) {
+					Debug.Log ("Y");
+					curMinY = 0;
+				}
+				Rooms[i].MinX = curMinX;
+				Rooms[i].MinY = curMinY;
+//				payload = new Dictionary<string, object> ();
+//				payload ["room"] = r;
+//				EmitEvent (GenericEventType.CREATED, new ShittyWizzard.Utilities.Event(payload));
 			}
 		}
 
@@ -494,6 +514,8 @@ namespace ShittyWizard.Model.World
 		public int MinX {
 			get {
 				return _minX;
+			} set {
+				_minX = value;
 			}
 		}
 
@@ -506,6 +528,9 @@ namespace ShittyWizard.Model.World
 		public int MinY {
 			get {
 				return _minY;
+			}
+			set {
+				_minY = value;
 			}
 		}
 
@@ -563,7 +588,7 @@ namespace ShittyWizard.Model.World
 
 		public override string ToString ()
 		{
-			return string.Format ("{0}", Center);
+			return string.Format ("minX: {0}, minY: {1}, width: {2}, height: {3}", MinX, MinY, Width, Height);
 		}
 
 		public RoomData (int minX, int minY, int width, int height)
@@ -571,6 +596,13 @@ namespace ShittyWizard.Model.World
 			this._minX = minX;
 			this._minY = minY;
 
+			this._width = width;
+			this._height = height;
+
+			this._tiles = new TileType[width, height];
+		}
+
+		public void ResetWithHeightAndWidth(int width, int height) {
 			this._width = width;
 			this._height = height;
 
