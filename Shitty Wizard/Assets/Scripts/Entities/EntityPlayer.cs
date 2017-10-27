@@ -9,7 +9,7 @@ public class EntityPlayer : Entity {
     [Header("Player Settings")]
     public int exp;
     public int expToNextLevel;
-	public int currentHealth = 6;
+	public float currentHealth = 100f;
 
     protected override void OnStart() {
         base.OnStart();
@@ -35,5 +35,10 @@ public class EntityPlayer : Entity {
 
     }
 
-
+	void OnTriggerEnter(Collider other){
+		/*if (other.gameObject.CompareTag ("HEALTH")) {
+			currentHealth = currentHealth + 10f;
+			Destroy (other.gameObject);
+		}*/
+	}
 }

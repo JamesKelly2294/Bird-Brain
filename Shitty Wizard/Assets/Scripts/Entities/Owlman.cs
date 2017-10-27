@@ -33,6 +33,8 @@ public class Owlman : EntityEnemy {
 
 	public Vector3 offset = Vector3.zero;
 
+
+
 	protected override void OnUpdate ()
 	{
 		// States

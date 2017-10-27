@@ -10,8 +10,9 @@ namespace ShittyWizard.Controller.Game
 	{
 
 		public Image currentHealthBar;
-
+		public Image currentBossBar;
 		public Image currentEXPbar;
+
 		public float currentEXP = 0f;
 		public float maxEXP = 100f;
 		public int level = 1;
