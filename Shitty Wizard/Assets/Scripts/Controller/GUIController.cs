@@ -26,7 +26,7 @@ namespace ShittyWizard.Controller.Game
 		private GameObject playerGO;
 		private EntityPlayer player;
         public GameObject bossGO;
-        public Owlman owlman;
+        private Owlman owlman;
 
 		public WorldController worldController;
 
@@ -96,6 +96,8 @@ namespace ShittyWizard.Controller.Game
         {
             currentBossBarBase.enabled = true;
             currentBossBar.enabled = true;
+            //bossGO = GameObject.Find("Owl Boss");
+            owlman = bossGO.GetComponent<Owlman>();
         }
 
         public void HideBossBar()
