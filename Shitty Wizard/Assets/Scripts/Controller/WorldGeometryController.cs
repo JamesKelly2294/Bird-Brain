@@ -24,7 +24,7 @@ namespace ShittyWizard.Controller.Game
 
 		private List<GameObject> m_geometry;
 
-		private Map ActiveMap { 
+		private Map ActiveMap {
 			get {
 				return WorldController.Instance.ActiveLevel;
 			}
@@ -80,6 +80,7 @@ namespace ShittyWizard.Controller.Game
 			go.transform.parent = parent;
 			go.AddComponent<MeshRenderer> ();
 			go.AddComponent<MeshFilter> ();
+			go.isStatic = true;
 			go.layer = LayerMask.NameToLayer ("Geometry");
 
 			return go;
@@ -87,7 +88,7 @@ namespace ShittyWizard.Controller.Game
 
 		public void BuildInitialGeometry (float textureOffsetX, float textureOffsetY) {
 			if (m_geometry != null) {
-				foreach (GameObject go in m_geometry) { 
+				foreach (GameObject go in m_geometry) {
 					Destroy (go);
 				}
 				m_geometry = null;
