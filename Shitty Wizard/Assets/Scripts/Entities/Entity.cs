@@ -80,7 +80,7 @@ public class Entity : MonoBehaviour {
 		previousFootstepPos = sinVal > 0.0f;
 
 
-		if (Mathf.Abs(rb.velocity.x) > 0) {
+		if (inControl && Mathf.Abs(rb.velocity.x) > 0) {
 			float direction = Mathf.Sign(rb.velocity.x);
 			spriteGO.transform.localScale = new Vector3 (direction * spriteScale.x, spriteGO.transform.localScale.y, spriteGO.transform.localScale.z);
 		}

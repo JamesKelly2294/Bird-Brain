@@ -14,6 +14,9 @@ public abstract class Projectile : MonoBehaviour {
 	public AudioClip hitSound;
     public float volume = 1.0f;
 
+	[Header("Particles")]
+	public GameObject onHitParticle;
+
     public static Projectile Create(GameObject _projectilePrefab, EntityType _type, GameObject _owner, Vector3 _initialPosition) {
 
 		GameObject pObj = (GameObject)Instantiate(_projectilePrefab, _initialPosition, Quaternion.identity);
@@ -51,6 +54,14 @@ public abstract class Projectile : MonoBehaviour {
         if (other.gameObject.tag == "Projectile") {
             return;
         }
+
+		if (onHitParticle != null && other.gameObject.layer == LayerMask.NameToLayer ("Wall")) {
+			GameObject particle = Instantiate (onHitParticle);
+			particle.transform.position = transform.position;
+			particle.transform.parent = transform.parent;
+
+			Destroy (particle, 0.3f);
+		}
 
         GameObject oGo = other.gameObject;
 

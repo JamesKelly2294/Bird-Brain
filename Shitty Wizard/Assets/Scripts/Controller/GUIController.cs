@@ -49,8 +49,9 @@ namespace ShittyWizard.Controller.Game
 		public void UpdateMinimap() {
 			float x = (playerGO.transform.position.x / minimap.texture.width) * minimapRectTransform.rect.width;
 			float z = (playerGO.transform.position.z / minimap.texture.height) * minimapRectTransform.rect.height;
+			float offset = (float)minimapRectTransform.localScale.x / 2;
 
-			minimapPlayerTracker.localPosition = new Vector3 (x, z, 0.0f);
+			minimapPlayerTracker.localPosition = new Vector3 (x + offset, z + offset, 0.0f);
 		}
 
 		// Update is called once per frame
