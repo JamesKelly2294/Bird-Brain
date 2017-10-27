@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
 using ShittyWizard.Model.World;
+using ShittyWizzard.Utilities;
 
 namespace ShittyWizard.Controller.Game
 {
+	[System.Serializable]
+	public class EnemySpawnRate {
+		public string Name = "Enemy";
+		public GameObject enemyPrefab;
+		public float spawnRate = 1.0f;
+	}
+
 	public class WorldController : MonoBehaviour
 	{
 		public static WorldController Instance { get; protected set; }
 
-		public List<GameObject> enemies;
+		public EnemySpawnRate[] enemies;
 		public GameObject playerPrefab;
 		public GameObject bossPrefab;
 		public GameObject staircase;
@@ -68,13 +76,9 @@ namespace ShittyWizard.Controller.Game
 
 		void CreateEntitiesForLevel ()
 		{
+			enemiesPerFloor += Mathf.RoundToInt(enemiesPerFloor * UnityEngine.Random.Range (0.0f, enemiesPerFloorSpread));
+
 			Room startRoom = ActiveLevel.RoomManager.PlayerStartRoom;
-			if (m_player == null) {
-				m_player = Instantiate (playerPrefab);
-				Camera.main.GetComponent<CameraController> ().target = m_player.transform;
-				m_player.transform.parent = transform;
-				m_player.transform.name = "Player";
-			}
 			m_player.transform.position = new Vector3 (startRoom.CenterX, 0.0f, startRoom.CenterY);
 
 			GameObject entities = new GameObject ();
@@ -98,16 +102,34 @@ namespace ShittyWizard.Controller.Game
 
 			Vector2 playerPos = new Vector2 (m_player.transform.position.x, m_player.transform.position.z);
 			float enemyEliminationRadius = 15.0f;
-			int maxEnemyTypes = Mathf.RoundToInt(((float)ActiveWorld.CurrentFloorNumber / (float)ActiveWorld.MaximumFloors) * (float)enemies.Count);
-			Debug.Log (maxEnemyTypes);
+			int maxEnemyTypes = Mathf.RoundToInt(((float)ActiveWorld.CurrentFloorNumber / (float)ActiveWorld.MaximumFloors) * (float)enemies.Length);
+
+			List<Tuple<float, GameObject>> spawnRates = new List<Tuple<float, GameObject>> ();
+			float currentSpawnRateMax = 0.0f;
+			for (int i = 0; i < maxEnemyTypes; i++) {
+				currentSpawnRateMax += enemies [i].spawnRate;
+				var tuple = new Tuple<float, GameObject> (currentSpawnRateMax, enemies [i].enemyPrefab);
+				spawnRates.Add(tuple);
+			}
+
 			int enemiesForThisFloor = (int)(enemiesPerFloor * (1.0f + UnityEngine.Random.Range (-enemiesPerFloorSpread, enemiesPerFloorSpread)));
 			for (int i = 0; i < enemiesForThisFloor; i++) {
 				t = ActiveLevel.TileManager.GetRandomTileOfType (TileType.Floor);
 				if (Vector2.Distance (new Vector2 (t.X, t.Y), playerPos) < enemyEliminationRadius) {
 					continue;
 				}
-				GameObject enemyType = enemies [UnityEngine.Random.Range (0, maxEnemyTypes)];
-				Debug.Log (enemyType.name);
+
+				// find enemy to spawn randomly
+				float randomSpawnRateVal = UnityEngine.Random.Range (0, currentSpawnRateMax);
+				GameObject enemyToSpawn = enemies [0].enemyPrefab;
+				for(int j = 0; j < enemies.Length; j++) {
+					if (randomSpawnRateVal < spawnRates[j].Item1) {
+						enemyToSpawn = spawnRates [j].Item2;
+						break;
+					}
+				}
+
+				GameObject enemyType = enemyToSpawn;
 				GameObject enemy = Instantiate (enemyType);
 				enemy.transform.position = new Vector3 (t.X + 0.5f, 0.0f, t.Y + 0.5f);
 				enemy.GetComponent<EnemyController> ().target = m_player.transform;
@@ -140,6 +162,13 @@ namespace ShittyWizard.Controller.Game
 				if (go != null) {
 					Destroy (go);
 				}
+			}
+
+			if (m_player == null) {
+				m_player = Instantiate (playerPrefab);
+				Camera.main.GetComponent<CameraController> ().target = m_player.transform;
+				m_player.transform.parent = transform;
+				m_player.transform.name = "Player";
 			}
 
 			ActiveWorld.AdvanceLevel ();

@@ -1024,9 +1024,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies:
-  - {fileID: 1669478416709228, guid: 61342e2e186224ab9930f022bf3c7424, type: 2}
-  - {fileID: 1183826021899096, guid: 7d2946cc10812c847942774f1368e9c9, type: 2}
-  - {fileID: 1481803918940612, guid: 8329b7df53fe9d24cab7f3911566399c, type: 2}
+  - Name: Chicken
+    enemyPrefab: {fileID: 1669478416709228, guid: 61342e2e186224ab9930f022bf3c7424,
+      type: 2}
+    spawnRate: 1
+  - Name: Chick Group
+    enemyPrefab: {fileID: 1183826021899096, guid: 7d2946cc10812c847942774f1368e9c9,
+      type: 2}
+    spawnRate: 0.6
+  - Name: Duck
+    enemyPrefab: {fileID: 1481803918940612, guid: 8329b7df53fe9d24cab7f3911566399c,
+      type: 2}
+    spawnRate: 0.4
   playerPrefab: {fileID: 1886721674197132, guid: 9ec9c79c7843c4bc0b58d9716df4adc8,
     type: 2}
   bossPrefab: {fileID: 1336530765659556, guid: 762a89a178f487148aa1b02c1f7fa079, type: 2}

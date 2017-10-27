@@ -16,7 +16,7 @@ public class ChickGroup : MonoBehaviour {
         int numChicks = chickBaseCount + Random.Range(0, chickCountVariance);
         for (int i = 0; i < numChicks; i++) {
             GameObject chick = Instantiate(chickPrefab, this.transform.position, Quaternion.identity);
-			chick.transform.parent = entities.transform;
+			chick.transform.parent = transform;
             EnemyController ec = chick.GetComponent<EnemyController>();
             ec.target = player.transform;
         }
