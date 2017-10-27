@@ -4719,7 +4719,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealthBar: {fileID: 1087276572}
-  currentBossBar: {fileID: 0}
+  currentBossBar: {fileID: 656481212}
+  currentBossBarBase: {fileID: 2133779132}
   currentEXPbar: {fileID: 543863647}
   currentEXP: 0
   maxEXP: 100
@@ -4729,6 +4730,8 @@ MonoBehaviour:
   minimap: {fileID: 1570095924}
   minimapRectTransform: {fileID: 1570095923}
   minimapPlayerTracker: {fileID: 2035270940}
+  bossGO: {fileID: 0}
+  owlman: {fileID: 0}
   worldController: {fileID: 1497681360}
 --- !u!1 &1810609189
 GameObject:
