@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f686a94ceb3861a459fb50d665d8d491
+timeCreated: 1509058752
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - castSound: {fileID: 8300000, guid: 4f7cf44fab97b8b41b383a888a7fca4d, type: 3}
+  - featherPrefab: {fileID: 1363289302327628, guid: 69ab29be88afed749983e1190194eb9e,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
