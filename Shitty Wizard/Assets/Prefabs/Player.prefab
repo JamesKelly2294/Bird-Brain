@@ -11,6 +11,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1886721674197132}
   m_IsPrefabParent: 1
+--- !u!1 &1018496355265530
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4604151656751482}
+  - component: {fileID: 114397642063245998}
+  m_Layer: 0
+  m_Name: Poop Attack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1221354429927130
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,6 +159,7 @@ Transform:
   - {fileID: 4361798640978392}
   - {fileID: 4895567939906972}
   - {fileID: 4230134009169048}
+  - {fileID: 4604151656751482}
   m_Father: {fileID: 4891479999506430}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -171,6 +188,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4229597952501642}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4604151656751482
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1018496355265530}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4229597952501642}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4681975928765412
 Transform:
@@ -387,7 +417,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -481,6 +511,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlMode: 0
   speed: 5.67
+--- !u!114 &114397642063245998
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1018496355265530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21f4aa0e4e1789f40ac3dd8f9a8a13fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reloadTime: 0.3
+  castSound: {fileID: 8300000, guid: 1d34828acfe40994a8debecf256175ce, type: 3}
+  volume: 0.5
+  poopPrefab: {fileID: 1615170686583790, guid: af6bfb233212af940b784c7c5e741d35, type: 2}
 --- !u!114 &114472177259194816
 MonoBehaviour:
   m_ObjectHideFlags: 1
