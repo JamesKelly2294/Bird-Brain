@@ -20,7 +20,7 @@ public class Entity : MonoBehaviour {
     public bool inControl = true;
     public float health;
     public float maxHealth = 0;
-    public bool invulnerable = false;
+	public bool invulnerable = false;
 
     [Header("Bounce Settings")]
     public float bounceSpeedMultiplier = 3;
@@ -31,6 +31,7 @@ public class Entity : MonoBehaviour {
     private float blinkRate = 0.2f;
     private bool visible = true;
     private bool flashing = false;
+	private bool invisibleFlashing = false;
 
     private Rigidbody rb;
     private float bounceCycle = 0;
@@ -148,6 +149,40 @@ public class Entity : MonoBehaviour {
 
     }
 
+	protected void MakeInvisibleFlash(float _length) {
+		if (!invisibleFlashing) {
+			StartCoroutine(InvisibleFlashCR(_length));
+		}
+	}
+
+	private IEnumerator InvisibleFlashCR(float _length) {
+
+		invisibleFlashing = true;
+		SetVisible(false);
+
+		float blinkTimer = 0;
+		while (_length > 0 || !visible) {
+
+			_length -= Time.deltaTime;
+
+			blinkTimer += Time.deltaTime;
+			if (blinkTimer >= blinkRate) {
+				blinkTimer -= blinkRate;
+				ToggleVisibile();
+				if (visible && _length < blinkRate) {
+					_length = 0;
+				}
+			}
+
+			yield return null;
+
+		}
+
+		SetVisible(true);
+		invisibleFlashing = false;
+
+	}
+
     private void ToggleVisibile() {
         SetVisible(!visible);
     }
@@ -155,10 +190,18 @@ public class Entity : MonoBehaviour {
     private void SetVisible(bool _visible) {
         visible = _visible;
         MeshRenderer meshRenderer = sprite.GetComponent<MeshRenderer>();
-        meshRenderer.enabled = _visible;
+		if (meshRenderer != null) {
+			meshRenderer.enabled = _visible;
+		} else {
+			// sorry about your elegant solution jeff...
+			// things got messy
+			// -james
+			SpriteRenderer spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+			spriteRenderer.enabled = _visible;
+		}
     }
 
-    protected void Flash(float _length) {
+    protected void MakeFlash(float _length) {
         if (!flashing) {
             StartCoroutine(FlashCR(_length));
         }
