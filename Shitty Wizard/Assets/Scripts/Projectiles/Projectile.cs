@@ -17,9 +17,16 @@ public abstract class Projectile : MonoBehaviour {
 	[Header("Particles")]
 	public GameObject onHitParticle;
 
+    private static Transform projectileHolder;
+
     public static Projectile Create(GameObject _projectilePrefab, EntityType _type, GameObject _owner, Vector3 _initialPosition) {
 
+        if (projectileHolder == null) {
+            projectileHolder = GameObject.Find("ProjectileHolder").transform;
+        }
+
 		GameObject pObj = (GameObject)Instantiate(_projectilePrefab, _initialPosition, Quaternion.identity);
+        if (projectileHolder != null) pObj.transform.parent = projectileHolder;
         Projectile proj = pObj.GetComponent<Projectile>();
         proj.owner = _owner;
         proj.type = _type;
@@ -65,7 +72,7 @@ public abstract class Projectile : MonoBehaviour {
 
         GameObject oGo = other.gameObject;
 
-        if (oGo != owner) {
+        if (oGo != owner && (oGo.transform.parent == null || oGo.transform.parent.gameObject != owner)) {
 
             // Damage collided if entity and play hit sound
             Entity entity = oGo.GetComponent<Entity>();
@@ -78,7 +85,7 @@ public abstract class Projectile : MonoBehaviour {
                 }
 
             } else {
-
+                
                 Destroy(this.gameObject);
 
             }

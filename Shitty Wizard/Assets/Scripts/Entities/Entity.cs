@@ -52,8 +52,10 @@ public class Entity : MonoBehaviour {
         maxHealth = health;
 		_ui = GameObject.Find ("GUIController").GetComponent<GUIController> ();
         itm = GetComponent<IceTileManager>();
-		spriteGO = transform.Find ("Sprite").gameObject;
-		spriteScale = spriteGO.transform.localScale;
+        if (transform.Find("Sprite") != null) {
+            spriteGO = transform.Find("Sprite").gameObject;
+            spriteScale = spriteGO.transform.localScale;
+        }
         OnStart();
     }
     protected virtual void OnStart() { }
@@ -80,7 +82,7 @@ public class Entity : MonoBehaviour {
 		previousFootstepPos = sinVal > 0.0f;
 
 
-		if (inControl && Mathf.Abs(rb.velocity.x) > 0) {
+		if (spriteGO != null && inControl && Mathf.Abs(rb.velocity.x) > 0) {
 			float direction = Mathf.Sign(rb.velocity.x);
 			spriteGO.transform.localScale = new Vector3 (direction * spriteScale.x, spriteGO.transform.localScale.y, spriteGO.transform.localScale.z);
 		}

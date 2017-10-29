@@ -433,6 +433,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlMode: 0
   speed: 5.67
+  spriteMeshRenderer: {fileID: 23367529373059928}
+  playerMaterials:
+  - {fileID: 2100000, guid: 170d735c972672c4c8ae60e577189776, type: 2}
+  - {fileID: 2100000, guid: ac723e399dbeb4146a00dce2d5163ec8, type: 2}
 --- !u!114 &114472177259194816
 MonoBehaviour:
   m_ObjectHideFlags: 1

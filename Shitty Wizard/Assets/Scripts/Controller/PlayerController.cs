@@ -25,6 +25,9 @@ public class PlayerController : MonoBehaviour {
     private float iceAcceleration = 0.2f;
     private Vector3 moveVec = Vector3.zero;
 
+    public MeshRenderer spriteMeshRenderer;
+    public Material[] playerMaterials;
+
 	// Use this for initialization
 	void Start () {
 
@@ -39,6 +42,9 @@ public class PlayerController : MonoBehaviour {
         foreach (Spell s in spellsTransform.GetComponentsInChildren<Spell>()) {
             spells.Add(s);
         }
+
+        SwitchSpell(0);
+
 	}
 	
 	// Update is called once per frame
@@ -98,9 +104,13 @@ public class PlayerController : MonoBehaviour {
 
             // switching weapons
             if (Input.GetKeyDown(KeyCode.E)) {
-                currentSpell++;
+                SwitchSpell(currentSpell + 1);
             } else if (Input.GetKeyDown(KeyCode.Q)) {
-                currentSpell--;
+                SwitchSpell(currentSpell - 1);
+            } else if (Input.GetKeyDown(KeyCode.Alpha1)) {
+                SwitchSpell(0);
+            } else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+                SwitchSpell(1);
             }
 
             currentSpell = currentSpell % spells.Count;
@@ -142,6 +152,23 @@ public class PlayerController : MonoBehaviour {
             }
             
 
+        }
+
+    }
+
+    private void SwitchSpell(int _spellNum) {
+
+        currentSpell = _spellNum;
+
+        currentSpell = currentSpell % spells.Count;
+        while (currentSpell < 0) {
+            currentSpell += spells.Count;
+        }
+
+        if (currentSpell < playerMaterials.Length) {
+            spriteMeshRenderer.material = playerMaterials[currentSpell];
+        } else {
+            spriteMeshRenderer.material = playerMaterials[0];
         }
 
     }

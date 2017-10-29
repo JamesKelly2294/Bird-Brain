@@ -285,8 +285,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1d4453e5a195d40d196ef07735b1fab4, type: 3}
   footstepsVolume: 0.07
   inControl: 1
-  health: 10
-  maxHealth: 10
+  health: 50
+  maxHealth: 0
   invulnerable: 0
   bounceSpeedMultiplier: 2.5
   bounceHeight: 1
