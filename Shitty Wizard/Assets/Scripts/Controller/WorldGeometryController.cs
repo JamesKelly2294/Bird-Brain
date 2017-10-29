@@ -85,7 +85,7 @@ namespace ShittyWizard.Controller.Game
 			return go;
 		}
 
-		public void BuildInitialGeometry () {
+		public void BuildInitialGeometry (float textureOffsetX, float textureOffsetY) {
 			if (m_geometry != null) {
 				foreach (GameObject go in m_geometry) { 
 					Destroy (go);
@@ -111,13 +111,13 @@ namespace ShittyWizard.Controller.Game
 						height = tm.Height - y;
 					}
 
-					BuildChunk (x, y, width, height, chunkNumber);
+					BuildChunk (x, y, width, height, chunkNumber, textureOffsetX, textureOffsetY);
 					chunkNumber++;
 				}
 			}
 		}
 
-		public void BuildChunk (int startX, int startY, int width, int height, int chunkNumber)
+		public void BuildChunk (int startX, int startY, int width, int height, int chunkNumber, float textureOffsetX, float textureOffsetY)
 		{
 			TileManager tm = ActiveMap.TileManager;
 
@@ -157,9 +157,10 @@ namespace ShittyWizard.Controller.Game
 			float tileTexWidth = 16.0f / tileMap.width;
 			float tileTexHeight = 16.0f / tileMap.height;
 
-			Vector2 ceilingLoc = new Vector2 (0.0f, 0.0f);
-			Vector2 floorLoc = new Vector2 (1.0f, 0.0f);
-			Vector2 wallLoc = new Vector2 (2.0f, 0.0f);
+			Vector2 tilesetOffset = new Vector2 (textureOffsetX, textureOffsetY);
+			Vector2 ceilingLoc = new Vector2 (0.0f, 0.0f) + tilesetOffset;
+			Vector2 floorLoc = new Vector2 (1.0f, 0.0f) + tilesetOffset;
+			Vector2 wallLoc = new Vector2 (2.0f, 0.0f) + tilesetOffset;
 
 			Vector2 offset = new Vector2 (1.0f / tileMap.width, 1.0f / tileMap.height);
 

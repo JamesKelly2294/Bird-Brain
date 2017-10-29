@@ -83,7 +83,7 @@ namespace ShittyWizard.Controller.Game
 
 		void CreateEntitiesForBoss ()
 		{
-			camera.orthographicSize = initialCameraOrthographicSize * 2.0f;
+			camera.GetComponent<CameraController>().UpdateOrthographicSize(initialCameraOrthographicSize * 2.0f);
 
 			m_player.transform.position = new Vector3 (
 				ActiveWorld.ActiveLevel.TileManager.Width / 2.0f,
@@ -124,7 +124,7 @@ namespace ShittyWizard.Controller.Game
 
 		void CreateEntitiesForLevel ()
 		{
-			camera.orthographicSize = initialCameraOrthographicSize;
+			camera.GetComponent<CameraController>().UpdateOrthographicSize(initialCameraOrthographicSize);
 
 			enemiesPerFloor += Mathf.RoundToInt (enemiesPerFloor * UnityEngine.Random.Range (0.0f, enemiesPerFloorSpread));
 
@@ -228,12 +228,12 @@ namespace ShittyWizard.Controller.Game
 
 			if (!ActiveWorld.IsBossLevel) {
 				CreateEntitiesForLevel ();
-
+				WorldGeometryController.BuildInitialGeometry (0.0f, 0.0f);
 			} else {
 				CreateEntitiesForBoss ();
+				WorldGeometryController.BuildInitialGeometry (3.0f, 0.0f);
 			}
 
-			WorldGeometryController.BuildInitialGeometry ();
 
 			GUIController.UpdateForNewLevel (ActiveWorld.CurrentFloorNumber.ToString ());
 
