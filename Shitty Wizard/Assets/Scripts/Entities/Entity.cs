@@ -26,6 +26,9 @@ public class Entity : MonoBehaviour {
     public float bounceSpeedMultiplier = 3;
     public float bounceHeight = 0.3f;
 
+	[Header("Particle Effects")]
+	public GameObject onDeathParticle;
+
     public GameObject sprite;
 
     private float blinkRate = 0.2f;
@@ -114,7 +117,15 @@ public class Entity : MonoBehaviour {
 
     }
 
-    protected virtual void OnDeath() { }
+    protected virtual void OnDeath() { 
+		if (onDeathParticle != null) {
+			GameObject particle = Instantiate (onDeathParticle);
+			particle.transform.position = transform.position + new Vector3(0.0f, 0.15f, 0.0f);
+
+			Destroy (particle, 1.5f);
+		}
+
+	}
     protected virtual void OnDamage() { }
 
     protected void MakeInvulnerable(float _length) {

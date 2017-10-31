@@ -237,12 +237,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  footsteps: []
+  footstepsVolume: 0
   inControl: 1
   health: 150
   maxHealth: 0
   invulnerable: 0
   bounceSpeedMultiplier: 3
   bounceHeight: 0.3
+  onDeathParticle: {fileID: 1363058177062260, guid: f234ee7d811694dbaa27fc4aa9171b78,
+    type: 2}
   sprite: {fileID: 1742132697836976}
   expToGive: 5
   damageOnContact: 30
