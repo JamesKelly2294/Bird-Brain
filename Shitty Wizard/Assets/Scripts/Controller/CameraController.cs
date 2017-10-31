@@ -12,19 +12,28 @@ public class CameraController : MonoBehaviour {
 
     private Camera cam;
 
+	public void UpdateOrthographicSize(float size) {
+		cam.orthographicSize = size;
+		cam.ResetProjectionMatrix();
+		var m = cam.projectionMatrix;
+
+		m.m11 *= 1.5f;
+		cam.projectionMatrix = m;
+	}
+
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         cam = GetComponent<Camera>();
 
-        cam.ResetProjectionMatrix();
-        var m = cam.projectionMatrix;
+		UpdateOrthographicSize (cam.orthographicSize);
 
-        m.m11 *= 1.5f;
-        cam.projectionMatrix = m;
 
+    }
+
+	void Start () {
 		musicSource.volume = 0.07f;
 		PlayMusic ();
-    }
+	}
 
 	void PlayMusic() {
 		int i = Random.Range (0, music.Length);

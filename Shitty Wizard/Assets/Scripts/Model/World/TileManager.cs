@@ -48,6 +48,24 @@ namespace ShittyWizard.Model.World
 			return GetTileAt(xyPair.Item1 + r.MinX, xyPair.Item2 + r.MinY);
 		}
 
+		public bool HasNeighborOfType(Tile tile, TileType target) {
+			int y = tile.Y;
+			int x = tile.X;
+			for (int row = y - 1; row <= y + 1; row++) {
+				for (int col = x - 1; col <= x + 1; col++) {
+					if (row == y && col == x) {
+						continue;
+					}
+					Tile n = GetTileAt (col, row);
+					if (GetTileAt (col, row).Type == target) {
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
 		private TileManager() {
 			_width = 0;
 			_height = 0;

@@ -27,7 +27,7 @@ public class EntityEnemy : Entity {
 
     protected override void OnDamage() {
         base.OnDamage();
-        Flash(0.05f);
+        MakeFlash(0.05f);
     }
 
     private void OnTriggerStay(Collider other) {

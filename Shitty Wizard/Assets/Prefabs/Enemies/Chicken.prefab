@@ -275,6 +275,8 @@ MonoBehaviour:
   invulnerable: 0
   bounceSpeedMultiplier: 3
   bounceHeight: 0.3
+  onDeathParticle: {fileID: 1363058177062260, guid: f234ee7d811694dbaa27fc4aa9171b78,
+    type: 2}
   sprite: {fileID: 1060416529823498}
   expToGive: 2
   damageOnContact: 30

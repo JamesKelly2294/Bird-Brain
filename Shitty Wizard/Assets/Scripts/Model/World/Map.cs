@@ -60,8 +60,8 @@ namespace ShittyWizard.Model.World
 //			if (closestWidth < closestHeight) {
 //				max = closestHeight;
 //			}
-			//Texture2D tex = new Texture2D (max, max);
-			Texture2D tex = new Texture2D (Width, Height);
+//			Texture2D tex = new Texture2D (max, max);
+			Texture2D tex = new Texture2D (TileManager.Width, TileManager.Height);
 
 			var pixels = tex.GetPixels ();
 
@@ -73,24 +73,32 @@ namespace ShittyWizard.Model.World
 				}
 			}
 
+			int yOffset = 0;
+			int xOffset = 0;
+//			int yOffset = Mathf.FloorToInt((max - TileManager.Height) / 2.0f);
+//			int xOffset = Mathf.FloorToInt((max - TileManager.Width) / 2.0f);
+
 			for (int x = 0; x < TileManager.Width; x++) {
 				for (int y = 0; y < TileManager.Height; y++) {
 					Tile t = TileManager.GetTileAt (x, y);
 					switch (t.Type) {
 					case TileType.Wall:
-						pixels [y * tex.width + x] = new Color (0.7f, 0.7f, 0.7f, 1.0f);
+						if (TileManager.HasNeighborOfType (t, TileType.Floor)) {
+							pixels [(y+yOffset) * tex.width + (x+xOffset)] = new Color (0.5f, 0.5f, 0.7f, 1.0f);
+						}
 						break;
 					case TileType.Floor:
-						pixels [y * tex.width + x] = new Color (0.1f, 0.1f, 0.55f, 1.0f);
+						pixels [(y+yOffset) * tex.width + (x+xOffset)] = new Color (0.1f, 0.1f, 0.55f, 1.0f);
 						break;
 					case TileType.Empty:
 					default:
-						pixels [y * tex.width + x] = new Color (0.0f, 0.0f, 0.0f, 0.0f);
+						pixels [(y+yOffset) * tex.width + (x+xOffset)] = new Color (0.0f, 0.0f, 0.0f, 0.0f);
 						break;
 					}
 				}
 			}
 
+			tex.filterMode = FilterMode.Point;
 			tex.wrapMode = TextureWrapMode.Clamp;
 			tex.SetPixels (pixels);
 			tex.Apply ();

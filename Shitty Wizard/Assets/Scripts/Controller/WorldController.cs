@@ -8,7 +8,8 @@ using ShittyWizzard.Utilities;
 namespace ShittyWizard.Controller.Game
 {
 	[System.Serializable]
-	public class EnemySpawnRate {
+	public class EnemySpawnRate
+	{
 		public string Name = "Enemy";
 		public GameObject enemyPrefab;
 		public float spawnRate = 1.0f;
@@ -39,13 +40,15 @@ namespace ShittyWizard.Controller.Game
 			protected set;
 		}
 
+		public Camera camera;
+
 		[Range (0, 100)]
 		public int enemiesPerFloor = 30;
 
 		[Range (0.0f, 1.0f)]
 		public float enemiesPerFloorSpread = 0.2f;
 
-		[Range(1, 10)]
+		[Range (1, 10)]
 		public int numberOfFloors = 3;
 
 		[Range (1, 20)]
@@ -56,6 +59,8 @@ namespace ShittyWizard.Controller.Game
 
 		public bool DebugMode = false;
 
+		private float initialCameraOrthographicSize = 0.0f;
+
 		void Awake ()
 		{
 			if (Instance != null) {
@@ -63,6 +68,8 @@ namespace ShittyWizard.Controller.Game
 				" MapController!");
 			}        
 			Instance = this;
+
+			initialCameraOrthographicSize = Camera.main.orthographicSize;
 
 			CreateEmptyWorld ();
 
@@ -74,12 +81,57 @@ namespace ShittyWizard.Controller.Game
 			ActiveWorld.Update (Time.deltaTime);
 		}
 
+		void CreateEntitiesForBoss ()
+		{
+			camera.GetComponent<CameraController>().UpdateOrthographicSize(initialCameraOrthographicSize * 2.0f);
+
+			m_player.transform.position = new Vector3 (
+				ActiveWorld.ActiveLevel.TileManager.Width / 2.0f,
+				0.0f,
+				ActiveWorld.ActiveLevel.TileManager.Height / 3.0f
+			);
+
+			GameObject boss = Instantiate (bossPrefab);
+			GUIController.SetBoss(boss);
+			boss.transform.position = new Vector3 (
+				ActiveWorld.ActiveLevel.TileManager.Width / 2.0f,
+				0.0f,
+				ActiveWorld.ActiveLevel.TileManager.Height / 2.0f
+			);
+			boss.GetComponent<Owlman> ().offset = boss.transform.position;
+			boss.GetComponent<Owlman> ().target = m_player;
+			boss.transform.parent = transform;
+
+
+			GameObject lights = new GameObject ();
+			lights.transform.parent = transform;
+			lights.transform.name = "Lights";
+			for (int i = 0; i < 8; i++) {
+				Tile t = ActiveLevel.TileManager.GetRandomTileOfType (TileType.Floor);
+				GameObject light = new GameObject ();
+				light.transform.name = "Light";
+				light.AddComponent<Light> ();
+				light.GetComponent<Light> ().color = new Color (
+					UnityEngine.Random.Range (0.5f, 0.8f), 
+					UnityEngine.Random.Range (0.1f, 0.2f), 
+					UnityEngine.Random.Range (0.1f, 0.2f)
+				);
+				light.GetComponent<Light> ().range = 50.0f;
+				light.transform.position = new Vector3 (t.X + 0.5f, 1.5f, t.Y + 0.5f);
+				light.transform.parent = lights.transform;
+			}
+		}
+
 		void CreateEntitiesForLevel ()
 		{
-			enemiesPerFloor += Mathf.RoundToInt(enemiesPerFloor * UnityEngine.Random.Range (0.0f, enemiesPerFloorSpread));
+			camera.GetComponent<CameraController>().UpdateOrthographicSize(initialCameraOrthographicSize);
+
+			enemiesPerFloor += Mathf.RoundToInt (enemiesPerFloor * UnityEngine.Random.Range (0.0f, enemiesPerFloorSpread));
 
 			Room startRoom = ActiveLevel.RoomManager.PlayerStartRoom;
 			m_player.transform.position = new Vector3 (startRoom.CenterX, 0.0f, startRoom.CenterY);
+			GUIController.playerGO = m_player;
+			GUIController.player = m_player.GetComponent<EntityPlayer> ();
 
 			GameObject entities = new GameObject ();
 			entities.transform.parent = transform;
@@ -99,17 +151,18 @@ namespace ShittyWizard.Controller.Game
 			stc.transform.position = new Vector3 (t.X, 0.0f, t.Y);
 			stc.transform.parent = entities.transform;
 			stc.transform.name = "Staircase";
+			GUIController.staircaseGO = stc;
 
 			Vector2 playerPos = new Vector2 (m_player.transform.position.x, m_player.transform.position.z);
 			float enemyEliminationRadius = 15.0f;
-			int maxEnemyTypes = Mathf.RoundToInt(((float)ActiveWorld.CurrentFloorNumber / (float)ActiveWorld.MaximumFloors) * (float)enemies.Length);
+			int maxEnemyTypes = Mathf.RoundToInt (((float)ActiveWorld.CurrentFloorNumber / (float)ActiveWorld.MaximumFloors) * (float)enemies.Length);
 
 			List<Tuple<float, GameObject>> spawnRates = new List<Tuple<float, GameObject>> ();
 			float currentSpawnRateMax = 0.0f;
 			for (int i = 0; i < maxEnemyTypes; i++) {
 				currentSpawnRateMax += enemies [i].spawnRate;
 				var tuple = new Tuple<float, GameObject> (currentSpawnRateMax, enemies [i].enemyPrefab);
-				spawnRates.Add(tuple);
+				spawnRates.Add (tuple);
 			}
 
 			int enemiesForThisFloor = (int)(enemiesPerFloor * (1.0f + UnityEngine.Random.Range (-enemiesPerFloorSpread, enemiesPerFloorSpread)));
@@ -122,8 +175,8 @@ namespace ShittyWizard.Controller.Game
 				// find enemy to spawn randomly
 				float randomSpawnRateVal = UnityEngine.Random.Range (0, currentSpawnRateMax);
 				GameObject enemyToSpawn = enemies [0].enemyPrefab;
-				for(int j = 0; j < enemies.Length; j++) {
-					if (randomSpawnRateVal < spawnRates[j].Item1) {
+				for (int j = 0; j < enemies.Length; j++) {
+					if (randomSpawnRateVal < spawnRates [j].Item1) {
 						enemyToSpawn = spawnRates [j].Item2;
 						break;
 					}
@@ -166,7 +219,7 @@ namespace ShittyWizard.Controller.Game
 
 			if (m_player == null) {
 				m_player = Instantiate (playerPrefab);
-				Camera.main.GetComponent<CameraController> ().target = m_player.transform;
+				camera.GetComponent<CameraController> ().target = m_player.transform;
 				m_player.transform.parent = transform;
 				m_player.transform.name = "Player";
 			}
@@ -175,47 +228,12 @@ namespace ShittyWizard.Controller.Game
 
 			if (!ActiveWorld.IsBossLevel) {
 				CreateEntitiesForLevel ();
-
+				WorldGeometryController.BuildInitialGeometry (0.0f, 0.0f);
 			} else {
-				m_player.transform.position = new Vector3 (
-					ActiveWorld.ActiveLevel.TileManager.Width / 2.0f,
-					0.0f,
-					ActiveWorld.ActiveLevel.TileManager.Height / 3.0f
-				);
-
-				GameObject boss = Instantiate (bossPrefab);
-                GUIController.bossGO = boss;
-                GUIController.MakeBossBarActive();
-				boss.transform.position = new Vector3 (
-					ActiveWorld.ActiveLevel.TileManager.Width / 2.0f,
-					0.0f,
-					ActiveWorld.ActiveLevel.TileManager.Height / 2.0f
-				);
-				boss.GetComponent<Owlman> ().offset = boss.transform.position;
-				boss.GetComponent<Owlman> ().target = m_player;
-				boss.transform.parent = transform;
-
-
-				GameObject lights = new GameObject ();
-				lights.transform.parent = transform;
-				lights.transform.name = "Lights";
-				for (int i = 0; i < 8; i++) {
-					Tile t = ActiveLevel.TileManager.GetRandomTileOfType (TileType.Floor);
-					GameObject light = new GameObject ();
-					light.transform.name = "Light";
-					light.AddComponent<Light> ();
-					light.GetComponent<Light> ().color = new Color (
-						UnityEngine.Random.Range (0.5f, 0.8f), 
-						UnityEngine.Random.Range (0.1f, 0.2f), 
-						UnityEngine.Random.Range (0.1f, 0.2f)
-					);
-					light.GetComponent<Light> ().range = 50.0f;
-					light.transform.position = new Vector3 (t.X + 0.5f, 1.5f, t.Y + 0.5f);
-					light.transform.parent = lights.transform;
-				}
+				CreateEntitiesForBoss ();
+				WorldGeometryController.BuildInitialGeometry (3.0f, 0.0f);
 			}
 
-			WorldGeometryController.BuildInitialGeometry ();
 
 			GUIController.UpdateForNewLevel (ActiveWorld.CurrentFloorNumber.ToString ());
 

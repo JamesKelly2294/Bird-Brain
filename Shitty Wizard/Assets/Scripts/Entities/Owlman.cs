@@ -110,6 +110,11 @@ public class Owlman : EntityEnemy {
 
 	}
 
+	protected override void OnDamage() {
+		base.OnDamage();
+		MakeInvisibleFlash(0.5f);
+	}
+
     private IEnumerator Wait(float _length, BossState nextState) {
         yield return new WaitForSeconds(_length);
         bossState = nextState;
