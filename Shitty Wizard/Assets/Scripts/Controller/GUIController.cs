@@ -11,7 +11,7 @@ namespace ShittyWizard.Controller.Game
 		[Header ("Player")]
 		public Image currentHealthBar;
 		public Image currentEXPbar;
-
+		private float HPbarSizeDelta = 250f;
 		public float currentEXP = 0f;
 		public float maxEXP = 100f;
 		public int level = 1;
@@ -80,7 +80,7 @@ namespace ShittyWizard.Controller.Game
 			UpdateHealthBar ();
 
 			float EXPratio = currentEXP / maxEXP;
-			currentEXPbar.rectTransform.sizeDelta = new Vector2 (EXPratio * 250f, 20f);
+			currentEXPbar.rectTransform.sizeDelta = new Vector2 (EXPratio * HPbarSizeDelta, 20f);
 
 
 			if (currentEXP >= maxEXP) {
@@ -88,6 +88,7 @@ namespace ShittyWizard.Controller.Game
 				levelText.text = level.ToString ();
 				float tempXP = currentEXP;
 				currentEXP = tempXP - maxEXP;
+				HPbarSizeDelta += 25f;
 			}
 
 			UpdateMinimap ();
@@ -99,7 +100,7 @@ namespace ShittyWizard.Controller.Game
 			if (player.maxHealth <= 0) {
 				ratio = 1;
 			}
-			currentHealthBar.rectTransform.sizeDelta = new Vector2 (ratio * 250.0f, 20f);
+			currentHealthBar.rectTransform.sizeDelta = new Vector2 (ratio * HPbarSizeDelta, 20f);
 
 			if (owlGO != null) {
 				Owlman owlman = owlGO.GetComponent<Owlman> ();
