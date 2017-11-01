@@ -13,6 +13,7 @@ namespace ShittyWizard.Controller.Game
 		public Image currentHealthBarBase;
 		public Image currentEXPbar;
 		private float HPbarSizeDelta = 250f;
+		private float XPbarSizeDelta = 250f;
 		public float currentEXP = 0f;
 		public float maxEXP = 100f;
 		public int level = 1;
@@ -86,7 +87,7 @@ namespace ShittyWizard.Controller.Game
 			UpdateHealthBar ();
 
 			float EXPratio = currentEXP / maxEXP;
-			currentEXPbar.rectTransform.sizeDelta = new Vector2 (EXPratio * HPbarSizeDelta, 20f);
+			currentEXPbar.rectTransform.sizeDelta = new Vector2 (EXPratio * XPbarSizeDelta, 20f);
 
 
 			while (currentEXP >= maxEXP) {
