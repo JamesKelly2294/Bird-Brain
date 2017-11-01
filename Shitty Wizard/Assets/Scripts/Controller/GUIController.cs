@@ -89,6 +89,8 @@ namespace ShittyWizard.Controller.Game
 				float tempXP = currentEXP;
 				currentEXP = tempXP - maxEXP;
 				HPbarSizeDelta += 25f;
+				player.maxHealth += 25f;
+				player.health = player.maxHealth;
 			}
 
 			UpdateMinimap ();
