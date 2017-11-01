@@ -148,7 +148,7 @@ namespace ShittyWizard.Controller.Game
 			GameObject stc = Instantiate (staircase);
 			stc.GetComponent<Staircase> ().player = m_player;
 			stc.GetComponent<Staircase> ().worldController = this;
-			stc.transform.position = new Vector3 (t.X, 0.0f, t.Y);
+			stc.transform.position = new Vector3 (t.X, 0.0f, t.Y+1.0f);
 			stc.transform.parent = entities.transform;
 			stc.transform.name = "Staircase";
 			GUIController.staircaseGO = stc;
