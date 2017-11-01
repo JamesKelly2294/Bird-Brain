@@ -9,6 +9,7 @@ public abstract class Projectile : MonoBehaviour {
     public GameObject owner;
     public float damage;
     public float lifetime = 1000;
+	public float knockbackMagnitude = 0.0f;
 
     [Header("Sound Options")]
 	public AudioClip hitSound;
@@ -56,7 +57,7 @@ public abstract class Projectile : MonoBehaviour {
     protected virtual void OnMove() { }
     protected virtual void OnEndOfLife() { }
 
-    private void OnTriggerEnter(Collider other) {
+    protected virtual void OnTriggerEnter(Collider other) {
 
         if (other.gameObject.tag == "Projectile") {
             return;

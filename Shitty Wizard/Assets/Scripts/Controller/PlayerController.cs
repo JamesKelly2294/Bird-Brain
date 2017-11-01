@@ -18,6 +18,12 @@ public class PlayerController : MonoBehaviour {
 
     private Plane groundPlane;
 
+	public int CurrentSpell {
+		get {
+			return currentSpell;
+		}
+	}
+
     private int currentSpell;
     private List<Spell> spells;
 
