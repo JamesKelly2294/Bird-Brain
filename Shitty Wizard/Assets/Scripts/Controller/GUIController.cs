@@ -10,17 +10,22 @@ namespace ShittyWizard.Controller.Game
 	{
 		[Header ("Player")]
 		public Image currentHealthBar;
+		public Image currentHealthBarBase;
 		public Image currentEXPbar;
 		private float HPbarSizeDelta = 250f;
+		private float XPbarSizeDelta = 250f;
 		public float currentEXP = 0f;
 		public float maxEXP = 100f;
 		public int level = 1;
 		public Text levelText;
 
+		public Image activeWeaponImage;
+
 		[Header ("Boss")]
 		public GameObject currentBossBarGO;
 		public Image currentBossBar;
 		public Image currentBossBarBase;
+
 
 		[Header ("Minimap")]
 		public Text floorText;
@@ -35,6 +40,7 @@ namespace ShittyWizard.Controller.Game
 		public GameObject owlGO;
 		public GameObject minimapGO;
 		public EntityPlayer player;
+		public List<Sprite> weaponIcons;
 
 		public WorldController worldController;
 
@@ -74,21 +80,29 @@ namespace ShittyWizard.Controller.Game
 			}
 		}
 
+		private int previousSpell = -1;
 		// Update is called once per frame
 		void Update ()
 		{
 			UpdateHealthBar ();
 
 			float EXPratio = currentEXP / maxEXP;
-			currentEXPbar.rectTransform.sizeDelta = new Vector2 (EXPratio * HPbarSizeDelta, 20f);
+			currentEXPbar.rectTransform.sizeDelta = new Vector2 (EXPratio * XPbarSizeDelta, 20f);
 
 
-			if (currentEXP >= maxEXP) {
+			while (currentEXP >= maxEXP) {
 				level = level + 1;
 				levelText.text = level.ToString ();
-				float tempXP = currentEXP;
-				currentEXP = tempXP - maxEXP;
+				currentEXP -= maxEXP;
 				HPbarSizeDelta += 25f;
+				player.GetComponent<Entity> ().maxHealth += 25.0f;
+				player.GetComponent<Entity> ().health += 25.0f;
+			}
+
+			if (previousSpell != player.GetComponent<PlayerController> ().CurrentSpell) {
+				previousSpell = player.GetComponent<PlayerController> ().CurrentSpell;
+
+				activeWeaponImage.overrideSprite = weaponIcons [previousSpell];
 			}
 
 			UpdateMinimap ();
@@ -101,6 +115,7 @@ namespace ShittyWizard.Controller.Game
 				ratio = 1;
 			}
 			currentHealthBar.rectTransform.sizeDelta = new Vector2 (ratio * HPbarSizeDelta, 20f);
+			currentHealthBarBase.rectTransform.sizeDelta = new Vector2 (HPbarSizeDelta, 20f);
 
 			if (owlGO != null) {
 				Owlman owlman = owlGO.GetComponent<Owlman> ();

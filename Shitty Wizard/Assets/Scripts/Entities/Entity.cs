@@ -15,6 +15,8 @@ public class Entity : MonoBehaviour {
     public EntityType type;
 	public AudioClip[] footsteps;
 	public float footstepsVolume;
+	public bool knockedBackOnHit;
+	public GameObject corpsePrefab;
 
     [Header("State Settings")]
     public bool inControl = true;
@@ -49,6 +51,8 @@ public class Entity : MonoBehaviour {
 
 	private Vector3 spriteScale;
 	private GameObject spriteGO;
+
+	protected bool alive = true;
 
     public void Start() {
         rb = GetComponent<Rigidbody>();
@@ -113,20 +117,36 @@ public class Entity : MonoBehaviour {
             OnDeath();
         }
 
-        OnDamage();
+		OnDamage();
 
     }
 
+	public void Heal(float _amount) {
+
+		health += _amount;
+
+		if (health > maxHealth) {
+			health = maxHealth;
+		}
+
+	}
+
     protected virtual void OnDeath() { 
+		alive = false;
 		if (onDeathParticle != null) {
 			GameObject particle = Instantiate (onDeathParticle);
 			particle.transform.position = transform.position + new Vector3(0.0f, 0.15f, 0.0f);
+
+			if (corpsePrefab != null) {
+				GameObject corpse = Instantiate (corpsePrefab, transform.parent);
+				corpse.transform.position = new Vector3 (transform.position.x, 0.01f, transform.position.z);
+			}
 
 			Destroy (particle, 1.5f);
 		}
 
 	}
-    protected virtual void OnDamage() { }
+	protected virtual void OnDamage() { }
 
     protected void MakeInvulnerable(float _length) {
         StartCoroutine(InvulnerableCR(_length));
@@ -248,6 +268,11 @@ public class Entity : MonoBehaviour {
 
         collidingWithWall = false;
 
+		EnemyController ec = GetComponent<EnemyController> ();
+		if (ec != null) {
+			ec.enabled = false;
+		}
+
         float breakTime = 0.5f;
         float breakTimer = 0;
         float distanceTraveled = Vector3.Distance(startPos, this.transform.position);
@@ -258,7 +283,7 @@ public class Entity : MonoBehaviour {
                 collidingWithWall = false;
             }
 
-            if (itm.onIce) {
+			if (itm != null && itm.onIce) {
                 breakTime = 1f;
                 _distance += Vector3.Dot(rb.velocity, _dir) * Time.deltaTime;
             } else {
@@ -272,6 +297,10 @@ public class Entity : MonoBehaviour {
             yield return null;
 
         }
+
+		if (ec != null) {
+			ec.enabled = true;
+		}
 
         inControl = true;
 

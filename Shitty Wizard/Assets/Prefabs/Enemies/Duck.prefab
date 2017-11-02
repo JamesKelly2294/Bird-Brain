@@ -239,17 +239,22 @@ MonoBehaviour:
   type: 1
   footsteps: []
   footstepsVolume: 0
+  knockedBackOnHit: 1
+  corpsePrefab: {fileID: 1948804730087512, guid: cce79da1c2c4b420590978338d4169d8,
+    type: 2}
   inControl: 1
   health: 150
   maxHealth: 0
   invulnerable: 0
   bounceSpeedMultiplier: 3
   bounceHeight: 0.3
-  onDeathParticle: {fileID: 1363058177062260, guid: f234ee7d811694dbaa27fc4aa9171b78,
+  onDeathParticle: {fileID: 1903880852067850, guid: 2ba8be1ac30424ea0ac0f89e7ce346ac,
     type: 2}
   sprite: {fileID: 1742132697836976}
-  expToGive: 5
+  expToGive: 20
   damageOnContact: 30
   deathSound: {fileID: 8300000, guid: e5afeca270f36db4d86fa2022e64ae52, type: 3}
+  loot: []
+  dropRate: 0
   grenadePrefab: {fileID: 1045179873313082, guid: 185dccb8e804045458f2ab2429c3f1be,
     type: 2}

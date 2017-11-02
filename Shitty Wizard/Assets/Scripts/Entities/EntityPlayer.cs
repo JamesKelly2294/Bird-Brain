@@ -9,7 +9,6 @@ public class EntityPlayer : Entity {
     [Header("Player Settings")]
     public int exp;
     public int expToNextLevel;
-	public float currentHealth = 100f;
 
     protected override void OnStart() {
         base.OnStart();
