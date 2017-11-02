@@ -6,7 +6,11 @@ using UnityEngine.SceneManagement;
 public class StoryScene : MonoBehaviour {
 
 	// Use this for initialization
-	IEnumerable Start () {
+	void Start () {
+		StartCoroutine ("LoadNext");
+	}
+
+	IEnumerator LoadNext() {
 		yield return new WaitForSeconds (45);
 		SceneManager.LoadScene ("LevelScene");
 	}

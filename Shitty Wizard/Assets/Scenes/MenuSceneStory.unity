@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465934, g: 0.49642956, b: 0.5748249, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -601,7 +601,8 @@ MonoBehaviour:
     in shock as the avian epidemic quickly spread throughout his tower home! The big
     owl at the center of it all flapped its wings and flew up the stairs into the
     upper floors of the Tower.\n\n\"I have to fix this!\" the Wizard exclaimed. \"Time
-    to cage these canaries!\""
+    to cage these canaries!\"\n                                      <hit space to
+    continue>"
 --- !u!222 &1867703796
 CanvasRenderer:
   m_ObjectHideFlags: 0
