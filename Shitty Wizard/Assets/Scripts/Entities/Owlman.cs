@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using ShittyWizard.Controller.Game;
 
 public class Owlman : EntityEnemy {
 
@@ -114,6 +115,12 @@ public class Owlman : EntityEnemy {
 	protected override void OnDamage() {
 		base.OnDamage();
 		MakeInvisibleFlash(0.5f);
+	}
+
+	protected override void OnDeath() {
+		GameObject.Find ("WorldController").GetComponent<WorldController> ().LoadWinScene(3.0f);
+
+		base.OnDeath ();
 	}
 
     private IEnumerator Wait(float _length, BossState nextState) {

@@ -154,5 +154,6 @@ namespace ShittyWizard.Controller.Game
 		{
 			currentEXP += EXP;
 		}
+
 	}
 }

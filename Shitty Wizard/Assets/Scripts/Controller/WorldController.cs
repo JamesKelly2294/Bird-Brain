@@ -4,6 +4,7 @@ using System;
 using UnityEngine.SceneManagement;
 using ShittyWizard.Model.World;
 using ShittyWizzard.Utilities;
+using System.Collections;
 
 namespace ShittyWizard.Controller.Game
 {
@@ -255,6 +256,16 @@ namespace ShittyWizard.Controller.Game
 			int y = Mathf.RoundToInt (coord.y);
 
 			return WorldController.Instance.ActiveLevel.TileManager.GetTileAt (x, y);
+		}
+
+		public void LoadWinScene(float length) {
+			StartCoroutine (LoadWinSceneE (length));
+		}
+
+		private IEnumerator LoadWinSceneE(float _length) {
+			yield return new WaitForSeconds(2.5f);
+
+			SceneManager.LoadScene ("MenuSceneWin");
 		}
 	}
 }
