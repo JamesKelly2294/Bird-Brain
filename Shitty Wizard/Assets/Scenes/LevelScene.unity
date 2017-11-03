@@ -1603,12 +1603,12 @@ MonoBehaviour:
   WorldGeometryController: {fileID: 801957958}
   GUIController: {fileID: 1712979304}
   camera: {fileID: 606046909}
-  enemiesPerFloor: 30
-  enemiesPerFloorSpread: 0.2
+  enemiesPerFloor: 40
+  enemiesPerFloorSpread: 0.4
   numberOfFloors: 3
   roomsPerFloor: 10
   roomsPerFloorSpread: 0.2
-  DebugMode: 0
+  DebugMode: 1
 --- !u!1 &1570095922
 GameObject:
   m_ObjectHideFlags: 0
