@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour {
 	public Vector3 offset = new Vector3 (0.0f, 0.0f, 18.0f);
 
 	public AudioClip[] music;
+	public AudioClip bossMusic;
 	public AudioSource musicSource;
 
     private Camera cam;
@@ -43,6 +44,15 @@ public class CameraController : MonoBehaviour {
 		musicSource.Play ();
 
 		Invoke ("PlayMusic", musicSource.clip.length + 0.5f);
+	}
+
+	public void PlayBossMusic() {
+		musicSource.Stop ();
+
+		musicSource.clip = bossMusic;
+		musicSource.Play ();
+
+		Invoke ("PlayBossMusic", musicSource.clip.length + 0.5f);
 	}
 	
 	// Update is called once per frame

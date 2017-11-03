@@ -235,6 +235,7 @@ namespace ShittyWizard.Controller.Game
 				WorldGeometryController.BuildInitialGeometry (0.0f, 0.0f);
 			} else {
 				CreateEntitiesForBoss ();
+				Camera.main.GetComponent<CameraController> ().PlayBossMusic ();
 				WorldGeometryController.BuildInitialGeometry (3.0f, 0.0f);
 			}
 
