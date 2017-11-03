@@ -94,6 +94,7 @@ namespace ShittyWizard.Controller.Game
 				level = level + 1;
 				levelText.text = level.ToString ();
 				currentEXP -= maxEXP;
+				maxEXP *= 1.10f;
 				HPbarSizeDelta += 25f;
 				player.GetComponent<Entity> ().maxHealth += 25.0f;
 				player.GetComponent<Entity> ().health += 25.0f;
