@@ -1607,7 +1607,7 @@ MonoBehaviour:
   enemiesPerFloor: 40
   enemiesPerFloorSpread: 0.4
   numberOfFloors: 3
-  roomsPerFloor: 10
+  roomsPerFloor: 7
   roomsPerFloorSpread: 0.2
   DebugMode: 0
 --- !u!1 &1570095922
