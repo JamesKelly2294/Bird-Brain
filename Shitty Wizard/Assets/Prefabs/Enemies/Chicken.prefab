@@ -298,7 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2cd31bbfb174400ab112efe954e021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 60
+  speed: 80
   target: {fileID: 0}
   targetAquisitionThreshold: 10
   targetAbandonmentThreshold: 20

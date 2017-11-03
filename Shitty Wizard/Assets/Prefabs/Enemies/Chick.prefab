@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2cd31bbfb174400ab112efe954e021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 100
+  speed: 140
   target: {fileID: 0}
   targetAquisitionThreshold: 10
   targetAbandonmentThreshold: 20
@@ -291,7 +291,7 @@ MonoBehaviour:
   health: 50
   maxHealth: 0
   invulnerable: 0
-  bounceSpeedMultiplier: 2.5
+  bounceSpeedMultiplier: 2
   bounceHeight: 1
   onDeathParticle: {fileID: 1877371444916884, guid: 690f9c70f5f8448a991635ddeab092a5,
     type: 2}

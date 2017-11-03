@@ -51,6 +51,11 @@ public class PlayerController : MonoBehaviour {
 
         SwitchSpell(0);
 
+        // Close game when escape is pressed
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            Application.Quit();
+        }
+
 	}
 	
 	// Update is called once per frame

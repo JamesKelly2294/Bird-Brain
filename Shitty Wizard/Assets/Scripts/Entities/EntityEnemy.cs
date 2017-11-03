@@ -46,6 +46,7 @@ public class EntityEnemy : Entity {
     }
 
     private void OnTriggerStay(Collider other) {
+        
         if (other.gameObject.tag == "Player") {
             Entity player = other.gameObject.GetComponent<Entity>();
             player.Damage(damageOnContact);

@@ -100,8 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   owner: {fileID: 0}
-  damage: 2
+  damage: 1
   lifetime: 1000
+  knockbackMagnitude: 0
   hitSound: {fileID: 8300000, guid: 7037d3fc584cc774580e592036f7763c, type: 3}
   volume: 0.1
   onHitParticle: {fileID: 0}

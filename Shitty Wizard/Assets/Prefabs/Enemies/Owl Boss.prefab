@@ -135,7 +135,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4358446197902908}
   - component: {fileID: 65064090009856948}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ MonoBehaviour:
   knockedBackOnHit: 0
   corpsePrefab: {fileID: 0}
   inControl: 1
-  health: 1750
+  health: 2500
   maxHealth: 0
   invulnerable: 0
   bounceSpeedMultiplier: 0
@@ -530,7 +530,7 @@ MonoBehaviour:
   onDeathParticle: {fileID: 0}
   sprite: {fileID: 1323559700330992}
   expToGive: 90
-  damageOnContact: 0
+  damageOnContact: 40
   deathSound: {fileID: 8300000, guid: be9d995e4a186cf4f93824b13708289f, type: 3}
   loot: []
   dropRate: 0
@@ -573,8 +573,8 @@ MonoBehaviour:
   volume: 0.5
   featherPrefab: {fileID: 1759460566109494, guid: 487eda9a8de162a4186fc7b2c8105394,
     type: 2}
-  numProjectiles: 140
-  timeBetweenShots: 0.08
+  numProjectiles: 180
+  timeBetweenShots: 0.06
   spread: 180
 --- !u!114 &114821363735513452
 MonoBehaviour:
@@ -592,9 +592,9 @@ MonoBehaviour:
   volume: 0.5
   featherPrefab: {fileID: 1759460566109494, guid: 487eda9a8de162a4186fc7b2c8105394,
     type: 2}
-  numProjectiles: 80
-  timeBetweenShots: 0.06
-  spread: 100
+  numProjectiles: 100
+  timeBetweenShots: 0.05
+  spread: 120
 --- !u!212 &212346377682086176
 SpriteRenderer:
   m_ObjectHideFlags: 1

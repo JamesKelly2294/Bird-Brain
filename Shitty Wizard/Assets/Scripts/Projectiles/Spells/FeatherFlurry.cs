@@ -24,7 +24,7 @@ public class FeatherFlurry : Spell {
             Vector3 dir = Quaternion.Euler(0, offset, 0) * _dir;
 
             ProjectileBasic pBasic = Projectile.Create(featherPrefab, type, owner, owner.transform.position + Vector3.up * 0.5f) as ProjectileBasic;
-            pBasic.Init(dir, 8);
+            pBasic.Init(dir, 10);
 
             projectilesLeft--;
             yield return new WaitForSeconds(timeBetweenShots);
