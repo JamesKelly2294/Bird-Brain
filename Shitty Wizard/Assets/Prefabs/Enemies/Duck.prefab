@@ -258,3 +258,4 @@ MonoBehaviour:
   dropRate: 0
   grenadePrefab: {fileID: 1045179873313082, guid: 185dccb8e804045458f2ab2429c3f1be,
     type: 2}
+  shootRate: 2.5
