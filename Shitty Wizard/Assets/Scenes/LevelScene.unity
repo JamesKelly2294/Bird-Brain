@@ -1609,7 +1609,7 @@ MonoBehaviour:
   numberOfFloors: 3
   roomsPerFloor: 7
   roomsPerFloorSpread: 0.2
-  DebugMode: 1
+  DebugMode: 0
 --- !u!1 &1570095922
 GameObject:
   m_ObjectHideFlags: 0
