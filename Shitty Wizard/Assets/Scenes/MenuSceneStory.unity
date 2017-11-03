@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465934, g: 0.49642956, b: 0.5748249, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -592,15 +592,15 @@ MonoBehaviour:
     most of his spells caused some mayhem around him.\n\nOne warm summer's day, the
     Wizard was working in his Tower. He had been hard at work all day long trying
     to learn a new spell that would let him summon bird friends whenever he pleased!
-    \n\n\"This will be a hit at parties!\" he said to himself. Trying one more time,
-    he waved his magic wand and said the magic words:\n\n\"Ex-PECK-to... POULTRY-onem!\"\n\nSuddenly
+    \n\n\"This will be a hit at parties!\", he said to himself. Trying one more time,
+    he waved his magic wand and said the magic words:\n\n\"Ex-PECK-to... POULTRY-onem!\"\n\nSuddenly,
     there was a poof of smoke and the wizard fell over backwards. When the smoke cleared,
-    there was a huge owl there in his room!\n\nBut... something was wrong (as always).
-    This owl was very upset. And there was more...\n\nPOOF! POOF! POOF!\n\nMore and
-    more birds begain to pop into the room in puffs of magic smoke! The Wizard watched
+    there was a huge owl in his room!\n\nBut... something was wrong (as always). This
+    owl was very upset. And there was more...\n\nPOOF! POOF! POOF!\n\nMore and more
+    birds begain to pop into the room in puffs of magic smoke! The Wizard watched
     in shock as the avian epidemic quickly spread throughout his tower home! The big
     owl at the center of it all flapped its wings and flew up the stairs into the
-    upper floors of the Tower.\n\n\"I have to fix this!\" the Wizard exclaimed. \"Time
+    upper floors of the Tower.\n\n\"I have to fix this!\", the Wizard exclaimed. \"Time
     to cage these canaries!\"\n                                      <hit space to
     continue>"
 --- !u!222 &1867703796
