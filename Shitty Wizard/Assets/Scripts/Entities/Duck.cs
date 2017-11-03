@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Duck : EntityEnemy {
 
+    [Header("Duck Settings")]
     public GameObject grenadePrefab;
+    public float shootRate;
 
-    private float shootRate = 5.0f;
     private float shootTimer = 0;
 
     protected override void OnStart() {
