@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465934, g: 0.49642956, b: 0.5748249, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -613,15 +613,15 @@ RectTransform:
   m_GameObject: {fileID: 1867703792}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1878021473}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: 420.67682}
-  m_SizeDelta: {x: 245, y: 384}
+  m_AnchoredPosition: {x: 7, y: 443.2733}
+  m_SizeDelta: {x: 400, y: 384}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1867703794
 MonoBehaviour:
@@ -656,7 +656,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 29821db8324231f4481e730bf6288b9c, type: 2}
+    m_Font: {fileID: 12800000, guid: 1f16052dfd5f6f54e94e97ecedd4c86b, type: 3}
     m_FontSize: 0
     m_FontStyle: 0
     m_BestFit: 0
@@ -682,8 +682,8 @@ MonoBehaviour:
     in shock as the avian epidemic quickly spread throughout his tower home! The big
     owl at the center of it all flapped its wings and flew up the stairs into the
     upper floors of the Tower.\n\n\"I have to fix this!\", the Wizard exclaimed. \"Time
-    to cage these canaries!\"\n                                      <hit space to
-    continue>"
+    to cage these canaries!\"\n\n\n                                      <hit space
+    to continue>"
 --- !u!222 &1867703796
 CanvasRenderer:
   m_ObjectHideFlags: 0
