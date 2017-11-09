@@ -15,22 +15,28 @@ public class Entity : MonoBehaviour {
     public EntityType type;
 	public AudioClip[] footsteps;
 	public float footstepsVolume;
+	public bool knockedBackOnHit;
+	public GameObject corpsePrefab;
 
     [Header("State Settings")]
     public bool inControl = true;
     public float health;
     public float maxHealth = 0;
-    public bool invulnerable = false;
+	public bool invulnerable = false;
 
     [Header("Bounce Settings")]
     public float bounceSpeedMultiplier = 3;
     public float bounceHeight = 0.3f;
+
+	[Header("Particle Effects")]
+	public GameObject onDeathParticle;
 
     public GameObject sprite;
 
     private float blinkRate = 0.2f;
     private bool visible = true;
     private bool flashing = false;
+	private bool invisibleFlashing = false;
 
     private Rigidbody rb;
     private float bounceCycle = 0;
@@ -46,14 +52,18 @@ public class Entity : MonoBehaviour {
 	private Vector3 spriteScale;
 	private GameObject spriteGO;
 
+	protected bool alive = true;
+
     public void Start() {
         rb = GetComponent<Rigidbody>();
         spriteStartPos = sprite.transform.localPosition;
         maxHealth = health;
 		_ui = GameObject.Find ("GUIController").GetComponent<GUIController> ();
         itm = GetComponent<IceTileManager>();
-		spriteGO = transform.Find ("Sprite").gameObject;
-		spriteScale = spriteGO.transform.localScale;
+        if (transform.Find("Sprite") != null) {
+            spriteGO = transform.Find("Sprite").gameObject;
+            spriteScale = spriteGO.transform.localScale;
+        }
         OnStart();
     }
     protected virtual void OnStart() { }
@@ -80,7 +90,7 @@ public class Entity : MonoBehaviour {
 		previousFootstepPos = sinVal > 0.0f;
 
 
-		if (inControl && Mathf.Abs(rb.velocity.x) > 0) {
+		if (spriteGO != null && inControl && Mathf.Abs(rb.velocity.x) > 0) {
 			float direction = Mathf.Sign(rb.velocity.x);
 			spriteGO.transform.localScale = new Vector3 (direction * spriteScale.x, spriteGO.transform.localScale.y, spriteGO.transform.localScale.z);
 		}
@@ -107,12 +117,36 @@ public class Entity : MonoBehaviour {
             OnDeath();
         }
 
-        OnDamage();
+		OnDamage();
 
     }
 
-    protected virtual void OnDeath() { }
-    protected virtual void OnDamage() { }
+	public void Heal(float _amount) {
+
+		health += _amount;
+
+		if (health > maxHealth) {
+			health = maxHealth;
+		}
+
+	}
+
+    protected virtual void OnDeath() { 
+		alive = false;
+		if (onDeathParticle != null) {
+			GameObject particle = Instantiate (onDeathParticle);
+			particle.transform.position = transform.position + new Vector3(0.0f, 0.15f, 0.0f);
+
+			if (corpsePrefab != null) {
+				GameObject corpse = Instantiate (corpsePrefab, transform.parent);
+				corpse.transform.position = new Vector3 (transform.position.x, 0.01f, transform.position.z);
+			}
+
+			Destroy (particle, 1.5f);
+		}
+
+	}
+	protected virtual void OnDamage() { }
 
     protected void MakeInvulnerable(float _length) {
         StartCoroutine(InvulnerableCR(_length));
@@ -146,6 +180,40 @@ public class Entity : MonoBehaviour {
 
     }
 
+	protected void MakeInvisibleFlash(float _length) {
+		if (!invisibleFlashing) {
+			StartCoroutine(InvisibleFlashCR(_length));
+		}
+	}
+
+	private IEnumerator InvisibleFlashCR(float _length) {
+
+		invisibleFlashing = true;
+		SetVisible(false);
+
+		float blinkTimer = 0;
+		while (_length > 0 || !visible) {
+
+			_length -= Time.deltaTime;
+
+			blinkTimer += Time.deltaTime;
+			if (blinkTimer >= blinkRate) {
+				blinkTimer -= blinkRate;
+				ToggleVisibile();
+				if (visible && _length < blinkRate) {
+					_length = 0;
+				}
+			}
+
+			yield return null;
+
+		}
+
+		SetVisible(true);
+		invisibleFlashing = false;
+
+	}
+
     private void ToggleVisibile() {
         SetVisible(!visible);
     }
@@ -153,10 +221,18 @@ public class Entity : MonoBehaviour {
     private void SetVisible(bool _visible) {
         visible = _visible;
         MeshRenderer meshRenderer = sprite.GetComponent<MeshRenderer>();
-        meshRenderer.enabled = _visible;
+		if (meshRenderer != null) {
+			meshRenderer.enabled = _visible;
+		} else {
+			// sorry about your elegant solution jeff...
+			// things got messy
+			// -james
+			SpriteRenderer spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+			spriteRenderer.enabled = _visible;
+		}
     }
 
-    protected void Flash(float _length) {
+    protected void MakeFlash(float _length) {
         if (!flashing) {
             StartCoroutine(FlashCR(_length));
         }
@@ -192,6 +268,11 @@ public class Entity : MonoBehaviour {
 
         collidingWithWall = false;
 
+		EnemyController ec = GetComponent<EnemyController> ();
+		if (ec != null) {
+			ec.enabled = false;
+		}
+
         float breakTime = 0.5f;
         float breakTimer = 0;
         float distanceTraveled = Vector3.Distance(startPos, this.transform.position);
@@ -202,7 +283,7 @@ public class Entity : MonoBehaviour {
                 collidingWithWall = false;
             }
 
-            if (itm.onIce) {
+			if (itm != null && itm.onIce) {
                 breakTime = 1f;
                 _distance += Vector3.Dot(rb.velocity, _dir) * Time.deltaTime;
             } else {
@@ -216,6 +297,10 @@ public class Entity : MonoBehaviour {
             yield return null;
 
         }
+
+		if (ec != null) {
+			ec.enabled = true;
+		}
 
         inControl = true;
 

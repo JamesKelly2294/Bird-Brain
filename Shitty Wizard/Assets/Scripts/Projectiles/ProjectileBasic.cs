@@ -18,7 +18,28 @@ public class ProjectileBasic : Projectile {
         this.direction = direction;
         this.speed = speed;
         this.lifetime = 10.0f;
-        this.sprite.transform.rotation = Quaternion.Euler(0, 0, -Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + 90);
+        this.transform.rotation = Quaternion.Euler(0, 0, -Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + 90);
     }
 
+	protected override void OnTriggerEnter(Collider other) {
+		GameObject oGo = other.gameObject;
+
+		if (oGo != owner && (oGo.transform.parent == null || oGo.transform.parent.gameObject != owner)) {
+
+			// Damage collided if entity and play hit sound
+			Entity entity = oGo.GetComponent<Entity>();
+			if (entity != null) {
+
+				if (entity.type != this.type && !entity.invulnerable) {
+					if (knockbackMagnitude > 0.001f && entity.knockedBackOnHit) {
+						entity.Knockback ((gameObject.transform.position - (entity.transform.position - direction)).normalized, knockbackMagnitude);
+					}
+				}
+
+			} 
+		}
+
+
+		base.OnTriggerEnter (other);
+	}
 }

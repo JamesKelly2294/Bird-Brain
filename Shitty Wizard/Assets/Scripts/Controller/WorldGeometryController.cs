@@ -24,7 +24,7 @@ namespace ShittyWizard.Controller.Game
 
 		private List<GameObject> m_geometry;
 
-		private Map ActiveMap { 
+		private Map ActiveMap {
 			get {
 				return WorldController.Instance.ActiveLevel;
 			}
@@ -73,42 +73,70 @@ namespace ShittyWizard.Controller.Game
 			}
 		}
 
-		GameObject CreateMeshGameObject (string name)
+		GameObject CreateMeshGameObject (string name, Transform parent)
 		{
 			GameObject go = new GameObject ();
-			go.name = "Geometry";
-			go.transform.parent = transform;
+			go.name = name;
+			go.transform.parent = parent;
 			go.AddComponent<MeshRenderer> ();
 			go.AddComponent<MeshFilter> ();
+			go.isStatic = true;
 			go.layer = LayerMask.NameToLayer ("Geometry");
 
 			return go;
 		}
 
-		public void BuildInitialGeometry ()
-		{
+		public void BuildInitialGeometry (float textureOffsetX, float textureOffsetY) {
 			if (m_geometry != null) {
-				foreach (GameObject go in m_geometry) { 
+				foreach (GameObject go in m_geometry) {
 					Destroy (go);
 				}
 				m_geometry = null;
 			}
 			m_geometry = new List<GameObject> ();
-			m_geometry.Add (CreateMeshGameObject ("Walls"));
-			m_geometry.Add (CreateMeshGameObject ("Ceilings"));
-			m_geometry.Add (CreateMeshGameObject ("Floors"));
+
+			int chunkWidth = 15;
+			int chunkHeight = 15;
 
 			TileManager tm = ActiveMap.TileManager;
 
-			GameObject wallsGO = m_geometry [0];
+			int chunkNumber = 0;
+			for (int x = 0; x < tm.Width; x += chunkWidth) {
+				for (int y = 0; y < tm.Height; y += chunkHeight) {
+					int width = chunkWidth;
+					int height = chunkHeight;
+					if (tm.Width - x < width) {
+						width = tm.Width - x;
+					}
+					if (tm.Height - y < height) {
+						height = tm.Height - y;
+					}
+
+					BuildChunk (x, y, width, height, chunkNumber, textureOffsetX, textureOffsetY);
+					chunkNumber++;
+				}
+			}
+		}
+
+		public void BuildChunk (int startX, int startY, int width, int height, int chunkNumber, float textureOffsetX, float textureOffsetY)
+		{
+			TileManager tm = ActiveMap.TileManager;
+
+			GameObject chunkGO = new GameObject ();
+			chunkGO.name = "Chunk " + chunkNumber;
+			chunkGO.transform.parent = transform;
+			chunkGO.layer = LayerMask.NameToLayer ("Geometry");
+			m_geometry.Add (chunkGO);
+
+			GameObject wallsGO = CreateMeshGameObject ("Walls " + chunkNumber, chunkGO.transform);
 			MeshRenderer walls_mr = wallsGO.GetComponent<MeshRenderer> ();
 			MeshFilter walls_mf = wallsGO.GetComponent<MeshFilter> ();
 
-			GameObject ceilingsGO = m_geometry [1];
+			GameObject ceilingsGO = CreateMeshGameObject ("Ceilings " + chunkNumber, chunkGO.transform);
 			MeshRenderer ceilings_mr = ceilingsGO.GetComponent<MeshRenderer> ();
 			MeshFilter ceilings_mf = ceilingsGO.GetComponent<MeshFilter> ();
 
-			GameObject floorsGO = m_geometry [2];
+			GameObject floorsGO = CreateMeshGameObject ("Floors " + chunkNumber, chunkGO.transform);
 			MeshRenderer floors_mr = floorsGO.GetComponent<MeshRenderer> ();
 			MeshFilter floors_mf = floorsGO.GetComponent<MeshFilter> ();
 
@@ -130,22 +158,23 @@ namespace ShittyWizard.Controller.Game
 			float tileTexWidth = 16.0f / tileMap.width;
 			float tileTexHeight = 16.0f / tileMap.height;
 
-			Vector2 ceilingLoc = new Vector2 (0.0f, 0.0f);
-			Vector2 floorLoc = new Vector2 (1.0f, 0.0f);
-			Vector2 wallLoc = new Vector2 (2.0f, 0.0f);
+			Vector2 tilesetOffset = new Vector2 (textureOffsetX, textureOffsetY);
+			Vector2 ceilingLoc = new Vector2 (0.0f, 0.0f) + tilesetOffset;
+			Vector2 floorLoc = new Vector2 (1.0f, 0.0f) + tilesetOffset;
+			Vector2 wallLoc = new Vector2 (2.0f, 0.0f) + tilesetOffset;
 
 			Vector2 offset = new Vector2 (1.0f / tileMap.width, 1.0f / tileMap.height);
 
 			GameObject colliderParent = new GameObject ();
 			m_geometry.Add (colliderParent);
-			colliderParent.name = "Colliders";
+			colliderParent.name = "Colliders " + chunkNumber;
 			colliderParent.layer = LayerMask.NameToLayer ("Wall");
-			colliderParent.transform.parent = transform;
+			colliderParent.transform.parent = chunkGO.transform;
 
 			Vector2 tileLoc;
 			Vector2 tileOffset;
-			for (int x = 0; x < ActiveMap.Width; x++) {
-				for (int y = 0; y < ActiveMap.Height; y++) {
+			for (int x = startX; x < startX + width; x++) {
+				for (int y = startY; y < startY + height; y++) {
 
 					Tile t = tm.GetTileAt (x, y);
 
@@ -264,6 +293,11 @@ namespace ShittyWizard.Controller.Game
 					}
 
 				}
+			}
+
+			if (floors_vertices.Count == 0 && ceilings_vertices.Count == 0 && walls_vertices.Count == 0) {
+				Destroy (chunkGO);
+				return;
 			}
 
 			for (int i = 0; i < colliderParent.transform.childCount; i++) {

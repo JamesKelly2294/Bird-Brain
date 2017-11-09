@@ -8,6 +8,9 @@ public class EntityEnemy : Entity {
     public float expToGive = 10;
     public int damageOnContact;
 	public AudioClip deathSound;
+	public GameObject[] loot;
+	[Range(0.0f, 1.0f)]
+	public float dropRate;
 
 	protected override void OnStart ()
 	{
@@ -19,18 +22,31 @@ public class EntityEnemy : Entity {
     }
 
     protected override void OnDeath() {
+		bool wasAlive = alive;
+
         base.OnDeath();
-		AudioSource.PlayClipAtPoint (deathSound, transform.position);
-		_ui.GiveEXP (expToGive);
-        Destroy(this.gameObject);
+
+		if (wasAlive) {
+			AudioSource.PlayClipAtPoint (deathSound, transform.position);
+			_ui.GiveEXP (expToGive);
+
+			if (loot.Length > 0 && Random.Range(0.0f, 1.0f) <= dropRate) {
+				GameObject instLoot = Instantiate(loot [Random.Range (0, loot.Length)]);
+				instLoot.transform.position = this.gameObject.transform.position;
+			}
+
+			Destroy(this.gameObject);
+		}
+
     }
 
     protected override void OnDamage() {
         base.OnDamage();
-        Flash(0.05f);
+        MakeFlash(0.05f);
     }
 
     private void OnTriggerStay(Collider other) {
+        
         if (other.gameObject.tag == "Player") {
             Entity player = other.gameObject.GetComponent<Entity>();
             player.Damage(damageOnContact);

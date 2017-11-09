@@ -102,8 +102,10 @@ MonoBehaviour:
   owner: {fileID: 0}
   damage: 1
   lifetime: 1000
+  knockbackMagnitude: 0
   hitSound: {fileID: 8300000, guid: 7037d3fc584cc774580e592036f7763c, type: 3}
   volume: 0.1
+  onHitParticle: {fileID: 0}
   sprite: {fileID: 1280627413563958}
 --- !u!135 &135008677609841516
 SphereCollider:

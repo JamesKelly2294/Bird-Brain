@@ -16,7 +16,6 @@ public class IceCone : Spell {
         float offset = coneWidth / (float)(numStreams - 1);
         float startRot = -coneWidth / 2.0f;
 
-
 		// Play sound if there is one
 		if (!isPlayingCastSound) {
 			isPlayingCastSound = true;

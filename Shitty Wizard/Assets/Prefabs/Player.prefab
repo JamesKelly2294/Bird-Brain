@@ -60,22 +60,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1676826627487724
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4230134009169048}
-  - component: {fileID: 114121918630050072}
-  m_Layer: 0
-  m_Name: Feather Attack
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1708221837032086
 GameObject:
   m_ObjectHideFlags: 1
@@ -142,21 +126,7 @@ Transform:
   m_Children:
   - {fileID: 4361798640978392}
   - {fileID: 4895567939906972}
-  - {fileID: 4230134009169048}
   m_Father: {fileID: 4891479999506430}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4230134009169048
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1676826627487724}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4229597952501642}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4361798640978392
@@ -205,7 +175,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886721674197132}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.594582, y: 1.0133867e-16, z: 8.722237}
+  m_LocalPosition: {x: 4.217415, y: 6.8808946e-17, z: 38.022408}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4730010166594542}
@@ -387,7 +357,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -450,24 +420,6 @@ MonoBehaviour:
   volume: 0.5
   fireballPrefab: {fileID: 1287503641074422, guid: a96ed27a53a81954c81defeab7c0d2bb,
     type: 2}
---- !u!114 &114121918630050072
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1676826627487724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f686a94ceb3861a459fb50d665d8d491, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reloadTime: 1
-  castSound: {fileID: 8300000, guid: 4f7cf44fab97b8b41b383a888a7fca4d, type: 3}
-  volume: 0.5
-  featherPrefab: {fileID: 1363289302327628, guid: 69ab29be88afed749983e1190194eb9e,
-    type: 2}
-  circle: 324
-  numFeathers: 10
 --- !u!114 &114189132144303026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -481,6 +433,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlMode: 0
   speed: 5.67
+  spriteMeshRenderer: {fileID: 23367529373059928}
+  playerMaterials:
+  - {fileID: 2100000, guid: 170d735c972672c4c8ae60e577189776, type: 2}
+  - {fileID: 2100000, guid: ac723e399dbeb4146a00dce2d5163ec8, type: 2}
 --- !u!114 &114472177259194816
 MonoBehaviour:
   m_ObjectHideFlags: 1

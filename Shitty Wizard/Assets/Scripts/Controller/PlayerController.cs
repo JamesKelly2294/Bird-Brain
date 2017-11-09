@@ -18,12 +18,21 @@ public class PlayerController : MonoBehaviour {
 
     private Plane groundPlane;
 
+	public int CurrentSpell {
+		get {
+			return currentSpell;
+		}
+	}
+
     private int currentSpell;
     private List<Spell> spells;
 
     private IceTileManager itm;
     private float iceAcceleration = 0.2f;
     private Vector3 moveVec = Vector3.zero;
+
+    public MeshRenderer spriteMeshRenderer;
+    public Material[] playerMaterials;
 
 	// Use this for initialization
 	void Start () {
@@ -39,10 +48,23 @@ public class PlayerController : MonoBehaviour {
         foreach (Spell s in spellsTransform.GetComponentsInChildren<Spell>()) {
             spells.Add(s);
         }
+
+        SwitchSpell(0);
+
+        // Close game when escape is pressed
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            Application.Quit();
+        }
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		// Exit the game when ESC is pressed
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			Application.Quit ();
+		}
+
         Shoot();
     }
 
@@ -97,10 +119,14 @@ public class PlayerController : MonoBehaviour {
         if (controlMode == ControlMode.KeyboardAndMouse) {
 
             // switching weapons
-            if (Input.GetKeyDown(KeyCode.E)) {
-                currentSpell++;
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(1)) {
+                SwitchSpell(currentSpell + 1);
             } else if (Input.GetKeyDown(KeyCode.Q)) {
-                currentSpell--;
+                SwitchSpell(currentSpell - 1);
+            } else if (Input.GetKeyDown(KeyCode.Alpha1)) {
+                SwitchSpell(0);
+            } else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+                SwitchSpell(1);
             }
 
             currentSpell = currentSpell % spells.Count;
@@ -142,6 +168,23 @@ public class PlayerController : MonoBehaviour {
             }
             
 
+        }
+
+    }
+
+    private void SwitchSpell(int _spellNum) {
+
+        currentSpell = _spellNum;
+
+        currentSpell = currentSpell % spells.Count;
+        while (currentSpell < 0) {
+            currentSpell += spells.Count;
+        }
+
+        if (currentSpell < playerMaterials.Length) {
+            spriteMeshRenderer.material = playerMaterials[currentSpell];
+        } else {
+            spriteMeshRenderer.material = playerMaterials[0];
         }
 
     }
