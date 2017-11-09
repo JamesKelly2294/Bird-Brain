@@ -673,7 +673,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e1e53a8c81434428db02660608936358, type: 3}
   - {fileID: 8300000, guid: 032001affd52d49ae93a355b0743916d, type: 3}
   - {fileID: 8300000, guid: 3132f5b30ea984f7da347b1ecb45e226, type: 3}
-  bossMusic: {fileID: 8300000, guid: 3132f5b30ea984f7da347b1ecb45e226, type: 3}
+  bossMusic: {fileID: 8300000, guid: 6ef7d1a272ba5c84993a30eb87ca9df5, type: 3}
   musicSource: {fileID: 606046911}
 --- !u!81 &606046906
 AudioListener:
@@ -1607,7 +1607,7 @@ MonoBehaviour:
   enemiesPerFloor: 40
   enemiesPerFloorSpread: 0.4
   numberOfFloors: 3
-  roomsPerFloor: 10
+  roomsPerFloor: 7
   roomsPerFloorSpread: 0.2
   DebugMode: 0
 --- !u!1 &1570095922
